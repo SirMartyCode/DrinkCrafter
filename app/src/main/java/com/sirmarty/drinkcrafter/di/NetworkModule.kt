@@ -3,6 +3,10 @@ package com.sirmarty.drinkcrafter.di
 import com.sirmarty.drinkcrafter.categories.data.CategoriesDataRepository
 import com.sirmarty.drinkcrafter.categories.data.GetCategoryListService
 import com.sirmarty.drinkcrafter.categories.domain.repository.CategoriesRepository
+import com.sirmarty.drinkcrafter.drink.data.DrinkDataRepository
+import com.sirmarty.drinkcrafter.drink.data.GetDrinkDetailService
+import com.sirmarty.drinkcrafter.drink.data.GetDrinkListService
+import com.sirmarty.drinkcrafter.drink.domain.repository.DrinkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,14 +28,43 @@ class NetworkModule {
             .build()
     }
 
+    //==============================================================================================
+    // region Services
+
     @Singleton
     @Provides
     fun provideGetCategoriesListService(retrofit: Retrofit): GetCategoryListService {
         return retrofit.create(GetCategoryListService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideGetDrinkDetailService(retrofit: Retrofit): GetDrinkDetailService {
+        return retrofit.create(GetDrinkDetailService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetDrinkListService(retrofit: Retrofit): GetDrinkListService {
+        return retrofit.create(GetDrinkListService::class.java)
+    }
+
+    // endregion
+    //==============================================================================================
+    // region Repositories
+
     @Provides
     fun provideCategoriesRepository(getCategoryListService: GetCategoryListService): CategoriesRepository {
         return CategoriesDataRepository(getCategoryListService)
     }
+
+    @Provides
+    fun provideDrinkRepository(
+        getDrinkDetailService: GetDrinkDetailService,
+        getDrinkListService: GetDrinkListService
+    ): DrinkRepository {
+        return DrinkDataRepository(getDrinkDetailService, getDrinkListService)
+    }
+
+    // endregion
 }

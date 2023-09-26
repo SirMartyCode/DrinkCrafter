@@ -79,4 +79,7 @@ dependencies {
 
     // Livedata
     implementation("androidx.compose.runtime:runtime-livedata:1.5.1")
+
+    val nav_version = "2.5.3"
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 }
