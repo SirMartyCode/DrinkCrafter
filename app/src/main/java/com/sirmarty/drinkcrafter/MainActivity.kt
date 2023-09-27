@@ -12,12 +12,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.sirmarty.drinkcrafter.categories.presentation.CategoriesScreen
-import com.sirmarty.drinkcrafter.categories.presentation.CategoriesViewModel
-import com.sirmarty.drinkcrafter.drink.presentation.DrinkDetailScreen
-import com.sirmarty.drinkcrafter.drink.presentation.DrinkDetailViewModel
-import com.sirmarty.drinkcrafter.drink.presentation.DrinkListScreen
-import com.sirmarty.drinkcrafter.drink.presentation.DrinkListViewModel
+import com.sirmarty.drinkcrafter.core.categories.presentation.CategoriesScreen
+import com.sirmarty.drinkcrafter.core.categories.presentation.CategoriesViewModel
+import com.sirmarty.drinkcrafter.core.drink.presentation.DrinkDetailScreen
+import com.sirmarty.drinkcrafter.core.drink.presentation.DrinkDetailViewModel
+import com.sirmarty.drinkcrafter.core.drink.presentation.DrinkListScreen
+import com.sirmarty.drinkcrafter.core.drink.presentation.DrinkListViewModel
+import com.sirmarty.drinkcrafter.navigation.Routes
 import com.sirmarty.drinkcrafter.ui.theme.DrinkCrafterTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,27 +39,34 @@ class MainActivity : ComponentActivity() {
                 ) {
                     val navController = rememberNavController()
                     NavHost(navController = navController, startDestination = "categories") {
-                        composable("categories") {
+                        composable(Routes.Categories.route) {
                             CategoriesScreen(
                                 viewModel = categoriesViewModel
-                            ) { navController.navigate("drinkList/$it") }
+                            ) { navController.navigate(Routes.DrinkList.createRoute(it)) }
                         }
-                        composable("drinkList/{categoryName}") { backStackEntry ->
-                            val categoryName = backStackEntry.arguments?.getString("categoryName")
+                        composable(Routes.DrinkList.route) { backStackEntry ->
+                            val categoryName =
+                                backStackEntry.arguments?.getString(Routes.DrinkList.categoryNameArg)
                             if (categoryName != null) {
                                 DrinkListScreen(
-                                    drinkListViewModel,
-                                    categoryName
-                                ) { navController.navigate("drinkDetail/$it") }
+                                    viewModel = drinkListViewModel,
+                                    categoryName = categoryName
+                                ) { navController.navigate(Routes.DrinkDetail.createRoute(it)) }
                             }
                         }
                         composable(
-                            "drinkDetail/{drinkId}",
-                            arguments = listOf(navArgument("drinkId") { type = NavType.IntType })
+                            Routes.DrinkDetail.route,
+                            arguments = listOf(navArgument(Routes.DrinkDetail.drinkIdArg) {
+                                type = NavType.IntType
+                            })
                         ) { backStackEntry ->
-                            val drinkId = backStackEntry.arguments?.getInt("drinkId")
+                            val drinkId =
+                                backStackEntry.arguments?.getInt(Routes.DrinkDetail.drinkIdArg)
                             if (drinkId != null) {
-                                DrinkDetailScreen(drinkDetailViewModel, drinkId)
+                                DrinkDetailScreen(
+                                    viewModel = drinkDetailViewModel,
+                                    drinkId = drinkId
+                                )
                             }
                         }
                     }

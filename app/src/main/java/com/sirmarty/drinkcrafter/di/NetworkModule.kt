@@ -1,12 +1,12 @@
 package com.sirmarty.drinkcrafter.di
 
-import com.sirmarty.drinkcrafter.categories.data.CategoriesDataRepository
-import com.sirmarty.drinkcrafter.categories.data.GetCategoryListService
-import com.sirmarty.drinkcrafter.categories.domain.repository.CategoriesRepository
-import com.sirmarty.drinkcrafter.drink.data.DrinkDataRepository
-import com.sirmarty.drinkcrafter.drink.data.GetDrinkDetailService
-import com.sirmarty.drinkcrafter.drink.data.GetDrinkListService
-import com.sirmarty.drinkcrafter.drink.domain.repository.DrinkRepository
+import com.sirmarty.drinkcrafter.core.categories.data.CategoriesDataRepository
+import com.sirmarty.drinkcrafter.core.categories.data.GetCategoryListService
+import com.sirmarty.drinkcrafter.core.categories.domain.repository.CategoriesRepository
+import com.sirmarty.drinkcrafter.core.drink.data.DrinkDataRepository
+import com.sirmarty.drinkcrafter.core.drink.data.GetDrinkDetailService
+import com.sirmarty.drinkcrafter.core.drink.data.GetDrinkListService
+import com.sirmarty.drinkcrafter.core.drink.domain.repository.DrinkRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
