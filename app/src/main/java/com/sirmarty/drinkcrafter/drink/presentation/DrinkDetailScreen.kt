@@ -1,6 +1,5 @@
 package com.sirmarty.drinkcrafter.drink.presentation
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,18 +20,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.sirmarty.drinkcrafter.R
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.drink.domain.entity.DrinkDetail
 
 @Composable
 fun DrinkDetailScreen(viewModel: DrinkDetailViewModel, drinkId: Int) {
     viewModel.getDrinkDetail(drinkId)
 
-    val drink by viewModel.drinkDetail.observeAsState()
+    val drink by viewModel.drinkDetail.observeAsState(initial = null)
 
     Column(
         Modifier
@@ -46,6 +45,7 @@ fun DrinkDetailScreen(viewModel: DrinkDetailViewModel, drinkId: Int) {
     }
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun Header(drinkDetail: DrinkDetail?) {
     if (drinkDetail == null)
@@ -60,24 +60,16 @@ fun Header(drinkDetail: DrinkDetail?) {
         )
         Spacer(Modifier.height(4.dp))
         Row {
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_background),
+            GlideImage(
+                model = drinkDetail.image,
                 contentDescription = "Drink image",
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(100.dp)
             )
             Spacer(Modifier.width(8.dp))
             LazyColumn {
                 items(drinkDetail.ingredients) {
-                    Row(Modifier.fillMaxWidth()) {
-                        Text(text = "- ${it.name}")
-                        it.measure?.let { measure ->
-                            Text(
-                                text = measure,
-
-                            )
-                        }
-                    }
+                    Text(text = "- ${it.measure} ${it.name}")
                 }
             }
         }

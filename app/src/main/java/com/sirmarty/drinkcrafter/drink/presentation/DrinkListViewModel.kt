@@ -23,7 +23,7 @@ class DrinkListViewModel @Inject constructor(private val getDrinkListUseCase: Ge
                 val response = getDrinkListUseCase.execute(categoryName)
                 _drinks.value = response
             } catch (e: Exception) {
-                Log.i("SirMarty:", "ERROR! - Drink List (not implemented yet")
+                Log.i("SirMarty:", "ERROR! - Drink List (not implemented yet)")
             }
         }
     }

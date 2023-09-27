@@ -23,7 +23,7 @@ class DrinkDetailViewModel @Inject constructor(private val getDrinkDetailUseCase
                 val response = getDrinkDetailUseCase.execute(id)
                 _drinkDetail.value = response
             } catch (e: Exception) {
-                Log.i("SirMarty:", "ERROR! - Drink Detail (not implemented yet")
+                Log.i("SirMarty:", "ERROR! - Drink Detail (not implemented yet)")
             }
         }
     }
