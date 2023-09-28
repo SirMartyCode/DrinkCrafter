@@ -19,10 +19,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.core.categories.domain.entity.Category
 
 @Composable
-fun CategoriesScreen(viewModel: CategoriesViewModel, onNavigateToDrinkList: (String) -> Unit) {
+fun CategoriesScreen(
+    onCategoryClick: (String) -> Unit,
+    viewModel: CategoriesViewModel = hiltViewModel()
+) {
     viewModel.getCategories()
 
     Box(
@@ -30,28 +34,28 @@ fun CategoriesScreen(viewModel: CategoriesViewModel, onNavigateToDrinkList: (Str
             .fillMaxSize()
             .background(Color.White)
     ) {
-        CategoryList(viewModel, onNavigateToDrinkList)
+        CategoryList(viewModel, onCategoryClick)
     }
 }
 
 
 @Composable
-fun CategoryList(viewModel: CategoriesViewModel, onNavigateToDrinkList: (String) -> Unit) {
+fun CategoryList(viewModel: CategoriesViewModel, onCategoryClick: (String) -> Unit) {
     val categories by viewModel.categories.observeAsState(initial = emptyList())
 
     LazyColumn(Modifier.fillMaxWidth()) {
         items(categories) {
-            CategoryItem(it, onNavigateToDrinkList)
+            CategoryItem(it, onCategoryClick)
         }
     }
 }
 
 @Composable
-fun CategoryItem(category: Category, onNavigateToDrinkList: (String) -> Unit) {
+fun CategoryItem(category: Category, onCategoryClick: (String) -> Unit) {
     Card(
         Modifier
             .padding(horizontal = 16.dp, vertical = 8.dp)
-            .clickable { onNavigateToDrinkList(category.name) }) {
+            .clickable { onCategoryClick(category.name) }) {
         Row(
             Modifier
                 .fillMaxWidth()
