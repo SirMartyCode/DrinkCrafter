@@ -1,6 +1,8 @@
 package com.sirmarty.drinkcrafter.navigation
 
 sealed class Routes(val route: String) {
+    object Search: Routes("search")
+    object Home: Routes("home")
     object Categories: Routes("categories")
     object DrinkList: Routes("drinkList/{categoryName}") {
         const val categoryNameArg = "categoryName"

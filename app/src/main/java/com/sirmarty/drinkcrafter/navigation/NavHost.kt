@@ -1,18 +1,23 @@
 package com.sirmarty.drinkcrafter.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun DrinkCrafterNavHost() {
-    val navController = rememberNavController()
+fun DrinkCrafterNavHost(navController: NavHostController, modifier: Modifier) {
     NavHost(
         navController = navController,
-        startDestination = Routes.Categories.route
+        modifier = modifier,
+        startDestination = Routes.Home.route
     ) {
-        categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
-        drinkListScreen(onDrinkClick = navController::navigateToDrinkDetail)
-        drinkDetailScreen()
+        searchScreen()
+        homeGraph(
+            nestedGraphs = {
+                categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
+                drinkListScreen(onDrinkClick = navController::navigateToDrinkDetail)
+                drinkDetailScreen()
+            })
     }
 }
