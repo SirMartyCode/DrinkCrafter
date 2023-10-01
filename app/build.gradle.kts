@@ -73,6 +73,7 @@ dependencies {
     val daggerVersion = "2.44"
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     kapt("com.google.dagger:hilt-android-compiler:$daggerVersion")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // Retrofit
     val retrofitVersion = "2.9.0"
@@ -84,6 +85,7 @@ dependencies {
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.5.3")
+    implementation("androidx.compose.material:material:1.3.1")
 
     // Glide
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")

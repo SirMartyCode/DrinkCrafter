@@ -23,12 +23,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.drink.domain.entity.DrinkDetail
 
 @Composable
-fun DrinkDetailScreen(viewModel: DrinkDetailViewModel, drinkId: Int) {
+fun DrinkDetailScreen(
+    drinkId: Int,
+    viewModel: DrinkDetailViewModel = hiltViewModel()
+) {
     viewModel.getDrinkDetail(drinkId)
 
     val drink by viewModel.drinkDetail.observeAsState(initial = null)

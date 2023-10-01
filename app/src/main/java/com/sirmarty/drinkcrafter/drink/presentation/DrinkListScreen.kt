@@ -26,15 +26,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.drink.domain.entity.Drink
 
 @Composable
 fun DrinkListScreen(
-    viewModel: DrinkListViewModel,
     categoryName: String,
-    onNavigateToDrinkDetail: (Int) -> Unit
+    onDrinkClick: (Int) -> Unit,
+    viewModel: DrinkListViewModel = hiltViewModel(),
 ) {
     viewModel.getDrinkList(categoryName)
 
@@ -43,17 +44,20 @@ fun DrinkListScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DrinkList(viewModel, onNavigateToDrinkDetail)
+        DrinkList(viewModel, onDrinkClick)
     }
 }
 
 @Composable
-fun DrinkList(viewModel: DrinkListViewModel, onNavigateToDrinkDetail: (Int) -> Unit) {
+fun DrinkList(viewModel: DrinkListViewModel, onDrinkClick: (Int) -> Unit) {
     val drinks by viewModel.drinks.observeAsState(initial = emptyList())
 
-    LazyColumn(Modifier.fillMaxWidth().padding(horizontal = 16.dp)) {
+    LazyColumn(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)) {
         itemsIndexed(drinks) { index, item ->
-            DrinkItem(item, onNavigateToDrinkDetail)
+            DrinkItem(item, onDrinkClick)
             if (index < drinks.lastIndex) {
                 Divider(color = Color.Gray, thickness = 0.5.dp)
             }
@@ -63,12 +67,12 @@ fun DrinkList(viewModel: DrinkListViewModel, onNavigateToDrinkDetail: (Int) -> U
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun DrinkItem(drink: Drink, onNavigateToDrinkDetail: (Int) -> Unit) {
+fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
-            .clickable { onNavigateToDrinkDetail(drink.id) },
+            .clickable { onDrinkClick(drink.id) },
         verticalAlignment = Alignment.CenterVertically
     ) {
         GlideImage(
@@ -81,7 +85,5 @@ fun DrinkItem(drink: Drink, onNavigateToDrinkDetail: (Int) -> Unit) {
         )
         Spacer(Modifier.width(8.dp))
         Text(text = drink.name, fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-
     }
-
 }
