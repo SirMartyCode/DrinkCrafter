@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.sirmarty.drinkcrafter.drink.presentation.DrinkDetailScreen
+import com.sirmarty.drinkcrafter.core.drink.presentation.DrinkDetailScreen
 import com.sirmarty.drinkcrafter.navigation.Routes
 
 fun NavController.navigateToDrinkDetail(drinkId: Int) {
