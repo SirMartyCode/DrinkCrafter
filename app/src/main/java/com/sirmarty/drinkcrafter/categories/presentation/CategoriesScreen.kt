@@ -20,7 +20,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sirmarty.drinkcrafter.core.categories.domain.entity.Category
+import com.sirmarty.drinkcrafter.categories.domain.entity.Category
+import com.sirmarty.drinkcrafter.categories.presentation.CategoriesViewModel
+
 
 @Composable
 fun CategoriesScreen(
