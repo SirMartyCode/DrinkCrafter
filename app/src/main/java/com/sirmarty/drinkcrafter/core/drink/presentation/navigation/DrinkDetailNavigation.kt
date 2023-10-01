@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.navigation
+package com.sirmarty.drinkcrafter.core.drink.presentation.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,6 +6,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.sirmarty.drinkcrafter.core.drink.presentation.DrinkDetailScreen
+import com.sirmarty.drinkcrafter.navigation.Routes
 
 fun NavController.navigateToDrinkDetail(drinkId: Int) {
     this.navigate(Routes.DrinkDetail.createRoute(drinkId))

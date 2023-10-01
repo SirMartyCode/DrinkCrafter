@@ -1,9 +1,10 @@
-package com.sirmarty.drinkcrafter.navigation
+package com.sirmarty.drinkcrafter.navigation.toplevel
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.navigation
+import com.sirmarty.drinkcrafter.navigation.Routes
 
 fun NavController.navigateToHomeGraph(navOptions: NavOptions? = null) {
     this.navigate(Routes.Home.route, navOptions)
