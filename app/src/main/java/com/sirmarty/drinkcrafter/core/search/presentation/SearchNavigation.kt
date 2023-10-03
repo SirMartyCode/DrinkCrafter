@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.core.search
+package com.sirmarty.drinkcrafter.core.search.presentation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -10,10 +10,10 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
     this.navigate(Routes.Search.route, navOptions)
 }
 
-fun NavGraphBuilder.searchScreen() {
+fun NavGraphBuilder.searchScreen(onDrinkClick: (Int) -> Unit) {
     composable(
         route = Routes.Search.route
     ) {
-        SearchScreen()
+        SearchScreen(onDrinkClick)
     }
 }

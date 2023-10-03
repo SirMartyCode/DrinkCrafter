@@ -39,19 +39,19 @@ fun DrinkListScreen(
 ) {
     viewModel.getDrinkList(categoryName)
 
+    val drinks by viewModel.drinks.observeAsState(initial = emptyList())
+
     Box(
         Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DrinkList(viewModel, onDrinkClick)
+        DrinkList(drinks, onDrinkClick)
     }
 }
 
 @Composable
-fun DrinkList(viewModel: DrinkListViewModel, onDrinkClick: (Int) -> Unit) {
-    val drinks by viewModel.drinks.observeAsState(initial = emptyList())
-
+fun DrinkList(drinks: List<Drink>, onDrinkClick: (Int) -> Unit) {
     LazyColumn(
         Modifier
             .fillMaxWidth()

@@ -9,7 +9,7 @@ import com.sirmarty.drinkcrafter.core.drink.presentation.navigation.drinkDetailS
 import com.sirmarty.drinkcrafter.core.drink.presentation.navigation.drinkListScreen
 import com.sirmarty.drinkcrafter.core.drink.presentation.navigation.navigateToDrinkDetail
 import com.sirmarty.drinkcrafter.core.drink.presentation.navigation.navigateToDrinkList
-import com.sirmarty.drinkcrafter.core.search.searchScreen
+import com.sirmarty.drinkcrafter.core.search.presentation.searchScreen
 import com.sirmarty.drinkcrafter.navigation.toplevel.homeGraph
 
 @Composable
@@ -19,7 +19,7 @@ fun DrinkCrafterNavHost(navController: NavHostController, modifier: Modifier) {
         modifier = modifier,
         startDestination = Routes.Home.route
     ) {
-        searchScreen()
+        searchScreen(onDrinkClick = navController::navigateToDrinkDetail)
         homeGraph(
             nestedGraphs = {
                 categoriesScreen(onCategoryClick = navController::navigateToDrinkList)

@@ -13,7 +13,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
-import com.sirmarty.drinkcrafter.core.search.navigateToSearch
+import com.sirmarty.drinkcrafter.core.search.presentation.navigateToSearch
 import com.sirmarty.drinkcrafter.navigation.toplevel.TopLevelDestination
 import com.sirmarty.drinkcrafter.navigation.toplevel.navigateToHomeGraph
 

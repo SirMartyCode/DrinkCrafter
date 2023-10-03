@@ -7,6 +7,9 @@ import com.sirmarty.drinkcrafter.core.drink.data.DrinkDataRepository
 import com.sirmarty.drinkcrafter.core.drink.data.GetDrinkDetailService
 import com.sirmarty.drinkcrafter.core.drink.data.GetDrinkListService
 import com.sirmarty.drinkcrafter.core.drink.domain.repository.DrinkRepository
+import com.sirmarty.drinkcrafter.core.search.data.SearchDataRepository
+import com.sirmarty.drinkcrafter.core.search.data.SearchDrinkByNameService
+import com.sirmarty.drinkcrafter.core.search.domain.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,6 +52,12 @@ class NetworkModule {
         return retrofit.create(GetDrinkListService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideSearchDrinkByNameService(retrofit: Retrofit): SearchDrinkByNameService {
+        return retrofit.create(SearchDrinkByNameService::class.java)
+    }
+
     // endregion
     //==============================================================================================
     // region Repositories
@@ -64,6 +73,11 @@ class NetworkModule {
         getDrinkListService: GetDrinkListService
     ): DrinkRepository {
         return DrinkDataRepository(getDrinkDetailService, getDrinkListService)
+    }
+
+    @Provides
+    fun provideSearchRepository(searchDrinkByNameService: SearchDrinkByNameService): SearchRepository {
+        return SearchDataRepository(searchDrinkByNameService)
     }
 
     // endregion
