@@ -1,15 +1,15 @@
 package com.sirmarty.drinkcrafter.di
 
-import com.sirmarty.drinkcrafter.core.categories.data.CategoriesDataRepository
-import com.sirmarty.drinkcrafter.core.categories.data.GetCategoryListService
-import com.sirmarty.drinkcrafter.core.categories.domain.repository.CategoriesRepository
-import com.sirmarty.drinkcrafter.core.drink.data.DrinkDataRepository
-import com.sirmarty.drinkcrafter.core.drink.data.GetDrinkDetailService
-import com.sirmarty.drinkcrafter.core.drink.data.GetDrinkListService
-import com.sirmarty.drinkcrafter.core.drink.domain.repository.DrinkRepository
-import com.sirmarty.drinkcrafter.core.search.data.SearchDataRepository
-import com.sirmarty.drinkcrafter.core.search.data.SearchDrinkByNameService
-import com.sirmarty.drinkcrafter.core.search.domain.repository.SearchRepository
+import com.sirmarty.drinkcrafter.data.repository.CategoriesDataRepository
+import com.sirmarty.drinkcrafter.data.service.GetCategoryListService
+import com.sirmarty.drinkcrafter.domain.repository.CategoriesRepository
+import com.sirmarty.drinkcrafter.data.repository.DrinkDataRepository
+import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
+import com.sirmarty.drinkcrafter.data.service.GetDrinkListService
+import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
+import com.sirmarty.drinkcrafter.data.repository.SearchDataRepository
+import com.sirmarty.drinkcrafter.data.service.SearchDrinkByNameService
+import com.sirmarty.drinkcrafter.domain.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
