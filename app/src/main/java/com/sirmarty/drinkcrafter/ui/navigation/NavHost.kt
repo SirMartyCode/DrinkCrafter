@@ -1,30 +1,21 @@
 package com.sirmarty.drinkcrafter.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
-import com.sirmarty.drinkcrafter.ui.screens.categories.categoriesScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinkdetail.drinkDetailScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.drinkListScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinkdetail.navigateToDrinkDetail
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.navigateToDrinkList
-import com.sirmarty.drinkcrafter.ui.screens.search.searchScreen
+import androidx.navigation.compose.rememberNavController
 import com.sirmarty.drinkcrafter.ui.navigation.toplevel.homeGraph
+import com.sirmarty.drinkcrafter.ui.screens.drinkdetail.drinkDetailScreen
+import com.sirmarty.drinkcrafter.ui.screens.drinkdetail.navigateToDrinkDetail
 
 @Composable
-fun DrinkCrafterNavHost(navController: NavHostController, modifier: Modifier) {
+fun MainNavHost() {
+    val mainNavController = rememberNavController()
     NavHost(
-        navController = navController,
-        modifier = modifier,
-        startDestination = Routes.Home.route
+        navController = mainNavController,
+        startDestination = Routes.Home.route,
+        route = Routes.Main.route
     ) {
-        searchScreen(onDrinkClick = navController::navigateToDrinkDetail)
-        homeGraph(
-            nestedGraphs = {
-                categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
-                drinkListScreen(onDrinkClick = navController::navigateToDrinkDetail)
-                drinkDetailScreen()
-            })
+        homeGraph(onDrinkClick = mainNavController::navigateToDrinkDetail)
+        drinkDetailScreen()
     }
 }

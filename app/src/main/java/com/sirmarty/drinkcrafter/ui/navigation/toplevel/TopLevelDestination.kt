@@ -9,19 +9,18 @@ sealed class TopLevelDestination(
     @DrawableRes val selectedIcon: Int,
     val text: String,
 ) {
+    object Explore : TopLevelDestination(
+        "explore",
+        R.drawable.home,
+        R.drawable.home_filled,
+        "Explore"
+
+    )
     object Search : TopLevelDestination(
         "search",
         R.drawable.search,
         R.drawable.search_filled,
         "Search"
-
-    )
-
-    object Home : TopLevelDestination(
-        "home",
-        R.drawable.home,
-        R.drawable.home_filled,
-        "Home"
 
     )
 }

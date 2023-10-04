@@ -13,14 +13,14 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
-import com.sirmarty.drinkcrafter.ui.screens.search.navigateToSearch
 import com.sirmarty.drinkcrafter.ui.navigation.toplevel.TopLevelDestination
-import com.sirmarty.drinkcrafter.ui.navigation.toplevel.navigateToHomeGraph
+import com.sirmarty.drinkcrafter.ui.navigation.toplevel.navigateToExploreGraph
+import com.sirmarty.drinkcrafter.ui.screens.search.navigateToSearch
 
 @Composable
 fun DrinkCrafterNavigationBar(navController: NavHostController) {
     NavigationBar {
-        val items = listOf(TopLevelDestination.Search, TopLevelDestination.Home)
+        val items = listOf(TopLevelDestination.Explore, TopLevelDestination.Search)
         items.forEach { item ->
             val currentDestination = navController.currentBackStackEntryAsState().value?.destination
             val selected = currentDestination.isTopLevelDestinationInHierarchy(item)
@@ -88,8 +88,8 @@ private fun navigateToTopLevelDestination(
     }
 
     when (topLevelDestination) {
+        TopLevelDestination.Explore -> navController.navigateToExploreGraph(topLevelNavOptions)
         TopLevelDestination.Search -> navController.navigateToSearch(topLevelNavOptions)
-        TopLevelDestination.Home -> navController.navigateToHomeGraph(topLevelNavOptions)
     }
 }
 

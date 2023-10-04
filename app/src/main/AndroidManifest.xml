@@ -10,11 +10,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".DrinkCrafterApp"
+        android:name=".MainApplication"
         android:theme="@style/Theme.DrinkCrafter"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".DrinkCrafterActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DrinkCrafter">
