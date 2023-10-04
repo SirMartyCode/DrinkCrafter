@@ -34,6 +34,9 @@ class SearchViewModel @Inject constructor(
         if (text.isNotEmpty()) {
             search(text)
         }
+        else {
+            _drinks.value = emptyList()
+        }
     }
 
     fun search(text: String) {
