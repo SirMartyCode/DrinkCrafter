@@ -9,7 +9,7 @@ class SearchDrinkMapper {
         fun fromJsonToEntity(json: SearchDrinkResponseJSON): List<Drink> {
             val drinkList: MutableList<Drink> = mutableListOf()
 
-            json.drinks.forEach { drinkJson ->
+            json.drinks?.forEach { drinkJson ->
                 drinkList.add(
                     Drink(
                         id = drinkJson.id,
