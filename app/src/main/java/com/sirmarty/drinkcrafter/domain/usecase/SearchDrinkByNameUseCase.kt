@@ -6,6 +6,10 @@ import javax.inject.Inject
 
 class SearchDrinkByNameUseCase @Inject constructor(private val searchDrinkRepository: SearchRepository) {
     suspend fun searchDrinkByName(text: String): List<Drink> {
-        return searchDrinkRepository.searchDrinkByName(text)
+        return if (text.isNotEmpty()) {
+            searchDrinkRepository.searchDrinkByName(text)
+        } else {
+            emptyList()
+        }
     }
 }

@@ -27,19 +27,22 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchActiveChanged(active: Boolean) {
         _isSearchActive.value = active
+
+        if(!active) {
+            clearSearch()
+        }
     }
 
     fun onQueryChanged(text: String) {
         _query.value = text
-        if (text.isNotEmpty()) {
-            search(text)
-        }
-        else {
-            _drinks.value = emptyList()
-        }
+        search(text)
     }
 
-    fun search(text: String) {
+    fun clearSearch() {
+        onQueryChanged("")
+    }
+
+    private fun search(text: String) {
         viewModelScope.launch {
             try {
                 val response = searchDrinkByNameUseCase.searchDrinkByName(text)
