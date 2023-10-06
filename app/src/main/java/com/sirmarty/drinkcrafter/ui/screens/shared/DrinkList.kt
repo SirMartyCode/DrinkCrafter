@@ -1,0 +1,100 @@
+package com.sirmarty.drinkcrafter.ui.screens.shared
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.sirmarty.drinkcrafter.domain.entity.Drink
+
+
+@Composable
+fun DrinkList(drinks: List<Drink>, onDrinkClick: (Int) -> Unit) {
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(16.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        items(drinks) { item ->
+            DrinkItem(item, onDrinkClick)
+        }
+    }
+}
+
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
+@Composable
+fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
+    ElevatedCard(
+        onClick = { onDrinkClick(drink.id) },
+        modifier = Modifier.fillMaxWidth(),
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 6.dp
+        )
+    ) {
+        Row(modifier = Modifier.fillMaxSize()) {
+            GlideImage(
+                model = drink.image,
+                contentDescription = "Drink image",
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(MaterialTheme.shapes.medium)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(vertical = 8.dp, horizontal = 16.dp)
+            ) {
+                Text(
+                    text = drink.name,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                // TODO: add Details text at the bottom of the column
+                //Text(text = "Details", fontSize = 10.sp, fontWeight = FontWeight.Light)
+            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun DrinkListPreview() {
+    val drinks = listOf(
+        Drink(0, "Drink 1", ""),
+        Drink(1, "Drink 2", ""),
+        Drink(2, "Drink 3", ""),
+        Drink(3, "Drink 4", ""),
+        Drink(4, "Drink 5", "")
+    )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
+        DrinkList(drinks = drinks, onDrinkClick = {})
+    }
+}

@@ -21,7 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.domain.entity.Drink
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.DrinkList
+import com.sirmarty.drinkcrafter.ui.screens.shared.DrinkList
 
 
 @OptIn(ExperimentalMaterial3Api::class)
