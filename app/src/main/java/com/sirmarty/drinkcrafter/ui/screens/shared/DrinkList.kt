@@ -4,10 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -36,7 +38,7 @@ fun DrinkList(drinks: List<Drink>, onDrinkClick: (Int) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(drinks) { item ->
             DrinkItem(item, onDrinkClick)
@@ -54,7 +56,7 @@ fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
             defaultElevation = 6.dp
         )
     ) {
-        Row(modifier = Modifier.fillMaxSize()) {
+        Row(modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
             GlideImage(
                 model = drink.image,
                 contentDescription = "Drink image",
@@ -66,15 +68,15 @@ fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(vertical = 8.dp, horizontal = 16.dp)
+                    .padding(16.dp),
+                verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = drink.name,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold
                 )
-                // TODO: add Details text at the bottom of the column
-                //Text(text = "Details", fontSize = 10.sp, fontWeight = FontWeight.Light)
+                Text(text = "Show details", fontSize = 10.sp, fontWeight = FontWeight.Light)
             }
         }
     }
