@@ -3,9 +3,13 @@ package com.sirmarty.drinkcrafter.ui.screens.drinklist
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -17,15 +21,22 @@ fun DrinkListScreen(
     onDrinkClick: (Int) -> Unit,
     viewModel: DrinkListViewModel = hiltViewModel(),
 ) {
-    viewModel.getDrinkList(categoryName)
+    val uiState by viewModel.uiState.observeAsState()
 
-    val drinks by viewModel.drinks.observeAsState(initial = emptyList())
+    // Avoid making the request each time the screen is recomposed
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getDrinkList(categoryName)
+    }
 
     Box(
         Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DrinkList(drinks, onDrinkClick)
+        when(uiState) {
+            is DrinkListUiState.Error -> Text(text = (uiState as DrinkListUiState.Error).throwable.message ?: "ERROR")
+            DrinkListUiState.Loading, null -> CircularProgressIndicator(Modifier.align(Alignment.Center))
+            is DrinkListUiState.Success -> DrinkList((uiState as DrinkListUiState.Success).drinkList, onDrinkClick)
+        }
     }
 }
