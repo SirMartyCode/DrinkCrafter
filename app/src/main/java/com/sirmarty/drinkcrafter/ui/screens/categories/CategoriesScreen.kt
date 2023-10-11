@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -41,15 +42,30 @@ fun CategoriesScreen(
     onCategoryClick: (String) -> Unit,
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
-    viewModel.getCategories()
-    val categories by viewModel.categories.observeAsState(initial = emptyList())
+    val uiState by viewModel.uiState.observeAsState(initial = CategoriesUiState.Loading)
 
     Box(
         Modifier
             .fillMaxSize()
             .background(Color.White)
     ) {
-        CategoryList(categories, onCategoryClick)
+        when (uiState) {
+            is CategoriesUiState.Error -> {
+                Text(
+                    text = (uiState as CategoriesUiState.Error).throwable.message
+                        ?: "UNKNOWN ERROR",
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            CategoriesUiState.Loading -> {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            }
+
+            is CategoriesUiState.Success -> {
+                CategoryList((uiState as CategoriesUiState.Success).categories, onCategoryClick)
+            }
+        }
     }
 }
 
@@ -80,7 +96,8 @@ fun CategoryItem(category: Category, onCategoryClick: (String) -> Unit) {
         Row(
             Modifier
                 .fillMaxWidth()
-                .height(IntrinsicSize.Min)) {
+                .height(IntrinsicSize.Min)
+        ) {
             Box(
                 modifier = Modifier
                     .fillMaxHeight()
