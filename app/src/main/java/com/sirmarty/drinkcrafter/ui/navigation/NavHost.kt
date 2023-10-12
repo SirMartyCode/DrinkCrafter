@@ -16,6 +16,6 @@ fun MainNavHost() {
         route = Routes.Main.route
     ) {
         homeGraph(onDrinkClick = mainNavController::navigateToDrinkDetail)
-        drinkDetailScreen()
+        drinkDetailScreen(onBackClick = { mainNavController.popBackStack() })
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sirmarty.drinkcrafter.domain.entity.Category
 import com.sirmarty.drinkcrafter.domain.usecase.GetCategoryListUseCase
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,12 +14,22 @@ import javax.inject.Inject
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(private val getCategoryListUseCase: GetCategoryListUseCase): ViewModel() {
 
-    private val _categories = MutableLiveData<List<Category>>()
-    val categories: LiveData<List<Category>> = _categories
+    private val _uiState = MutableLiveData<UiState<List<Category>>>()
+    val uiState: LiveData<UiState<List<Category>>> = _uiState
 
-    fun getCategories() {
+    init {
+        getCategories()
+    }
+
+    private fun getCategories() {
         viewModelScope.launch {
-            _categories.value = getCategoryListUseCase.execute()
+            _uiState.value = UiState.Loading
+            try {
+                val response = getCategoryListUseCase.execute()
+                _uiState.value = UiState.Success(response)
+            } catch (e: Exception) {
+                _uiState.value = UiState.Error(e)
+            }
         }
     }
 }
