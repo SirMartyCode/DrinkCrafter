@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 import com.sirmarty.drinkcrafter.ui.screens.shared.DrinkList
 
 @Composable
@@ -21,7 +22,7 @@ fun DrinkListScreen(
     onDrinkClick: (Int) -> Unit,
     viewModel: DrinkListViewModel = hiltViewModel(),
 ) {
-    val uiState by viewModel.uiState.observeAsState()
+    val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
@@ -33,10 +34,22 @@ fun DrinkListScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        when(uiState) {
-            is DrinkListUiState.Error -> Text(text = (uiState as DrinkListUiState.Error).throwable.message ?: "ERROR")
-            DrinkListUiState.Loading, null -> CircularProgressIndicator(Modifier.align(Alignment.Center))
-            is DrinkListUiState.Success -> DrinkList((uiState as DrinkListUiState.Success).drinkList, onDrinkClick)
+        when (uiState) {
+            is UiState.Error -> {
+                Text(
+                    text = (uiState as UiState.Error).throwable.message
+                        ?: "UNKNOWN ERROR",
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+
+            UiState.Loading -> {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            }
+
+            is UiState.Success -> {
+                DrinkList((uiState as UiState.Success).value, onDrinkClick)
+            }
         }
     }
 }

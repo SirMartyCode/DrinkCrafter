@@ -39,6 +39,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
 fun DrinkDetailScreen(
@@ -46,7 +47,7 @@ fun DrinkDetailScreen(
     onBackClick: () -> Unit,
     viewModel: DrinkDetailViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.observeAsState(initial = DrinkDetailUiState.Loading)
+    val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
@@ -54,21 +55,26 @@ fun DrinkDetailScreen(
     }
 
     Scaffold { innerPadding ->
-        Box(Modifier.fillMaxSize().padding(innerPadding)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .padding(innerPadding)) {
             when (uiState) {
-                is DrinkDetailUiState.Error -> {
+                is UiState.Error -> {
                     Text(
-                        text = (uiState as DrinkDetailUiState.Error).throwable.message
+                        text = (uiState as UiState.Error).throwable.message
                             ?: "UNKNOWN ERROR",
                         modifier = Modifier.align(Alignment.Center)
                     )
                 }
-                DrinkDetailUiState.Loading -> {
+
+                UiState.Loading -> {
                     CircularProgressIndicator(Modifier.align(Alignment.Center))
                 }
-                is DrinkDetailUiState.Success -> {
+
+                is UiState.Success -> {
                     DrinkDetailView(
-                        (uiState as DrinkDetailUiState.Success).drinkDetail,
+                        (uiState as UiState.Success).value,
                         onBackClick
                     )
                 }
@@ -229,7 +235,10 @@ fun DrinkDetailPreview() {
         ingredientList
     )
 
-    Box(Modifier.fillMaxSize().background(Color.White)) {
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.White)) {
         DrinkDetailView(drinkDetail) {}
     }
 }

@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Category
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 
 @Composable
@@ -42,7 +43,7 @@ fun CategoriesScreen(
     onCategoryClick: (String) -> Unit,
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.uiState.observeAsState(initial = CategoriesUiState.Loading)
+    val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
 
     Box(
         Modifier
@@ -50,20 +51,20 @@ fun CategoriesScreen(
             .background(Color.White)
     ) {
         when (uiState) {
-            is CategoriesUiState.Error -> {
+            is UiState.Error -> {
                 Text(
-                    text = (uiState as CategoriesUiState.Error).throwable.message
+                    text = (uiState as UiState.Error).throwable.message
                         ?: "UNKNOWN ERROR",
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
 
-            CategoriesUiState.Loading -> {
+            UiState.Loading -> {
                 CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
 
-            is CategoriesUiState.Success -> {
-                CategoryList((uiState as CategoriesUiState.Success).categories, onCategoryClick)
+            is UiState.Success -> {
+                CategoryList((uiState as UiState.Success).value, onCategoryClick)
             }
         }
     }

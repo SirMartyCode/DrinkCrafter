@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,11 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sirmarty.drinkcrafter.domain.entity.Drink
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 import com.sirmarty.drinkcrafter.ui.screens.shared.DrinkList
 
 
@@ -33,7 +35,7 @@ fun SearchScreen(
 
     val query: String by viewModel.query.observeAsState(initial = "")
     val active: Boolean by viewModel.isSearchActive.observeAsState(initial = false)
-    val drinks: List<Drink> by viewModel.drinks.observeAsState(initial = emptyList())
+    val uiState by viewModel.uiState.observeAsState()
 
     Box(
         Modifier
@@ -53,18 +55,43 @@ fun SearchScreen(
                     active,
                     query
                 ) { viewModel.clearSearch() }
-            }) {
-            DrinkList(drinks, onDrinkClick)
+            }
+        ) {
+            Box(Modifier.fillMaxSize()) {
+                when (uiState) {
+                    is UiState.Error -> {
+                        Text(
+                            text = (uiState as UiState.Error).throwable.message
+                                ?: "UNKNOWN ERROR",
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+
+                    UiState.Loading -> {
+                        CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    }
+
+                    is UiState.Success -> {
+                        DrinkList((uiState as UiState.Success).value, onDrinkClick)
+                    }
+
+                    else -> {
+                        // Show nothing when user hasn't already searched
+                    }
+                }
+            }
         }
     }
 }
 
 @Composable
-fun SearchBarLeadingIcon(isSearchBarActive: Boolean, onBackIconClicked: () -> Unit) {
+fun SearchBarLeadingIcon(isSearchBarActive: Boolean, onClick: () -> Unit) {
     return if (isSearchBarActive) {
-        IconButton(onClick = { onBackIconClicked() }) {
-            Icon(imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = "back icon")
+        IconButton(onClick = onClick) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                contentDescription = "back icon"
+            )
         }
     } else {
         Icon(
@@ -75,12 +102,15 @@ fun SearchBarLeadingIcon(isSearchBarActive: Boolean, onBackIconClicked: () -> Un
 
 @Composable
 fun SearchBarTrailingIcon(
-    isSearchBarActive: Boolean, query: String, onTrailingIconClicked: () -> Unit
+    isSearchBarActive: Boolean,
+    query: String, onClick: () -> Unit
 ) {
     if (isSearchBarActive && query.isNotEmpty()) {
-        IconButton(onClick = { onTrailingIconClicked() }) {
-            Icon(imageVector = Icons.Outlined.Clear,
-                contentDescription = "clear icon")
+        IconButton(onClick = onClick) {
+            Icon(
+                imageVector = Icons.Outlined.Clear,
+                contentDescription = "clear icon"
+            )
         }
     }
 }
