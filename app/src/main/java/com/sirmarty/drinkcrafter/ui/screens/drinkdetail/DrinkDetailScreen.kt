@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -43,25 +46,44 @@ fun DrinkDetailScreen(
     onBackClick: () -> Unit,
     viewModel: DrinkDetailViewModel = hiltViewModel()
 ) {
-    viewModel.getDrinkDetail(drinkId)
+    val uiState by viewModel.uiState.observeAsState(initial = DrinkDetailUiState.Loading)
 
-    val drinkDetail by viewModel.drinkDetail.observeAsState(initial = null)
+    // Avoid making the request each time the screen is recomposed
+    LaunchedEffect(key1 = Unit) {
+        viewModel.getDrinkDetail(drinkId)
+    }
 
     Scaffold { innerPadding ->
-        drinkDetail?.let {
-            DrinkDetailView(Modifier.padding(innerPadding), it, onBackClick)
+        Box(Modifier.fillMaxSize().padding(innerPadding)) {
+            when (uiState) {
+                is DrinkDetailUiState.Error -> {
+                    Text(
+                        text = (uiState as DrinkDetailUiState.Error).throwable.message
+                            ?: "UNKNOWN ERROR",
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+                DrinkDetailUiState.Loading -> {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                }
+                is DrinkDetailUiState.Success -> {
+                    DrinkDetailView(
+                        (uiState as DrinkDetailUiState.Success).drinkDetail,
+                        onBackClick
+                    )
+                }
+            }
         }
     }
 }
 
 @Composable
 fun DrinkDetailView(
-    modifier: Modifier = Modifier,
     drinkDetail: DrinkDetail,
     onBackClick: () -> Unit
 ) {
     Column(
-        modifier = modifier
+        modifier = Modifier
             //.imePadding()
             .fillMaxWidth()
     ) {
@@ -207,8 +229,8 @@ fun DrinkDetailPreview() {
         ingredientList
     )
 
-    Scaffold { innerPadding ->
-        DrinkDetailView(Modifier.padding(innerPadding), drinkDetail) {}
+    Box(Modifier.fillMaxSize().background(Color.White)) {
+        DrinkDetailView(drinkDetail) {}
     }
 }
 
