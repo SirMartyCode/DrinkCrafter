@@ -12,8 +12,7 @@ fun MainNavHost() {
     val mainNavController = rememberNavController()
     NavHost(
         navController = mainNavController,
-        startDestination = Routes.Home.route,
-        route = Routes.Main.route
+        startDestination = Routes.Home.route
     ) {
         homeGraph(onDrinkClick = mainNavController::navigateToDrinkDetail)
         drinkDetailScreen(onBackClick = { mainNavController.popBackStack() })
