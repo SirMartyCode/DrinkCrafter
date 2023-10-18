@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.di
 
+import com.sirmarty.drinkcrafter.data.dao.DrinkDetailDao
 import com.sirmarty.drinkcrafter.data.repository.CategoriesDataRepository
 import com.sirmarty.drinkcrafter.data.repository.DrinkDataRepository
 import com.sirmarty.drinkcrafter.data.repository.SearchDataRepository
@@ -70,9 +71,10 @@ class NetworkModule {
     @Provides
     fun provideDrinkRepository(
         getDrinkDetailService: GetDrinkDetailService,
-        getDrinkListService: GetDrinkListService
+        getDrinkListService: GetDrinkListService,
+        drinkDetailDao: DrinkDetailDao
     ): DrinkRepository {
-        return DrinkDataRepository(getDrinkDetailService, getDrinkListService)
+        return DrinkDataRepository(getDrinkDetailService, getDrinkListService, drinkDetailDao)
     }
 
     @Provides
