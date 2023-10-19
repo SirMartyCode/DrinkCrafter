@@ -10,10 +10,10 @@ fun NavController.navigateToSaved(navOptions: NavOptions? = null) {
     this.navigate(Routes.Saved.route, navOptions)
 }
 
-fun NavGraphBuilder.savedScreen() {
+fun NavGraphBuilder.savedScreen(onDrinkClick: (Int) -> Unit) {
     composable(
         route = Routes.Saved.route
     ) {
-        SavedScreen()
+        SavedScreen(onDrinkClick)
     }
 }

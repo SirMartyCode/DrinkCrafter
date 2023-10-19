@@ -34,7 +34,7 @@ fun NavGraphBuilder.homeGraph(onDrinkClick: (Int) -> Unit) {
                         categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
                         drinkListScreen(onDrinkClick = onDrinkClick)
                     })
-                savedScreen()
+                savedScreen(onDrinkClick = onDrinkClick)
             }
         }
     }

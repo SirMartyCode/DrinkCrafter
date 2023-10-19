@@ -16,11 +16,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.sirmarty.drinkcrafter.domain.entity.Drink
-import com.sirmarty.drinkcrafter.ui.screens.UiState
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
-fun SavedScreen(viewModel: SavedViewModel = hiltViewModel()) {
+fun SavedScreen(
+    onDrinkClick: (Int) -> Unit,
+    viewModel: SavedViewModel = hiltViewModel()
+) {
 
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val uiState by produceState<UiState<List<Drink>>>(
@@ -52,7 +55,7 @@ fun SavedScreen(viewModel: SavedViewModel = hiltViewModel()) {
             }
 
             is UiState.Success -> {
-                DrinkList((uiState as UiState.Success).value, { })
+                DrinkList((uiState as UiState.Success).value, onDrinkClick)
             }
         }
     }
