@@ -1,7 +1,7 @@
 package com.sirmarty.drinkcrafter.data.repository
 
 import com.sirmarty.drinkcrafter.data.dao.DrinkDetailDao
-import com.sirmarty.drinkcrafter.data.db.DrinkDetailDB
+import com.sirmarty.drinkcrafter.data.db.DrinkDetailDbMapper
 import com.sirmarty.drinkcrafter.data.response.DrinkDetailMapper
 import com.sirmarty.drinkcrafter.data.response.DrinkListMapper
 import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
@@ -11,6 +11,7 @@ import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -51,6 +52,22 @@ class DrinkDataRepository @Inject constructor(
                 throw Exception()
             }
         }
+    }
+
+    override suspend fun saveDrinkDetail(drinkDetail: DrinkDetail) {
+        withContext(Dispatchers.IO) {
+            drinkDetailDao.save(DrinkDetailDbMapper.fromDomain(drinkDetail))
+        }
+    }
+
+    override suspend fun deleteDrinkDetail(drinkId: Int) {
+        withContext(Dispatchers.IO) {
+            drinkDetailDao.delete(drinkId)
+        }
+    }
+
+    override fun isSaved(id: Int): Flow<Boolean> {
+        return drinkDetailDao.exists(id).flowOn(Dispatchers.IO)
     }
 
     override fun getAllSaved(): Flow<List<Drink>> {

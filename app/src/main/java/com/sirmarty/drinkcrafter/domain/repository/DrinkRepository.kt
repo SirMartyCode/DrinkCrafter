@@ -7,5 +7,8 @@ import kotlinx.coroutines.flow.Flow
 interface DrinkRepository {
     suspend fun getDrinkDetail(id: Int): DrinkDetail
     suspend fun getDrinkList(categoryName: String): List<Drink>
+    suspend fun saveDrinkDetail(drinkDetail: DrinkDetail)
+    suspend fun deleteDrinkDetail(drinkId: Int)
+    fun isSaved(id: Int): Flow<Boolean>
     fun getAllSaved(): Flow<List<Drink>>
 }
