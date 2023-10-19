@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.ui.screens.UiState
-import com.sirmarty.drinkcrafter.ui.screens.shared.DrinkList
+import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 
 @Composable
 fun DrinkListScreen(

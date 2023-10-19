@@ -17,7 +17,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.ui.screens.UiState
-import com.sirmarty.drinkcrafter.ui.screens.shared.DrinkList
+import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 
 @Composable
 fun SavedScreen(viewModel: SavedViewModel = hiltViewModel()) {
