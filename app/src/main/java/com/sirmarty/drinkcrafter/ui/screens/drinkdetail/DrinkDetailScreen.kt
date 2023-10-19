@@ -39,6 +39,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
+import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
@@ -58,7 +59,8 @@ fun DrinkDetailScreen(
         Box(
             Modifier
                 .fillMaxSize()
-                .padding(innerPadding)) {
+                .padding(innerPadding)
+        ) {
             when (uiState) {
                 is UiState.Error -> {
                     Text(
@@ -143,6 +145,12 @@ fun Header(modifier: Modifier, drinkDetail: DrinkDetail, onBackClick: () -> Unit
                 contentDescription = "back arrow icon"
             )
         }
+        SaveButton(
+            Modifier
+                .align(Alignment.BottomEnd)
+                .padding(8.dp),
+            drinkId = drinkDetail.id
+        )
     }
 }
 
@@ -238,7 +246,8 @@ fun DrinkDetailPreview() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.White)) {
+            .background(Color.White)
+    ) {
         DrinkDetailView(drinkDetail) {}
     }
 }
