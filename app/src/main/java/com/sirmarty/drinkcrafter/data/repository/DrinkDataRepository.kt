@@ -11,6 +11,7 @@ import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
@@ -37,6 +38,14 @@ class DrinkDataRepository @Inject constructor(
             }
         }
     }
+
+    override suspend fun getSavedDrinkDetail(id: Int): DrinkDetail {
+        return withContext(Dispatchers.IO) {
+            val result = drinkDetailDao.getById(id).first()
+            DrinkDetailDbMapper.toDomain(result)
+        }
+    }
+
 
     override suspend fun getDrinkList(categoryName: String): List<Drink> {
         return withContext(Dispatchers.IO) {

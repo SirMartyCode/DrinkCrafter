@@ -14,6 +14,9 @@ interface DrinkDetailDao {
     @Query("SELECT * FROM $TABLE_NAME")
     fun getAll(): Flow<List<DrinkDetailDB>>
 
+    @Query("SELECT * FROM $TABLE_NAME WHERE id == :id")
+    fun getById(id: Int): Flow<DrinkDetailDB>
+
     @Query("SELECT EXISTS(SELECT * FROM $TABLE_NAME WHERE id = :id)")
     fun exists(id: Int): Flow<Boolean>
 
