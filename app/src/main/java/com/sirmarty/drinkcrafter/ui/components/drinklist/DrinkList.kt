@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.shared
+package com.sirmarty.drinkcrafter.ui.components.drinklist
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

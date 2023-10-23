@@ -11,17 +11,23 @@ sealed class TopLevelDestination(
 ) {
     object Explore : TopLevelDestination(
         "explore",
-        R.drawable.home,
-        R.drawable.home_filled,
+        R.drawable.ic_home,
+        R.drawable.ic_home_filled,
         "Explore"
 
     )
     object Search : TopLevelDestination(
         "search",
-        R.drawable.search,
-        R.drawable.search_filled,
+        R.drawable.ic_search,
+        R.drawable.ic_search_filled,
         "Search"
 
+    )
+    object Saved : TopLevelDestination(
+        "saved",
+        R.drawable.ic_saved,
+        R.drawable.ic_saved_filled,
+        "Saved"
     )
 }
 

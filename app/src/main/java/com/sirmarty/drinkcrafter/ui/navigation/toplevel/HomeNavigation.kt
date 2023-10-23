@@ -12,6 +12,7 @@ import com.sirmarty.drinkcrafter.ui.navigation.Routes
 import com.sirmarty.drinkcrafter.ui.screens.categories.categoriesScreen
 import com.sirmarty.drinkcrafter.ui.screens.drinklist.drinkListScreen
 import com.sirmarty.drinkcrafter.ui.screens.drinklist.navigateToDrinkList
+import com.sirmarty.drinkcrafter.ui.screens.saved.savedScreen
 import com.sirmarty.drinkcrafter.ui.screens.search.searchScreen
 
 fun NavGraphBuilder.homeGraph(onDrinkClick: (Int) -> Unit) {
@@ -33,6 +34,7 @@ fun NavGraphBuilder.homeGraph(onDrinkClick: (Int) -> Unit) {
                         categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
                         drinkListScreen(onDrinkClick = onDrinkClick)
                     })
+                savedScreen(onDrinkClick = onDrinkClick)
             }
         }
     }
