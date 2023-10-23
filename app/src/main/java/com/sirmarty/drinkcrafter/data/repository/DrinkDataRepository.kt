@@ -2,8 +2,8 @@ package com.sirmarty.drinkcrafter.data.repository
 
 import com.sirmarty.drinkcrafter.data.dao.DrinkDetailDao
 import com.sirmarty.drinkcrafter.data.db.DrinkDetailDbMapper
-import com.sirmarty.drinkcrafter.data.response.DrinkDetailMapper
-import com.sirmarty.drinkcrafter.data.response.DrinkListMapper
+import com.sirmarty.drinkcrafter.data.response.DrinkListResponseJSON
+import com.sirmarty.drinkcrafter.data.response.toDomain
 import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkListService
 import com.sirmarty.drinkcrafter.domain.entity.Drink
@@ -28,11 +28,7 @@ class DrinkDataRepository @Inject constructor(
             val response = getDrinkDetailService.getDrinkDetail(id)
             if (response.isSuccessful) {
                 val result = response.body()
-                if (result != null) {
-                    DrinkDetailMapper.fromJsonToEntity(result)
-                } else {
-                    throw Exception()
-                }
+                result?.toDomain() ?: throw Exception()
             } else {
                 throw Exception()
             }
@@ -51,12 +47,8 @@ class DrinkDataRepository @Inject constructor(
         return withContext(Dispatchers.IO) {
             val response = getDrinkListService.getDrinkList(categoryName)
             if (response.isSuccessful) {
-                val result = response.body()
-                if (result != null) {
-                    DrinkListMapper.fromJsonToEntity(result)
-                } else {
-                    throw Exception()
-                }
+                val result: DrinkListResponseJSON? = response.body()
+                result?.toDomain() ?: throw Exception()
             } else {
                 throw Exception()
             }

@@ -1,10 +1,17 @@
 package com.sirmarty.drinkcrafter.data.response
 
 import com.google.gson.annotations.SerializedName
+import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
+import com.sirmarty.drinkcrafter.domain.entity.Ingredient
 
-class DrinkDetailResponseJSON(@SerializedName("drinks") val drinks: List<DrinkDetailJSON>)
+data class DrinkDetailResponseJSON(@SerializedName("drinks") val drinks: List<DrinkDetailJSON>)
 
-class DrinkDetailJSON(
+fun DrinkDetailResponseJSON.toDomain(): DrinkDetail {
+    val drinkJSON = drinks[0]
+    return drinkJSON.toDomain()
+}
+
+data class DrinkDetailJSON(
     @SerializedName("idDrink") val id: Int,
     @SerializedName("strDrink") val name: String,
     @SerializedName("strCategory") val category: String,
@@ -42,4 +49,46 @@ class DrinkDetailJSON(
     @SerializedName("strMeasure13") val measure13: String,
     @SerializedName("strMeasure14") val measure14: String,
     @SerializedName("strMeasure15") val measure15: String
-)
+) {
+    fun addIngredientIfNotNull(ingredient: String?, measure: String?, list: MutableList<Ingredient>) {
+        if (ingredient != null) {
+            list.add(Ingredient(ingredient, measure))
+        }
+    }
+}
+
+fun DrinkDetailJSON.toDomain(): DrinkDetail {
+    /***
+     * The web service should return a list of objects containing ingredient
+     * data (name, and measure). Since it returns a string field for each ingredient and
+     * measure, we have to map it using the 'addIngredientIfNotNull()' method in order to
+     * obtain the desired ingredient list
+     */
+    val ingredients: MutableList<Ingredient> = mutableListOf()
+    addIngredientIfNotNull(ingredient1, measure1, ingredients)
+    addIngredientIfNotNull(ingredient2, measure2, ingredients)
+    addIngredientIfNotNull(ingredient3, measure3, ingredients)
+    addIngredientIfNotNull(ingredient4, measure4, ingredients)
+    addIngredientIfNotNull(ingredient5, measure5, ingredients)
+    addIngredientIfNotNull(ingredient6, measure6, ingredients)
+    addIngredientIfNotNull(ingredient7, measure7, ingredients)
+    addIngredientIfNotNull(ingredient8, measure8, ingredients)
+    addIngredientIfNotNull(ingredient9, measure9, ingredients)
+    addIngredientIfNotNull(ingredient10, measure10, ingredients)
+    addIngredientIfNotNull(ingredient11, measure11, ingredients)
+    addIngredientIfNotNull(ingredient12, measure12, ingredients)
+    addIngredientIfNotNull(ingredient13, measure13, ingredients)
+    addIngredientIfNotNull(ingredient14, measure14, ingredients)
+    addIngredientIfNotNull(ingredient15, measure15, ingredients)
+
+    return DrinkDetail(
+        id = id,
+        name = name,
+        category = category,
+        alcoholic = alcoholic,
+        glass = glass,
+        instructions = instructions,
+        image = image,
+        ingredients = ingredients
+    )
+}
