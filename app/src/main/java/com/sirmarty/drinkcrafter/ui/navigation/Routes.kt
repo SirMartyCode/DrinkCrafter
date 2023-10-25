@@ -8,7 +8,18 @@ sealed class Routes(val route: String) {
     object Categories: Routes("categories")
     object DrinkList: Routes("drinkList/{categoryName}") {
         const val categoryNameArg = "categoryName"
-        fun createRoute(categoryName: String) = "drinkList/$categoryName"
+        /**
+         * Since categoryNameArg can contain a slash ("/") we have to replace that character with
+         * a hyphen to prevent the NavController from interpreting it as a navigation feature
+         */
+        fun createRoute(categoryName: String): String {
+            return "drinkList/${categoryName.replace("/", "-")}"
+        }
+        /**
+         * Then we must replace it back to get the original category name. Otherwise, the WS
+         * would not recognize the name when we request the drinks belonging to this category
+         */
+        fun getArgumentValue(argument: String?) = argument?.replace("-", "/")
     }
     object DrinkDetail: Routes("drinkDetail/{drinkId}") {
         const val drinkIdArg = "drinkId"

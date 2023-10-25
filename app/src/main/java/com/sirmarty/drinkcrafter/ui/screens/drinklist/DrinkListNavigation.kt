@@ -18,10 +18,9 @@ fun NavGraphBuilder.drinkListScreen(onDrinkClick: (Int) -> Unit) {
             type = NavType.StringType
         })
     ) { backStackEntry ->
-        val categoryName =
+        val categoryNameArg =
             backStackEntry.arguments?.getString(Routes.DrinkList.categoryNameArg)
-        if (categoryName != null) {
-            DrinkListScreen(categoryName, onDrinkClick)
-        }
+        val categoryName = Routes.DrinkList.getArgumentValue(categoryNameArg)
+        categoryName?.let { DrinkListScreen(categoryName, onDrinkClick) }
     }
 }

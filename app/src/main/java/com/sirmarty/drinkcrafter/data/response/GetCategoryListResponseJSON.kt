@@ -11,6 +11,6 @@ fun GetCategoryListResponseJSON.toDomain(): List<Category> {
 
 data class CategoryJSON(@SerializedName("strCategory") val name: String)
 
-fun CategoryJSON.toDomain(): Category{
+fun CategoryJSON.toDomain(): Category {
     return Category(this.name)
 }
