@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">DrinkCrafter</string>
+
+    <!-- Drink detail -->
+    <string name="drink_detail_ingredients">Ingredients</string>
+    <string name="drink_detail_instructions">Instructions</string>
+    <string name="drink_detail_image">Drink image</string>
+    <string name="drink_detail_back_arrow">Back arrow icon</string>
+
 </resources>
