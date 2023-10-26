@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.screens.categories
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -44,6 +46,7 @@ fun CategoriesScreen(
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
+    val context = LocalContext.current
 
     Box(
         Modifier
@@ -64,7 +67,7 @@ fun CategoriesScreen(
             }
 
             is UiState.Success -> {
-                CategoryList((uiState as UiState.Success).value, onCategoryClick)
+                CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
             }
         }
     }
@@ -72,21 +75,21 @@ fun CategoriesScreen(
 
 
 @Composable
-fun CategoryList(categories: List<Category>, onCategoryClick: (String) -> Unit) {
+fun CategoryList(context: Context, categories: List<Category>, onCategoryClick: (String) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(categories) {
-            CategoryItem(it, onCategoryClick)
+            CategoryItem(context, it, onCategoryClick)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryItem(category: Category, onCategoryClick: (String) -> Unit) {
+fun CategoryItem(context: Context, category: Category, onCategoryClick: (String) -> Unit) {
     ElevatedCard(
         onClick = { onCategoryClick(category.name) },
         modifier = Modifier.fillMaxWidth(),
@@ -113,7 +116,10 @@ fun CategoryItem(category: Category, onCategoryClick: (String) -> Unit) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(text = category.name, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
-                Icon(painterResource(R.drawable.ic_arrow_right), contentDescription = "arrow icon")
+                Icon(
+                    painterResource(R.drawable.ic_arrow_right),
+                    contentDescription = context.getString(R.string.categories_arrow_icon)
+                )
             }
         }
     }
@@ -122,6 +128,7 @@ fun CategoryItem(category: Category, onCategoryClick: (String) -> Unit) {
 @Preview
 @Composable
 fun CategoryListPreview() {
+    val context = LocalContext.current
     val categories = listOf(
         Category("Category 1"),
         Category("Category 2"),
@@ -135,6 +142,6 @@ fun CategoryListPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        CategoryList(categories = categories, onCategoryClick = {})
+        CategoryList(context, categories, onCategoryClick = {})
     }
 }
