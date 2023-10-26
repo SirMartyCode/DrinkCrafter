@@ -1,33 +1,32 @@
 package com.sirmarty.drinkcrafter.ui.navigation.toplevel
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.sirmarty.drinkcrafter.R
 
 sealed class TopLevelDestination(
     val name: String,
     @DrawableRes val unselectedIcon: Int,
     @DrawableRes val selectedIcon: Int,
-    val text: String,
+    @StringRes val stringRes: Int,
 ) {
     object Explore : TopLevelDestination(
         "explore",
         R.drawable.ic_home,
         R.drawable.ic_home_filled,
-        "Explore"
-
+        R.string.navigation_bar_explore
     )
     object Search : TopLevelDestination(
         "search",
         R.drawable.ic_search,
         R.drawable.ic_search_filled,
-        "Search"
-
+        R.string.navigation_bar_search
     )
     object Saved : TopLevelDestination(
         "saved",
         R.drawable.ic_saved,
         R.drawable.ic_saved_filled,
-        "Saved"
+        R.string.navigation_bar_saved
     )
 }
 

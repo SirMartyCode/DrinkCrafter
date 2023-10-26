@@ -1,3 +1,37 @@
 <resources>
     <string name="app_name">DrinkCrafter</string>
+
+    <!-- Navigation bar -->
+    <string name="navigation_bar_explore">Explore</string>
+    <string name="navigation_bar_search">Search</string>
+    <string name="navigation_bar_saved">Saved</string>
+
+    <!-- Navigation bar item -->
+    <string name="navigation_bar_item_selected_icon">Selected icon</string>
+    <string name="navigation_bar_item_unselected_icon">Unselected icon</string>
+
+
+    <!-- Categories Screen -->
+    <string name="categories_arrow_icon">Go to detail icon</string>
+
+    <!-- Drink detail Screen-->
+    <string name="drink_detail_ingredients">Ingredients</string>
+    <string name="drink_detail_instructions">Instructions</string>
+    <string name="drink_detail_image">Drink image</string>
+    <string name="drink_detail_back_arrow">Back arrow icon</string>
+
+    <!-- Search Screen-->
+    <string name="search_search_hint">Search cocktail by name</string>
+    <string name="search_back_arrow">Back arrow icon</string>
+    <string name="search_search">Search icon</string>
+    <string name="search_clear">Clear icon</string>
+
+
+    <!-- Drink list Component-->
+    <string name="drink_list_image">Drink image</string>
+    <string name="drink_list_show_details">Show details</string>
+
+    <!-- Save button Component-->
+    <string name="save_button_icon">Save icon</string>
+
 </resources>

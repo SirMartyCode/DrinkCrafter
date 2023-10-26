@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
@@ -20,6 +21,7 @@ fun SaveButton(
     viewModel.setId(drinkId)
 
     val isSaved = viewModel.isSaved.collectAsState()
+    val context = LocalContext.current
 
     IconButton(
         modifier = modifier,
@@ -33,6 +35,9 @@ fun SaveButton(
         )
     ) {
         val iconResource = if (isSaved.value) R.drawable.ic_saved_filled else R.drawable.ic_saved
-        Icon(painterResource(iconResource), contentDescription = null)
+        Icon(
+            painterResource(iconResource),
+            contentDescription = context.getString(R.string.save_button_icon)
+        )
     }
 }

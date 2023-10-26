@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -29,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
 import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
@@ -49,6 +52,7 @@ fun DrinkDetailScreen(
     viewModel: DrinkDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
+    val context = LocalContext.current
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
@@ -76,6 +80,7 @@ fun DrinkDetailScreen(
 
                 is UiState.Success -> {
                     DrinkDetailView(
+                        context,
                         (uiState as UiState.Success).value,
                         onBackClick
                     )
@@ -87,6 +92,7 @@ fun DrinkDetailScreen(
 
 @Composable
 fun DrinkDetailView(
+    context: Context,
     drinkDetail: DrinkDetail,
     onBackClick: () -> Unit
 ) {
@@ -99,6 +105,7 @@ fun DrinkDetailView(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(2f),
+            context,
             drinkDetail,
             onBackClick
         )
@@ -106,6 +113,7 @@ fun DrinkDetailView(
             modifier = Modifier
                 .fillMaxWidth()
                 .weight(3f),
+            context,
             drinkDetail
         )
     }
@@ -113,11 +121,11 @@ fun DrinkDetailView(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun Header(modifier: Modifier, drinkDetail: DrinkDetail, onBackClick: () -> Unit) {
+fun Header(modifier: Modifier, context: Context, drinkDetail: DrinkDetail, onBackClick: () -> Unit) {
     Box(modifier) {
         GlideImage(
             model = drinkDetail.image,
-            contentDescription = "Drink image",
+            contentDescription = context.getString(R.string.drink_detail_image),
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
@@ -142,7 +150,7 @@ fun Header(modifier: Modifier, drinkDetail: DrinkDetail, onBackClick: () -> Unit
         ) {
             Icon(
                 imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = "back arrow icon"
+                contentDescription = context.getString(R.string.drink_detail_back_arrow)
             )
         }
         SaveButton(
@@ -155,7 +163,7 @@ fun Header(modifier: Modifier, drinkDetail: DrinkDetail, onBackClick: () -> Unit
 }
 
 @Composable
-fun Content(modifier: Modifier, drinkDetail: DrinkDetail) {
+fun Content(modifier: Modifier, context: Context, drinkDetail: DrinkDetail) {
     Column(
         modifier
             .fillMaxSize()
@@ -164,9 +172,9 @@ fun Content(modifier: Modifier, drinkDetail: DrinkDetail) {
     ) {
         BasicInfo(drinkDetail)
         Spacer(modifier = Modifier.height(24.dp))
-        Ingredients(drinkDetail)
+        Ingredients(context, drinkDetail)
         Spacer(modifier = Modifier.height(24.dp))
-        Instructions(drinkDetail)
+        Instructions(context, drinkDetail)
     }
 }
 
@@ -182,9 +190,9 @@ fun BasicInfo(drinkDetail: DrinkDetail) {
 }
 
 @Composable
-fun Ingredients(drinkDetail: DrinkDetail) {
+fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
     Text(
-        text = "Ingredients",
+        text = context.getString(R.string.drink_detail_ingredients),
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold
     )
@@ -200,9 +208,9 @@ fun Ingredients(drinkDetail: DrinkDetail) {
 }
 
 @Composable
-fun Instructions(drinkDetail: DrinkDetail) {
+fun Instructions(context: Context, drinkDetail: DrinkDetail) {
     Text(
-        text = "Instructions",
+        text = context.getString(R.string.drink_detail_instructions),
         fontSize = 20.sp,
         fontWeight = FontWeight.SemiBold
     )
@@ -222,6 +230,7 @@ fun Instructions(drinkDetail: DrinkDetail) {
 @Preview
 @Composable
 fun DrinkDetailPreview() {
+    val context = LocalContext.current
     val ingredientList = listOf(
         Ingredient("Ingredient 1", "measure 1"),
         Ingredient("Ingredient 2", "measure 2"),
@@ -248,7 +257,7 @@ fun DrinkDetailPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DrinkDetailView(drinkDetail) {}
+        DrinkDetailView(context, drinkDetail) {}
     }
 }
 
