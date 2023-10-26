@@ -31,4 +31,7 @@
     <string name="drink_list_image">Drink image</string>
     <string name="drink_list_show_details">Show details</string>
 
+    <!-- Save button Component-->
+    <string name="save_button_icon">Save icon</string>
+
 </resources>
