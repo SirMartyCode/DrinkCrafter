@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.screens.search
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,6 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -50,10 +52,17 @@ fun SearchScreen(
             onSearch = { keyboardController?.hide() },
             active = active,
             onActiveChange = { viewModel.onSearchActiveChanged(it) },
-            placeholder = { Text(text = "Search cocktail by name") },
-            leadingIcon = { SearchBarLeadingIcon(active) { viewModel.onSearchActiveChanged(false) } },
+            placeholder = { Text(text = context.getString(R.string.search_search_hint)) },
+            leadingIcon = {
+                SearchBarLeadingIcon(context, active) {
+                    viewModel.onSearchActiveChanged(
+                        false
+                    )
+                }
+            },
             trailingIcon = {
                 SearchBarTrailingIcon(
+                    context,
                     active,
                     query
                 ) { viewModel.clearSearch() }
@@ -91,31 +100,34 @@ fun SearchScreen(
 }
 
 @Composable
-fun SearchBarLeadingIcon(isSearchBarActive: Boolean, onClick: () -> Unit) {
+fun SearchBarLeadingIcon(context: Context, isSearchBarActive: Boolean, onClick: () -> Unit) {
     return if (isSearchBarActive) {
         IconButton(onClick = onClick) {
             Icon(
                 imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                contentDescription = "back icon"
+                contentDescription = context.getString(R.string.search_back_arrow)
             )
         }
     } else {
         Icon(
-            imageVector = Icons.Outlined.Search, contentDescription = "search icon"
+            imageVector = Icons.Outlined.Search,
+            contentDescription = context.getString(R.string.search_search)
         )
     }
 }
 
 @Composable
 fun SearchBarTrailingIcon(
+    context: Context,
     isSearchBarActive: Boolean,
-    query: String, onClick: () -> Unit
+    query: String,
+    onClick: () -> Unit
 ) {
     if (isSearchBarActive && query.isNotEmpty()) {
         IconButton(onClick = onClick) {
             Icon(
                 imageVector = Icons.Outlined.Clear,
-                contentDescription = "clear icon"
+                contentDescription = context.getString(R.string.search_clear)
             )
         }
     }

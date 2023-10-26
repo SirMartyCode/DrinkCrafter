@@ -10,6 +10,13 @@
     <string name="drink_detail_image">Drink image</string>
     <string name="drink_detail_back_arrow">Back arrow icon</string>
 
+    <!-- Search Screen-->
+    <string name="search_search_hint">Search cocktail by name</string>
+    <string name="search_back_arrow">Back arrow icon</string>
+    <string name="search_search">Search icon</string>
+    <string name="search_clear">Clear icon</string>
+
+
     <!-- Drink list Component-->
     <string name="drink_list_image">Drink image</string>
     <string name="drink_list_show_details">Show details</string>
