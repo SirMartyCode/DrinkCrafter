@@ -1,11 +1,13 @@
 package com.sirmarty.drinkcrafter.ui.navigation
 
+import android.content.Context
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -13,6 +15,7 @@ import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navOptions
+import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.navigation.toplevel.TopLevelDestination
 import com.sirmarty.drinkcrafter.ui.navigation.toplevel.navigateToExploreGraph
 import com.sirmarty.drinkcrafter.ui.screens.saved.navigateToSaved
@@ -20,6 +23,8 @@ import com.sirmarty.drinkcrafter.ui.screens.search.navigateToSearch
 
 @Composable
 fun DrinkCrafterNavigationBar(navController: NavHostController) {
+    val context = LocalContext.current
+
     NavigationBar {
         val items = listOf(
             TopLevelDestination.Explore,
@@ -30,6 +35,7 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
             val currentDestination = navController.currentBackStackEntryAsState().value?.destination
             val selected = currentDestination.isTopLevelDestinationInHierarchy(item)
             DrinkCrafterNavigationItem(
+                context,
                 item = item,
                 onClick = {
                     navigateToTopLevelDestination(navController, item)
@@ -38,13 +44,13 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
                 selectedIcon = {
                     Icon(
                         painter = painterResource(item.selectedIcon),
-                        contentDescription = "selected icon"
+                        contentDescription = context.getString(R.string.navigation_bar_item_selected_icon)
                     )
                 },
                 unselectedIcon = {
                     Icon(
                         painter = painterResource(item.unselectedIcon),
-                        contentDescription = "unselected icon"
+                        contentDescription = context.getString(R.string.navigation_bar_item_unselected_icon)
                     )
                 }
             )
@@ -54,6 +60,7 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
 
 @Composable
 fun RowScope.DrinkCrafterNavigationItem(
+    context: Context,
     item: TopLevelDestination,
     onClick: () -> Unit,
     selected: Boolean,
@@ -63,7 +70,7 @@ fun RowScope.DrinkCrafterNavigationItem(
     NavigationBarItem(
         icon = if (selected) selectedIcon else unselectedIcon,
         onClick = onClick,
-        label = { Text(item.text) },
+        label = { Text(context.getString(item.stringRes)) },
         selected = selected
     )
 }

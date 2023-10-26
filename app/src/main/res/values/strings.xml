@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">DrinkCrafter</string>
 
+    <!-- Navigation bar -->
+    <string name="navigation_bar_explore">Explore</string>
+    <string name="navigation_bar_search">Search</string>
+    <string name="navigation_bar_saved">Saved</string>
+
+    <!-- Navigation bar item -->
+    <string name="navigation_bar_item_selected_icon">Selected icon</string>
+    <string name="navigation_bar_item_unselected_icon">Unselected icon</string>
+
+
     <!-- Categories Screen -->
     <string name="categories_arrow_icon">Go to detail icon</string>
 
