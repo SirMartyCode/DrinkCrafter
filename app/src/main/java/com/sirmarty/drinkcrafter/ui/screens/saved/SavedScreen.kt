@@ -11,6 +11,7 @@ import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -24,7 +25,7 @@ fun SavedScreen(
     onDrinkClick: (Int) -> Unit,
     viewModel: SavedViewModel = hiltViewModel()
 ) {
-
+    val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val uiState by produceState<UiState<List<Drink>>>(
         initialValue = UiState.Loading,
@@ -55,7 +56,7 @@ fun SavedScreen(
             }
 
             is UiState.Success -> {
-                DrinkList((uiState as UiState.Success).value, onDrinkClick)
+                DrinkList(context, drinks = (uiState as UiState.Success).value, onDrinkClick)
             }
         }
     }

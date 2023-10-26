@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.components.drinklist
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,31 +25,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 
 
 @Composable
-fun DrinkList(drinks: List<Drink>, onDrinkClick: (Int) -> Unit) {
+fun DrinkList(context: Context, drinks: List<Drink>, onDrinkClick: (Int) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(drinks) { item ->
-            DrinkItem(item, onDrinkClick)
+            DrinkItem(context, item, onDrinkClick)
         }
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
+fun DrinkItem(context: Context, drink: Drink, onDrinkClick: (Int) -> Unit) {
     ElevatedCard(
         onClick = { onDrinkClick(drink.id) },
         modifier = Modifier.fillMaxWidth(),
@@ -56,10 +59,14 @@ fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
             defaultElevation = 6.dp
         )
     ) {
-        Row(modifier = Modifier.fillMaxWidth().height(IntrinsicSize.Min)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Min)
+        ) {
             GlideImage(
                 model = drink.image,
-                contentDescription = "Drink image",
+                contentDescription = context.getString(R.string.drink_list_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .size(100.dp)
@@ -76,7 +83,11 @@ fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
                     fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold
                 )
-                Text(text = "Show details", fontSize = 10.sp, fontWeight = FontWeight.Light)
+                Text(
+                    text = context.getString(R.string.drink_list_show_details),
+                    fontSize = 10.sp,
+                    fontWeight = FontWeight.Light
+                )
             }
         }
     }
@@ -85,6 +96,7 @@ fun DrinkItem(drink: Drink, onDrinkClick: (Int) -> Unit) {
 @Preview
 @Composable
 fun DrinkListPreview() {
+    val context = LocalContext.current
     val drinks = listOf(
         Drink(0, "Drink 1", ""),
         Drink(1, "Drink 2", ""),
@@ -97,6 +109,6 @@ fun DrinkListPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DrinkList(drinks = drinks, onDrinkClick = {})
+        DrinkList(context, drinks, onDrinkClick = {})
     }
 }

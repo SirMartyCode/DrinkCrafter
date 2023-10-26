@@ -20,10 +20,11 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.sirmarty.drinkcrafter.ui.screens.UiState
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
+import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -32,6 +33,7 @@ fun SearchScreen(
     onDrinkClick: (Int) -> Unit, viewModel: SearchViewModel = hiltViewModel()
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
+    val context = LocalContext.current
 
     val query: String by viewModel.query.observeAsState(initial = "")
     val active: Boolean by viewModel.isSearchActive.observeAsState(initial = false)
@@ -72,7 +74,11 @@ fun SearchScreen(
                     }
 
                     is UiState.Success -> {
-                        DrinkList((uiState as UiState.Success).value, onDrinkClick)
+                        DrinkList(
+                            context,
+                            drinks = (uiState as UiState.Success).value,
+                            onDrinkClick
+                        )
                     }
 
                     else -> {
