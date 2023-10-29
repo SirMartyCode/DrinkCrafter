@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Clear
@@ -23,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
@@ -46,7 +48,7 @@ fun SearchScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchBar(modifier = Modifier.fillMaxWidth(),
+        SearchBar(modifier = Modifier.fillMaxWidth().padding(16.dp),
             query = query,
             onQueryChange = { viewModel.onQueryChanged(it) },
             onSearch = { keyboardController?.hide() },
