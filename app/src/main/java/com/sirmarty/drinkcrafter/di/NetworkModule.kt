@@ -6,6 +6,7 @@ import com.sirmarty.drinkcrafter.data.repository.DrinkDataRepository
 import com.sirmarty.drinkcrafter.data.repository.SearchDataRepository
 import com.sirmarty.drinkcrafter.data.service.GetCategoryListService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
+import com.sirmarty.drinkcrafter.data.service.GetDrinkListByIngredientService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkListService
 import com.sirmarty.drinkcrafter.data.service.SearchDrinkByNameService
 import com.sirmarty.drinkcrafter.domain.repository.CategoriesRepository
@@ -55,6 +56,12 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun provideGetDrinkListByIngredientService(retrofit: Retrofit): GetDrinkListByIngredientService {
+        return retrofit.create(GetDrinkListByIngredientService::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideSearchDrinkByNameService(retrofit: Retrofit): SearchDrinkByNameService {
         return retrofit.create(SearchDrinkByNameService::class.java)
     }
@@ -72,9 +79,15 @@ class NetworkModule {
     fun provideDrinkRepository(
         getDrinkDetailService: GetDrinkDetailService,
         getDrinkListService: GetDrinkListService,
+        getDrinkListByIngredientService: GetDrinkListByIngredientService,
         drinkDetailDao: DrinkDetailDao
     ): DrinkRepository {
-        return DrinkDataRepository(getDrinkDetailService, getDrinkListService, drinkDetailDao)
+        return DrinkDataRepository(
+            getDrinkDetailService,
+            getDrinkListService,
+            getDrinkListByIngredientService,
+            drinkDetailDao
+        )
     }
 
     @Provides
