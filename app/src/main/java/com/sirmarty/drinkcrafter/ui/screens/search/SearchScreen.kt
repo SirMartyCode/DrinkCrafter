@@ -3,9 +3,8 @@ package com.sirmarty.drinkcrafter.ui.screens.search
 import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Clear
@@ -48,7 +47,7 @@ fun SearchScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchBar(modifier = Modifier.fillMaxWidth().padding(16.dp),
+        SearchBar(modifier = Modifier.align(Alignment.TopCenter),
             query = query,
             onQueryChange = { viewModel.onQueryChanged(it) },
             onSearch = { keyboardController?.hide() },
@@ -57,25 +56,21 @@ fun SearchScreen(
             placeholder = { Text(text = context.getString(R.string.search_search_hint)) },
             leadingIcon = {
                 SearchBarLeadingIcon(context, active) {
-                    viewModel.onSearchActiveChanged(
-                        false
-                    )
+                    viewModel.onSearchActiveChanged(false)
                 }
             },
             trailingIcon = {
-                SearchBarTrailingIcon(
-                    context,
-                    active,
-                    query
-                ) { viewModel.clearSearch() }
-            }
+                SearchBarTrailingIcon(context, active, query) {
+                    viewModel.clearSearch()
+                }
+            },
+            windowInsets = WindowInsets(top = 16.dp)
         ) {
             Box(Modifier.fillMaxSize()) {
                 when (uiState) {
                     is UiState.Error -> {
                         Text(
-                            text = (uiState as UiState.Error).throwable.message
-                                ?: "UNKNOWN ERROR",
+                            text = (uiState as UiState.Error).throwable.message ?: "UNKNOWN ERROR",
                             modifier = Modifier.align(Alignment.Center)
                         )
                     }
@@ -86,9 +81,7 @@ fun SearchScreen(
 
                     is UiState.Success -> {
                         DrinkList(
-                            context,
-                            drinks = (uiState as UiState.Success).value,
-                            onDrinkClick
+                            context, drinks = (uiState as UiState.Success).value, onDrinkClick
                         )
                     }
 
@@ -120,10 +113,7 @@ fun SearchBarLeadingIcon(context: Context, isSearchBarActive: Boolean, onClick: 
 
 @Composable
 fun SearchBarTrailingIcon(
-    context: Context,
-    isSearchBarActive: Boolean,
-    query: String,
-    onClick: () -> Unit
+    context: Context, isSearchBarActive: Boolean, query: String, onClick: () -> Unit
 ) {
     if (isSearchBarActive && query.isNotEmpty()) {
         IconButton(onClick = onClick) {
