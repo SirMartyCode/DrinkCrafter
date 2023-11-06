@@ -1,26 +1,21 @@
 package com.sirmarty.drinkcrafter.ui.screens.categories
 
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +23,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -61,11 +57,9 @@ fun CategoriesScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-
             UiState.Loading -> {
                 CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
-
             is UiState.Success -> {
                 CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
             }
@@ -97,30 +91,21 @@ fun CategoryItem(context: Context, category: Category, onCategoryClick: (String)
             defaultElevation = 6.dp
         )
     ) {
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .height(IntrinsicSize.Min)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .width(8.dp)
-                    .background(MaterialTheme.colorScheme.primary)
+        Box(Modifier.fillMaxSize()) {
+            Image(
+                painterResource(R.drawable.image_cocktail),
+                contentDescription = context.getString(R.string.categories_image),
+                contentScale = ContentScale.Crop,
+                alpha = 0.8f,
+                modifier = Modifier.aspectRatio(16f / 9f)
             )
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(text = category.name, fontSize = 24.sp, fontWeight = FontWeight.SemiBold)
-                Icon(
-                    painterResource(R.drawable.ic_arrow_right),
-                    contentDescription = context.getString(R.string.categories_arrow_icon)
-                )
-            }
+            Text(
+                text = category.name,
+                fontSize = 32.sp,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                modifier = Modifier.align(Alignment.Center).padding(8.dp)
+            )
         }
     }
 }
