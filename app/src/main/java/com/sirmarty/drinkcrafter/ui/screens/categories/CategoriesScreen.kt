@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Category
+import com.sirmarty.drinkcrafter.ui.model.CategoryEnum
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 
@@ -69,7 +70,7 @@ fun CategoriesScreen(
 
 
 @Composable
-fun CategoryList(context: Context, categories: List<Category>, onCategoryClick: (String) -> Unit) {
+fun CategoryList(context: Context, categories: List<CategoryEnum>, onCategoryClick: (String) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),
@@ -83,9 +84,9 @@ fun CategoryList(context: Context, categories: List<Category>, onCategoryClick: 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryItem(context: Context, category: Category, onCategoryClick: (String) -> Unit) {
+fun CategoryItem(context: Context, category: CategoryEnum, onCategoryClick: (String) -> Unit) {
     ElevatedCard(
-        onClick = { onCategoryClick(category.name) },
+        onClick = { onCategoryClick(category.categoryName) },
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -93,14 +94,14 @@ fun CategoryItem(context: Context, category: Category, onCategoryClick: (String)
     ) {
         Box(Modifier.fillMaxSize()) {
             Image(
-                painterResource(R.drawable.image_cocktail),
+                painterResource(category.image),
                 contentDescription = context.getString(R.string.categories_image),
                 contentScale = ContentScale.Crop,
                 alpha = 0.8f,
                 modifier = Modifier.aspectRatio(16f / 9f)
             )
             Text(
-                text = category.name,
+                text = category.categoryName,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -114,6 +115,7 @@ fun CategoryItem(context: Context, category: Category, onCategoryClick: (String)
 @Composable
 fun CategoryListPreview() {
     val context = LocalContext.current
+    /*
     val categories = listOf(
         Category("Category 1"),
         Category("Category 2"),
@@ -129,4 +131,6 @@ fun CategoryListPreview() {
     ) {
         CategoryList(context, categories, onCategoryClick = {})
     }
+
+     */
 }
