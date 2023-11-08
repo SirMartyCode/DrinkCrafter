@@ -32,8 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
-import com.sirmarty.drinkcrafter.domain.entity.Category
-import com.sirmarty.drinkcrafter.ui.model.CategoryEnum
+import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 
@@ -70,7 +69,7 @@ fun CategoriesScreen(
 
 
 @Composable
-fun CategoryList(context: Context, categories: List<CategoryEnum>, onCategoryClick: (String) -> Unit) {
+fun CategoryList(context: Context, categories: List<CategoryWithImage>, onCategoryClick: (String) -> Unit) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),
@@ -84,9 +83,9 @@ fun CategoryList(context: Context, categories: List<CategoryEnum>, onCategoryCli
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CategoryItem(context: Context, category: CategoryEnum, onCategoryClick: (String) -> Unit) {
+fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
     ElevatedCard(
-        onClick = { onCategoryClick(category.categoryName) },
+        onClick = { onCategoryClick(category.name) },
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
@@ -100,7 +99,7 @@ fun CategoryItem(context: Context, category: CategoryEnum, onCategoryClick: (Str
                 modifier = Modifier.aspectRatio(16f / 9f)
             )
             Text(
-                text = category.categoryName,
+                text = category.name,
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
@@ -114,13 +113,12 @@ fun CategoryItem(context: Context, category: CategoryEnum, onCategoryClick: (Str
 @Composable
 fun CategoryListPreview() {
     val context = LocalContext.current
-    /*
     val categories = listOf(
-        Category("Category 1"),
-        Category("Category 2"),
-        Category("Category 3"),
-        Category("Category 4"),
-        Category("Category 5")
+        CategoryWithImage("Category 1", R.drawable.image_default_category),
+        CategoryWithImage("Category 2", R.drawable.image_default_category),
+        CategoryWithImage("Category 3", R.drawable.image_default_category),
+        CategoryWithImage("Category 4", R.drawable.image_default_category),
+        CategoryWithImage("Category 5", R.drawable.image_default_category)
     )
 
     Box(
@@ -130,6 +128,4 @@ fun CategoryListPreview() {
     ) {
         CategoryList(context, categories, onCategoryClick = {})
     }
-
-     */
 }
