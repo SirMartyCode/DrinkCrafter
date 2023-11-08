@@ -97,7 +97,6 @@ fun CategoryItem(context: Context, category: CategoryEnum, onCategoryClick: (Str
                 painterResource(category.image),
                 contentDescription = context.getString(R.string.categories_image),
                 contentScale = ContentScale.Crop,
-                alpha = 0.8f,
                 modifier = Modifier.aspectRatio(16f / 9f)
             )
             Text(
