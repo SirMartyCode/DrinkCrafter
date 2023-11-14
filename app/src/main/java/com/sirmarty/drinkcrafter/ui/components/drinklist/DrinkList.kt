@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,7 +70,7 @@ fun DrinkItem(context: Context, drink: Drink, onDrinkClick: (Int) -> Unit) {
                 contentDescription = context.getString(R.string.drink_list_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(110.dp)
                     .clip(MaterialTheme.shapes.medium)
             )
             Column(
@@ -80,8 +81,10 @@ fun DrinkItem(context: Context, drink: Drink, onDrinkClick: (Int) -> Unit) {
             ) {
                 Text(
                     text = drink.name,
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.SemiBold
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Text(
                     text = context.getString(R.string.drink_list_show_details),
