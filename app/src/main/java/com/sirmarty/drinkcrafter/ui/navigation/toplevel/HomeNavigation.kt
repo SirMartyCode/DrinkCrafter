@@ -15,7 +15,10 @@ import com.sirmarty.drinkcrafter.ui.screens.drinklist.navigateToDrinkList
 import com.sirmarty.drinkcrafter.ui.screens.saved.savedScreen
 import com.sirmarty.drinkcrafter.ui.screens.search.searchScreen
 
-fun NavGraphBuilder.homeGraph(onDrinkClick: (Int) -> Unit) {
+fun NavGraphBuilder.homeGraph(
+    onDrinkClick: (Int) -> Unit,
+    onIngredientClick: (String) -> Unit
+) {
     composable(
         route = Routes.Home.route
     ) {
@@ -31,7 +34,10 @@ fun NavGraphBuilder.homeGraph(onDrinkClick: (Int) -> Unit) {
                 searchScreen(onDrinkClick = onDrinkClick)
                 exploreGraph(
                     nestedGraphs = {
-                        categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
+                        categoriesScreen(
+                            onCategoryClick = navController::navigateToDrinkList,
+                            onQuickFindClick = onIngredientClick
+                        )
                         drinkListScreen(onDrinkClick = onDrinkClick)
                     })
                 savedScreen(onDrinkClick = onDrinkClick)

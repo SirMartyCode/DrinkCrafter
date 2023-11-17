@@ -12,7 +12,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DrinkDetailViewModel @Inject constructor(private val getDrinkDetailUseCase: GetDrinkDetailUseCase) : ViewModel() {
+class DrinkDetailViewModel @Inject constructor(
+    private val getDrinkDetailUseCase: GetDrinkDetailUseCase
+) : ViewModel() {
 
     private val _uiState = MutableLiveData<UiState<DrinkDetail>>()
     val uiState: LiveData<UiState<DrinkDetail>> = _uiState
