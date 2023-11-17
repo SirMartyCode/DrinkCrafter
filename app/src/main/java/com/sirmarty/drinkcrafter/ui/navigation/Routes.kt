@@ -25,4 +25,8 @@ sealed class Routes(val route: String) {
         const val drinkIdArg = "drinkId"
         fun createRoute(drinkId: Int) = "drinkDetail/$drinkId"
     }
+    object Ingredient: Routes("ingredient/{ingredientName}") {
+        const val ingredientNameArg = "ingredientName"
+        fun createRoute(ingredient: String) = "ingredient/$ingredient"
+    }
 }
