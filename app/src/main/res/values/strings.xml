@@ -33,5 +33,13 @@
 
     <!-- Save button Component-->
     <string name="save_button_icon">Save icon</string>
+    
+    <!-- Quick finds -->
+    <string name="quick_find_vodka">Vodka</string>
+    <string name="quick_find_tequila">Tequila</string>
+    <string name="quick_find_gin">Gin</string>
+    <string name="quick_find_rum">Rum</string>
+    <string name="quick_find_jager">Jäger</string>
+    <string name="quick_find_whiskey">Whiskey</string>
 
 </resources>
