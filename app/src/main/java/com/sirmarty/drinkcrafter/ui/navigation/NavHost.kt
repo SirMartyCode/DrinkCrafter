@@ -21,6 +21,9 @@ fun MainNavHost() {
             onIngredientClick = mainNavController::navigateToIngredient
         )
         drinkDetailScreen(onBackClick = { mainNavController.popBackStack() })
-        ingredientScreen(onBackClick = { mainNavController.popBackStack() })
+        ingredientScreen(
+            onBackClick = { mainNavController.popBackStack() },
+            onDrinkClick = mainNavController::navigateToDrinkDetail
+        )
     }
 }

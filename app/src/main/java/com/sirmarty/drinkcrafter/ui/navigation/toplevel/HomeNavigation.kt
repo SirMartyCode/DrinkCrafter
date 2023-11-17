@@ -31,13 +31,13 @@ fun NavGraphBuilder.homeGraph(
                 navController = navController,
                 startDestination = Routes.Explore.route,
             ) {
-                searchScreen(onDrinkClick = onDrinkClick)
+                searchScreen(
+                        onDrinkClick = onDrinkClick,
+                        onQuickFindClick = onIngredientClick
+                )
                 exploreGraph(
                     nestedGraphs = {
-                        categoriesScreen(
-                            onCategoryClick = navController::navigateToDrinkList,
-                            onQuickFindClick = onIngredientClick
-                        )
+                        categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
                         drinkListScreen(onDrinkClick = onDrinkClick)
                     })
                 savedScreen(onDrinkClick = onDrinkClick)

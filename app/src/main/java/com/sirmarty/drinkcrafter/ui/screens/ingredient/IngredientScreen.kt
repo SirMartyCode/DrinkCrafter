@@ -23,6 +23,7 @@ import com.sirmarty.drinkcrafter.ui.screens.UiState
 fun IngredientScreen(
     ingredient: String,
     onBackClick: () -> Unit,
+    onDrinkClick: (Int) -> Unit,
     viewModel: IngredientViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
@@ -56,6 +57,7 @@ fun IngredientScreen(
                     IngredientView(
                         context,
                         (uiState as UiState.Success).value,
+                        onDrinkClick,
                         onBackClick
                     )
                 }
@@ -66,6 +68,11 @@ fun IngredientScreen(
 
 // TODO: improve this a little bit and add the needed callbacks
 @Composable
-fun IngredientView(context: Context, drinks: List<Drink>, onBackClick: () -> Unit) {
-    DrinkList(context, drinks , {})
+fun IngredientView(
+    context: Context,
+    drinks: List<Drink>,
+    onDrinkClick: (Int) -> Unit,
+    onBackClick: () -> Unit
+) {
+    DrinkList(context, drinks , onDrinkClick)
 }

@@ -27,13 +27,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
+import com.sirmarty.drinkcrafter.ui.components.quickfinds.QuickFinds
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchScreen(
-    onDrinkClick: (Int) -> Unit, viewModel: SearchViewModel = hiltViewModel()
+    onDrinkClick: (Int) -> Unit,
+    onQuickFindClick: (String) -> Unit,
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
@@ -91,6 +94,8 @@ fun SearchScreen(
                 }
             }
         }
+        // TODO: make a main screen and move search bar to a detail search screen
+        QuickFinds(Modifier.align(Alignment.Center), onQuickFindClick)
     }
 }
 
