@@ -1,11 +1,14 @@
 package com.sirmarty.drinkcrafter.ui.model
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.sirmarty.drinkcrafter.R
 
-enum class QuickFind(val ingredient: String, @DrawableRes val image: Int) {
-    Vodka("Vodka", R.drawable.ic_home),
-    Tequila("Tequila", R.drawable.ic_home),
-    Gin("Gin", R.drawable.ic_home),
-    Rum("Rum", R.drawable.ic_home),
+enum class QuickFind(val ingredient: String, @StringRes val text: Int, @DrawableRes val image: Int) {
+    Vodka("Vodka", R.string.quick_find_vodka, R.drawable.ic_vodka),
+    Tequila("Tequila", R.string.quick_find_tequila, R.drawable.ic_tequila),
+    Gin("Gin", R.string.quick_find_gin, R.drawable.ic_gin),
+    Rum("Rum", R.string.quick_find_rum, R.drawable.ic_rum),
+    Jagermeister("Jagermeister", R.string.quick_find_jager, R.drawable.ic_jagermeister),
+    Whiskey("Whiskey", R.string.quick_find_whiskey, R.drawable.ic_whiskey),
 }
