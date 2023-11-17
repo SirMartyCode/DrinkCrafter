@@ -11,7 +11,10 @@ fun NavController.navigateToIngredient(ingredient: String) {
     this.navigate(Routes.Ingredient.createRoute(ingredient))
 }
 
-fun NavGraphBuilder.ingredientScreen(onBackClick: () -> Unit) {
+fun NavGraphBuilder.ingredientScreen(
+    onBackClick: () -> Unit,
+    onDrinkClick: (Int) -> Unit,
+) {
     composable(
         route = Routes.Ingredient.route,
         arguments = listOf(navArgument(Routes.Ingredient.ingredientNameArg) {
@@ -20,6 +23,6 @@ fun NavGraphBuilder.ingredientScreen(onBackClick: () -> Unit) {
     ) { backStackEntry ->
         val ingredient =
             backStackEntry.arguments?.getString(Routes.Ingredient.ingredientNameArg)
-        ingredient?.let { IngredientScreen(it, onBackClick) }
+        ingredient?.let { IngredientScreen(it, onBackClick, onDrinkClick) }
     }
 }
