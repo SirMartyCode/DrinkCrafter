@@ -32,9 +32,8 @@ fun QuickFinds(modifier: Modifier = Modifier, onQuickFindClick: (String) -> Unit
     val quickFinds = QuickFind.values()
     LazyRow(
         modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         items(quickFinds) {
             QuickFindItem(context, it, onQuickFindClick)
@@ -44,8 +43,9 @@ fun QuickFinds(modifier: Modifier = Modifier, onQuickFindClick: (String) -> Unit
 
 @Composable
 fun QuickFindItem(context: Context, quickFind: QuickFind, onQuickFindClick: (String) -> Unit) {
-    ElevatedCard(Modifier.padding(8.dp).clickable { onQuickFindClick(quickFind.ingredient) }) {
+    ElevatedCard(Modifier.clickable { onQuickFindClick(quickFind.ingredient) }) {
         Column(
+            Modifier.padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(

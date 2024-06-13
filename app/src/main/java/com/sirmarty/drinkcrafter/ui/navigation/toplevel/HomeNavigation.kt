@@ -32,8 +32,13 @@ fun NavGraphBuilder.homeGraph(
                 startDestination = Routes.Explore.route,
             ) {
                 searchScreen(
-                        onDrinkClick = onDrinkClick,
-                        onQuickFindClick = onIngredientClick
+                    onQuickFindClick = onIngredientClick,
+                    onSearchByNameClick = {
+                        //TODO: navigate to SearchBarScreen
+                    },
+                    onSearchByIngredientClick = {
+                        //TODO: navigate to SearchBarScreen
+                    }
                 )
                 exploreGraph(
                     nestedGraphs = {

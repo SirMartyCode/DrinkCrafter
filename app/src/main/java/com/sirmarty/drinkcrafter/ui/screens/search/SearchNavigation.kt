@@ -11,12 +11,13 @@ fun NavController.navigateToSearch(navOptions: NavOptions? = null) {
 }
 
 fun NavGraphBuilder.searchScreen(
-        onDrinkClick: (Int) -> Unit,
-        onQuickFindClick: (String) -> Unit
+    onQuickFindClick: (String) -> Unit,
+    onSearchByNameClick: () -> Unit,
+    onSearchByIngredientClick: () -> Unit
 ) {
     composable(
         route = Routes.Search.route
     ) {
-        SearchScreen(onDrinkClick, onQuickFindClick)
+        SearchScreen(onQuickFindClick, onSearchByNameClick, onSearchByIngredientClick)
     }
 }
