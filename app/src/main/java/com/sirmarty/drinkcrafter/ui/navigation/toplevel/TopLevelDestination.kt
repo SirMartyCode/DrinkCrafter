@@ -16,10 +16,10 @@ sealed class TopLevelDestination(
         R.drawable.ic_home_filled,
         R.string.navigation_bar_explore
     )
-    object Search : TopLevelDestination(
-        "search",
-        R.drawable.ic_search,
-        R.drawable.ic_search_filled,
+    object Find : TopLevelDestination(
+        "find",
+        R.drawable.ic_find,
+        R.drawable.ic_find_filled,
         R.string.navigation_bar_search
     )
     object Saved : TopLevelDestination(

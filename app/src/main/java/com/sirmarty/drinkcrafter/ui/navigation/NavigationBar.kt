@@ -18,8 +18,8 @@ import androidx.navigation.navOptions
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.navigation.toplevel.TopLevelDestination
 import com.sirmarty.drinkcrafter.ui.navigation.toplevel.navigateToExploreGraph
+import com.sirmarty.drinkcrafter.ui.navigation.toplevel.navigateToFindGraph
 import com.sirmarty.drinkcrafter.ui.screens.saved.navigateToSaved
-import com.sirmarty.drinkcrafter.ui.screens.search.navigateToSearch
 
 @Composable
 fun DrinkCrafterNavigationBar(navController: NavHostController) {
@@ -28,7 +28,7 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
     NavigationBar {
         val items = listOf(
             TopLevelDestination.Explore,
-            TopLevelDestination.Search,
+            TopLevelDestination.Find,
             TopLevelDestination.Saved
         )
         items.forEach { item ->
@@ -98,7 +98,7 @@ private fun navigateToTopLevelDestination(
 
     when (topLevelDestination) {
         TopLevelDestination.Explore -> navController.navigateToExploreGraph(topLevelNavOptions)
-        TopLevelDestination.Search -> navController.navigateToSearch(topLevelNavOptions)
+        TopLevelDestination.Find -> navController.navigateToFindGraph(topLevelNavOptions)
         TopLevelDestination.Saved -> navController.navigateToSaved(topLevelNavOptions)
     }
 }
