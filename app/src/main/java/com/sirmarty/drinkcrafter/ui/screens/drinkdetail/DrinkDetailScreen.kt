@@ -5,10 +5,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
@@ -18,7 +20,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -59,7 +60,10 @@ fun DrinkDetailScreen(
         viewModel.getDrinkDetail(drinkId)
     }
 
-    Scaffold { innerPadding ->
+    Scaffold(
+        // Allow the content to take up all available screen space
+        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
+    ) { innerPadding ->
         Box(
             Modifier
                 .fillMaxSize()
@@ -98,7 +102,6 @@ fun DrinkDetailView(
 ) {
     Column(
         modifier = Modifier
-            //.imePadding()
             .fillMaxWidth()
     ) {
         Header(
@@ -129,13 +132,12 @@ fun Header(modifier: Modifier, context: Context, drinkDetail: DrinkDetail, onBac
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxSize()
-                .padding(16.dp)
-                .clip(MaterialTheme.shapes.medium)
                 .align(Alignment.Center)
         )
         IconButton(
             onClick = onBackClick,
             modifier = Modifier
+                .safeDrawingPadding()
                 .padding(8.dp)
                 // Keep the status bar padding, so the button doesn't overlap with it
                 //.statusBarsPadding().navigationBarsPadding()
@@ -260,20 +262,3 @@ fun DrinkDetailPreview() {
         DrinkDetailView(context, drinkDetail) {}
     }
 }
-
-
-/*
-@Composable
-private fun SetTransparentStatusBar() {
-    val darkTheme = isSystemInDarkTheme()
-    val view = LocalView.current
-    if (!view.isInEditMode) {
-        SideEffect {
-            val window = (view.context as Activity).window
-            window.statusBarColor = Color.Transparent.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
-        }
-    }
-}
-
- */
