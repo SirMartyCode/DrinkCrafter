@@ -86,6 +86,7 @@ fun DrinkDetailScreen(
                     DrinkDetailView(
                         context,
                         (uiState as UiState.Success).value,
+                        false,
                         onBackClick
                     )
                 }
@@ -98,6 +99,7 @@ fun DrinkDetailScreen(
 fun DrinkDetailView(
     context: Context,
     drinkDetail: DrinkDetail,
+    previewMode: Boolean,
     onBackClick: () -> Unit
 ) {
     Column(
@@ -117,14 +119,20 @@ fun DrinkDetailView(
                 .fillMaxWidth()
                 .weight(3f),
             context,
-            drinkDetail
+            drinkDetail,
+            previewMode
         )
     }
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun Header(modifier: Modifier, context: Context, drinkDetail: DrinkDetail, onBackClick: () -> Unit) {
+fun Header(
+    modifier: Modifier,
+    context: Context,
+    drinkDetail: DrinkDetail,
+    onBackClick: () -> Unit
+) {
     Box(modifier) {
         GlideImage(
             model = drinkDetail.image,
@@ -155,36 +163,50 @@ fun Header(modifier: Modifier, context: Context, drinkDetail: DrinkDetail, onBac
                 contentDescription = context.getString(R.string.drink_detail_back_arrow)
             )
         }
+    }
+}
+
+@Composable
+fun Content(
+    modifier: Modifier,
+    context: Context,
+    drinkDetail: DrinkDetail,
+    previewMode: Boolean
+) {
+    Box(modifier.fillMaxSize()) {
+        Column(
+            modifier
+                .fillMaxSize()
+                .padding(16.dp),
+        ) {
+            BasicInfo(Modifier.align(Alignment.CenterHorizontally), drinkDetail)
+            Spacer(modifier = Modifier.height(24.dp))
+            Ingredients(context, drinkDetail)
+            Spacer(modifier = Modifier.height(24.dp))
+            Instructions(context, drinkDetail)
+        }
+
         SaveButton(
             Modifier
-                .align(Alignment.BottomEnd)
+                .align(Alignment.TopEnd)
                 .padding(8.dp),
-            drinkId = drinkDetail.id
+            drinkId = drinkDetail.id,
+            previewMode
         )
     }
 }
 
 @Composable
-fun Content(modifier: Modifier, context: Context, drinkDetail: DrinkDetail) {
-    Column(
-        modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        BasicInfo(drinkDetail)
-        Spacer(modifier = Modifier.height(24.dp))
-        Ingredients(context, drinkDetail)
-        Spacer(modifier = Modifier.height(24.dp))
-        Instructions(context, drinkDetail)
-    }
-}
-
-@Composable
-fun BasicInfo(drinkDetail: DrinkDetail) {
-    Text(text = drinkDetail.name, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+fun BasicInfo(modifier: Modifier, drinkDetail: DrinkDetail) {
+    Text(
+        text = drinkDetail.name,
+        modifier = modifier,
+        fontSize = 24.sp,
+        fontWeight = FontWeight.Bold
+    )
     Text(
         text = "${drinkDetail.category} - ${drinkDetail.alcoholic}",
+        modifier = modifier,
         fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold,
         color = Color.Gray
@@ -199,7 +221,7 @@ fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
         fontWeight = FontWeight.SemiBold
     )
     Spacer(modifier = Modifier.height(8.dp))
-    LazyColumn(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+    LazyColumn(Modifier.fillMaxWidth()) {
         items(drinkDetail.ingredients) { ingredient ->
             Text(
                 text = "- ${ingredient.measure} ${ingredient.name}",
@@ -259,6 +281,6 @@ fun DrinkDetailPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        DrinkDetailView(context, drinkDetail) {}
+        DrinkDetailView(context, drinkDetail, true) {}
     }
 }
