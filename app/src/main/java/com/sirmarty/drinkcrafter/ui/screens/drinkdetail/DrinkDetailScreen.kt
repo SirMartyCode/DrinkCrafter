@@ -43,6 +43,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
+import com.sirmarty.drinkcrafter.ui.components.dynamicstatusbar.DynamicStatusBarWithImage
 import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -102,6 +103,7 @@ fun DrinkDetailView(
     previewMode: Boolean,
     onBackClick: () -> Unit
 ) {
+    DynamicStatusBarWithImage(drinkDetail.image)
     Column(
         modifier = Modifier
             .fillMaxWidth()
