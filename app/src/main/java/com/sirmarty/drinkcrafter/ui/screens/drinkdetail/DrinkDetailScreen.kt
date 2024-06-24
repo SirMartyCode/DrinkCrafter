@@ -8,14 +8,17 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material3.CircularProgressIndicator
@@ -80,9 +83,12 @@ fun DrinkDetailScreen(
         }
     }
 
+    // Avoiding the content to be drawn behind the navigation bar
+    val bottomPadding = WindowInsets.navigationBars.asPaddingValues().calculateBottomPadding()
     Scaffold(
         // Allow the content to take up all available screen space
-        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
+        contentWindowInsets = WindowInsets(0.dp, 0.dp, 0.dp, bottomPadding)
+
     ) { innerPadding ->
         Box(
             Modifier
@@ -124,20 +130,18 @@ fun DrinkDetailView(
 ) {
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
+            // Enable scrolling to the entire page
+            .verticalScroll(rememberScrollState())
     ) {
         Header(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(2f),
+            modifier = Modifier.fillMaxWidth(),
             context,
             drinkDetail,
             onBackClick
         )
         Content(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(3f),
+            modifier = Modifier.fillMaxWidth(),
             context,
             drinkDetail,
             previewMode
@@ -159,7 +163,8 @@ fun Header(
             contentDescription = context.getString(R.string.drink_detail_image),
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .aspectRatio(1f / 1f)
                 .align(Alignment.Center)
         )
 
@@ -168,7 +173,8 @@ fun Header(
         Surface(
             color = Color.Black.copy(alpha = 0.1f),
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxWidth()
+                .aspectRatio(1f / 1f)
         ) {}
 
         IconButton(
@@ -206,7 +212,12 @@ fun Content(
                 .fillMaxSize()
                 .padding(16.dp),
         ) {
-            BasicInfo(Modifier.align(Alignment.CenterHorizontally), drinkDetail)
+            BasicInfo(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 32.dp),
+                drinkDetail
+            )
             Spacer(modifier = Modifier.height(24.dp))
             Ingredients(context, drinkDetail)
             Spacer(modifier = Modifier.height(24.dp))
@@ -229,13 +240,15 @@ fun BasicInfo(modifier: Modifier, drinkDetail: DrinkDetail) {
         text = drinkDetail.name,
         modifier = modifier,
         fontSize = 24.sp,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        textAlign = TextAlign.Center
     )
     Text(
         text = "${drinkDetail.category} - ${drinkDetail.alcoholic}",
         modifier = modifier,
         fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold,
+        textAlign = TextAlign.Center,
         color = Color.Gray
     )
 }
@@ -248,8 +261,10 @@ fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
         fontWeight = FontWeight.SemiBold
     )
     Spacer(modifier = Modifier.height(8.dp))
-    LazyColumn(Modifier.fillMaxWidth()) {
-        items(drinkDetail.ingredients) { ingredient ->
+
+    // Since all ingredients will be displayed, we use a normal column instead of the lazy one
+    Column(Modifier.fillMaxWidth()) {
+        drinkDetail.ingredients.forEach { ingredient ->
             Text(
                 text = "- ${ingredient.measure} ${ingredient.name}",
                 fontSize = 14.sp
