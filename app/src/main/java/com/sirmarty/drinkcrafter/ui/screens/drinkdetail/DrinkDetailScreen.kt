@@ -1,7 +1,9 @@
 package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
+import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -21,8 +23,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -32,18 +36,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
-import com.sirmarty.drinkcrafter.ui.components.dynamicstatusbar.DynamicStatusBarWithImage
 import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -55,10 +60,24 @@ fun DrinkDetailScreen(
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
     val context = LocalContext.current
+    val view = LocalView.current
+    val window = (context as? Activity)?.window
+    val darkTheme = isSystemInDarkTheme()
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
         viewModel.getDrinkDetail(drinkId)
+    }
+
+    // Change status bar content colors to white
+    DisposableEffect(Unit) {
+        val windowInsetsController = window?.let { WindowInsetsControllerCompat(it, view) }
+        windowInsetsController?.isAppearanceLightStatusBars = false
+
+        // Put them back to their color when screen is not showing anymore
+        onDispose {
+            windowInsetsController?.isAppearanceLightStatusBars = !darkTheme
+        }
     }
 
     Scaffold(
@@ -103,7 +122,6 @@ fun DrinkDetailView(
     previewMode: Boolean,
     onBackClick: () -> Unit
 ) {
-    DynamicStatusBarWithImage(drinkDetail.image)
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -144,17 +162,24 @@ fun Header(
                 .fillMaxSize()
                 .align(Alignment.Center)
         )
+
+        // We added this surface with a semitransparent black color as a darkening filter to make
+        // more contrast between the light colors of the image and the status bar icons
+        Surface(
+            color = Color.Black.copy(alpha = 0.1f),
+            modifier = Modifier
+                .fillMaxSize()
+        ) {}
+
         IconButton(
             onClick = onBackClick,
             modifier = Modifier
-                .safeDrawingPadding()
-                .padding(8.dp)
                 // Keep the status bar padding, so the button doesn't overlap with it
-                //.statusBarsPadding().navigationBarsPadding()
+                .safeDrawingPadding()
                 .clip(CircleShape),
             colors = IconButtonColors(
-                containerColor = Color.White,
-                contentColor = Color.Black,
+                containerColor = Color.Transparent,
+                contentColor = Color.White,
                 // It should never be disabled
                 disabledContainerColor = Color.Unspecified,
                 disabledContentColor = Color.Unspecified
