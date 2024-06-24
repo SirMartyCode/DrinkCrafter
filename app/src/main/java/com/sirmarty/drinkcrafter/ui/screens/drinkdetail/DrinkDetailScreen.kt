@@ -122,7 +122,7 @@ fun DrinkDetailScreen(
 }
 
 @Composable
-fun DrinkDetailView(
+private fun DrinkDetailView(
     context: Context,
     drinkDetail: DrinkDetail,
     previewMode: Boolean,
@@ -134,7 +134,7 @@ fun DrinkDetailView(
             // Enable scrolling to the entire page
             .verticalScroll(rememberScrollState())
     ) {
-        Header(
+        Image(
             modifier = Modifier.fillMaxWidth(),
             context,
             drinkDetail,
@@ -151,7 +151,7 @@ fun DrinkDetailView(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun Header(
+private fun Image(
     modifier: Modifier,
     context: Context,
     drinkDetail: DrinkDetail,
@@ -200,7 +200,7 @@ fun Header(
 }
 
 @Composable
-fun Content(
+private fun Content(
     modifier: Modifier,
     context: Context,
     drinkDetail: DrinkDetail,
@@ -212,10 +212,10 @@ fun Content(
                 .fillMaxSize()
                 .padding(16.dp),
         ) {
-            BasicInfo(
+            Header(
                 Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 32.dp),
+                    .padding(horizontal = 40.dp),
                 drinkDetail
             )
             Spacer(modifier = Modifier.height(24.dp))
@@ -235,7 +235,7 @@ fun Content(
 }
 
 @Composable
-fun BasicInfo(modifier: Modifier, drinkDetail: DrinkDetail) {
+private fun Header(modifier: Modifier, drinkDetail: DrinkDetail) {
     Text(
         text = drinkDetail.name,
         modifier = modifier,
@@ -254,7 +254,7 @@ fun BasicInfo(modifier: Modifier, drinkDetail: DrinkDetail) {
 }
 
 @Composable
-fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
+private fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
     Text(
         text = context.getString(R.string.drink_detail_ingredients),
         fontSize = 20.sp,
@@ -274,7 +274,7 @@ fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
 }
 
 @Composable
-fun Instructions(context: Context, drinkDetail: DrinkDetail) {
+private fun Instructions(context: Context, drinkDetail: DrinkDetail) {
     Text(
         text = context.getString(R.string.drink_detail_instructions),
         fontSize = 20.sp,
@@ -295,7 +295,7 @@ fun Instructions(context: Context, drinkDetail: DrinkDetail) {
 
 @Preview
 @Composable
-fun DrinkDetailPreview() {
+private fun DrinkDetailPreview() {
     val context = LocalContext.current
     val ingredientList = listOf(
         Ingredient("Ingredient 1", "measure 1"),
