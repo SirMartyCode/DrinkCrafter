@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -57,19 +58,26 @@ fun CategoriesScreen(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
+
             UiState.Loading -> {
                 CircularProgressIndicator(Modifier.align(Alignment.Center))
             }
+
             is UiState.Success -> {
-                CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
+                Column {
+                    CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
+                }
             }
         }
     }
 }
 
-
 @Composable
-fun CategoryList(context: Context, categories: List<CategoryWithImage>, onCategoryClick: (String) -> Unit) {
+fun CategoryList(
+    context: Context,
+    categories: List<CategoryWithImage>,
+    onCategoryClick: (String) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
         contentPadding = PaddingValues(16.dp),
@@ -103,7 +111,9 @@ fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick:
                 fontSize = 32.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                modifier = Modifier.align(Alignment.Center).padding(8.dp)
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .padding(8.dp)
             )
         }
     }

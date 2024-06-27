@@ -3,8 +3,10 @@ package com.sirmarty.drinkcrafter.ui.navigation
 sealed class Routes(val route: String) {
     object Home: Routes("home")
     object Explore: Routes("explore")
-    object Search: Routes("search")
+    object Find: Routes("find")
     object Saved: Routes("saved")
+    object Search: Routes("search")
+    object SearchBar: Routes("searchBar")
     object Categories: Routes("categories")
     object DrinkList: Routes("drinkList/{categoryName}") {
         const val categoryNameArg = "categoryName"
@@ -22,7 +24,12 @@ sealed class Routes(val route: String) {
         fun getArgumentValue(argument: String?) = argument?.replace("-", "/")
     }
     object DrinkDetail: Routes("drinkDetail/{drinkId}") {
+        const val ID_RANDOM_DRINK = -1
         const val drinkIdArg = "drinkId"
         fun createRoute(drinkId: Int) = "drinkDetail/$drinkId"
+    }
+    object Ingredient: Routes("ingredient/{ingredientName}") {
+        const val ingredientNameArg = "ingredientName"
+        fun createRoute(ingredient: String) = "ingredient/$ingredient"
     }
 }

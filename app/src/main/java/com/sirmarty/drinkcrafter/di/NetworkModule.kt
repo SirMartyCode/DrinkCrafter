@@ -6,7 +6,9 @@ import com.sirmarty.drinkcrafter.data.repository.DrinkDataRepository
 import com.sirmarty.drinkcrafter.data.repository.SearchDataRepository
 import com.sirmarty.drinkcrafter.data.service.GetCategoryListService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
+import com.sirmarty.drinkcrafter.data.service.GetDrinkListByIngredientService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkListService
+import com.sirmarty.drinkcrafter.data.service.GetRandomDrinkDetailService
 import com.sirmarty.drinkcrafter.data.service.SearchDrinkByNameService
 import com.sirmarty.drinkcrafter.domain.repository.CategoriesRepository
 import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
@@ -55,8 +57,20 @@ class NetworkModule {
 
     @Singleton
     @Provides
+    fun provideGetDrinkListByIngredientService(retrofit: Retrofit): GetDrinkListByIngredientService {
+        return retrofit.create(GetDrinkListByIngredientService::class.java)
+    }
+
+    @Singleton
+    @Provides
     fun provideSearchDrinkByNameService(retrofit: Retrofit): SearchDrinkByNameService {
         return retrofit.create(SearchDrinkByNameService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideGetRandomDrinkDetailService(retrofit: Retrofit): GetRandomDrinkDetailService {
+        return retrofit.create(GetRandomDrinkDetailService::class.java)
     }
 
     // endregion
@@ -71,10 +85,18 @@ class NetworkModule {
     @Provides
     fun provideDrinkRepository(
         getDrinkDetailService: GetDrinkDetailService,
+        getRandomDrinkDetailService: GetRandomDrinkDetailService,
         getDrinkListService: GetDrinkListService,
+        getDrinkListByIngredientService: GetDrinkListByIngredientService,
         drinkDetailDao: DrinkDetailDao
     ): DrinkRepository {
-        return DrinkDataRepository(getDrinkDetailService, getDrinkListService, drinkDetailDao)
+        return DrinkDataRepository(
+            getDrinkDetailService,
+            getRandomDrinkDetailService,
+            getDrinkListService,
+            getDrinkListByIngredientService,
+            drinkDetailDao
+        )
     }
 
     @Provides

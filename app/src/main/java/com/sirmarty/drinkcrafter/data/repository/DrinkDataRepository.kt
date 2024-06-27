@@ -5,7 +5,9 @@ import com.sirmarty.drinkcrafter.data.db.DrinkDetailDbMapper
 import com.sirmarty.drinkcrafter.data.response.DrinkListResponseJSON
 import com.sirmarty.drinkcrafter.data.response.toDomain
 import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
+import com.sirmarty.drinkcrafter.data.service.GetDrinkListByIngredientService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkListService
+import com.sirmarty.drinkcrafter.data.service.GetRandomDrinkDetailService
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
@@ -19,7 +21,9 @@ import javax.inject.Inject
 
 class DrinkDataRepository @Inject constructor(
     private val getDrinkDetailService: GetDrinkDetailService,
+    private val getRandomDrinkDetailService: GetRandomDrinkDetailService,
     private val getDrinkListService: GetDrinkListService,
+    private val getDrinkListByIngredientService: GetDrinkListByIngredientService,
     private val drinkDetailDao: DrinkDetailDao
 ) : DrinkRepository {
 
@@ -42,10 +46,33 @@ class DrinkDataRepository @Inject constructor(
         }
     }
 
+    override suspend fun getRandomDrinkDetail(): DrinkDetail {
+        return withContext(Dispatchers.IO) {
+            val response = getRandomDrinkDetailService.getRandomDrinkDetail()
+            if (response.isSuccessful) {
+                val result = response.body()
+                result?.toDomain() ?: throw Exception()
+            } else {
+                throw Exception()
+            }
+        }
+    }
 
     override suspend fun getDrinkList(categoryName: String): List<Drink> {
         return withContext(Dispatchers.IO) {
             val response = getDrinkListService.getDrinkList(categoryName)
+            if (response.isSuccessful) {
+                val result: DrinkListResponseJSON? = response.body()
+                result?.toDomain() ?: throw Exception()
+            } else {
+                throw Exception()
+            }
+        }
+    }
+
+    override suspend fun getDrinkListByIngredient(ingredient: String): List<Drink> {
+        return withContext(Dispatchers.IO) {
+            val response = getDrinkListByIngredientService.getDrinkListByIngredient(ingredient)
             if (response.isSuccessful) {
                 val result: DrinkListResponseJSON? = response.body()
                 result?.toDomain() ?: throw Exception()
