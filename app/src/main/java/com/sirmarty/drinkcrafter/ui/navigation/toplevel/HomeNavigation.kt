@@ -19,7 +19,8 @@ import com.sirmarty.drinkcrafter.ui.screens.searchbar.searchBarScreen
 
 fun NavGraphBuilder.homeGraph(
     onDrinkClick: (Int) -> Unit,
-    onIngredientClick: (String) -> Unit
+    onIngredientClick: (String) -> Unit,
+    onRandomCocktailClick: () -> Unit
 ) {
     composable(
         route = Routes.Home.route
@@ -42,7 +43,7 @@ fun NavGraphBuilder.homeGraph(
                     searchScreen(
                         onQuickFindClick = onIngredientClick,
                         onSearchByNameClick = navController::navigateToSearchBar,
-                        onSearchByIngredientClick = navController::navigateToSearchBar
+                        onRandomCocktailClick = onRandomCocktailClick
                     )
                     searchBarScreen(onDrinkClick = onDrinkClick)
                 })

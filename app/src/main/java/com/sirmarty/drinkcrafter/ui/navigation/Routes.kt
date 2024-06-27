@@ -24,6 +24,7 @@ sealed class Routes(val route: String) {
         fun getArgumentValue(argument: String?) = argument?.replace("-", "/")
     }
     object DrinkDetail: Routes("drinkDetail/{drinkId}") {
+        const val ID_RANDOM_DRINK = -1
         const val drinkIdArg = "drinkId"
         fun createRoute(drinkId: Int) = "drinkDetail/$drinkId"
     }

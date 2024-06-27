@@ -18,7 +18,10 @@ fun MainNavHost() {
     ) {
         homeGraph(
             onDrinkClick = mainNavController::navigateToDrinkDetail,
-            onIngredientClick = mainNavController::navigateToIngredient
+            onIngredientClick = mainNavController::navigateToIngredient,
+            onRandomCocktailClick = {
+                mainNavController.navigateToDrinkDetail(Routes.DrinkDetail.ID_RANDOM_DRINK)
+            }
         )
         drinkDetailScreen(onBackClick = { mainNavController.popBackStack() })
         ingredientScreen(
