@@ -86,7 +86,7 @@ fun SearchBarLayout(
             onActiveChange = {
                 // Nothing to do
             },
-            placeholder = { Text(text = context.getString(R.string.search_search_hint)) },
+            placeholder = { Text(text = context.getString(R.string.search_bar_hint)) },
             leadingIcon = {
                 SearchBarLeadingIcon(context)
             },
@@ -125,7 +125,7 @@ fun SearchBarLayout(
                         } else {
                             // query + empty search result = no coincidences
                             Text(
-                                text = context.getString(R.string.search_empty_result),
+                                text = context.getString(R.string.search_bar_empty_result),
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
@@ -144,7 +144,7 @@ fun SearchBarLayout(
 fun SearchBarLeadingIcon(context: Context) {
     Icon(
         imageVector = Icons.Outlined.Search,
-        contentDescription = context.getString(R.string.search_search)
+        contentDescription = context.getString(R.string.search_bar_search)
     )
 }
 
@@ -156,7 +156,7 @@ fun SearchBarTrailingIcon(
         IconButton(onClick = onClick) {
             Icon(
                 imageVector = Icons.Outlined.Clear,
-                contentDescription = context.getString(R.string.search_clear)
+                contentDescription = context.getString(R.string.search_bar_clear)
             )
         }
     }

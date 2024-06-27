@@ -10,7 +10,6 @@
     <string name="navigation_bar_item_selected_icon">Selected icon</string>
     <string name="navigation_bar_item_unselected_icon">Unselected icon</string>
 
-
     <!-- Categories Screen -->
     <string name="categories_image">Category image</string>
 
@@ -21,10 +20,15 @@
     <string name="drink_detail_back_arrow">Back arrow icon</string>
 
     <!-- Search Screen-->
-    <string name="search_search_hint">Search cocktail by name</string>
-    <string name="search_search">Search icon</string>
-    <string name="search_clear">Clear icon</string>
-    <string name="search_empty_result">No coincidences found with your search</string>
+    <string name="search_quick_finds">Quick finds</string>
+    <string name="search_search_by_name">Search by name</string>
+    <string name="search_get_random_cocktail">Get random cocktail</string>
+
+    <!-- Search Bar Screen-->
+    <string name="search_bar_hint">Search cocktail by name</string>
+    <string name="search_bar_search">Search icon</string>
+    <string name="search_bar_clear">Clear icon</string>
+    <string name="search_bar_empty_result">No coincidences found with your search</string>
 
 
     <!-- Drink list Component-->
