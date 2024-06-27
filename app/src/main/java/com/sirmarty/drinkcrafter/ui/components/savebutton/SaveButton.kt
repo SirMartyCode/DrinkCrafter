@@ -12,8 +12,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 
+
+/**
+ *  When previewMode = true --> draw a fake button than can be rendered in previews
+ *  When previewMode = false --> draw the real button with its viewModel injected
+ */
 @Composable
 fun SaveButton(
+    modifier: Modifier,
+    drinkId: Int,
+    previewMode: Boolean
+) {
+    if(previewMode) {
+        MockSaveButton(modifier)
+    } else {
+        RealSaveButton(modifier, drinkId)
+    }
+}
+
+@Composable
+private fun RealSaveButton(
     modifier: Modifier,
     drinkId: Int,
     viewModel: SaveButtonViewModel = hiltViewModel()
@@ -38,6 +56,28 @@ fun SaveButton(
         Icon(
             painterResource(iconResource),
             contentDescription = context.getString(R.string.save_button_icon)
+        )
+    }
+}
+
+@Composable
+private fun MockSaveButton(
+    modifier: Modifier,
+) {
+    IconButton(
+        modifier = modifier,
+        onClick = { },
+        colors = IconButtonColors(
+            containerColor = Color.White,
+            contentColor = Color.Black,
+            // It should never be disabled
+            disabledContainerColor = Color.Unspecified,
+            disabledContentColor = Color.Unspecified
+        )
+    ) {
+        Icon(
+            painterResource(R.drawable.ic_saved_filled),
+            contentDescription = "Mock"
         )
     }
 }

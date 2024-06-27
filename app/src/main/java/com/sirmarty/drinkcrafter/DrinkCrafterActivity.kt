@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.core.view.WindowCompat
 import com.sirmarty.drinkcrafter.ui.navigation.MainNavHost
 import com.sirmarty.drinkcrafter.ui.theme.DrinkCrafterTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -15,6 +16,10 @@ class DrinkCrafterActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Allowing edge-to-edge
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
             DrinkCrafterTheme {
                 Surface(
