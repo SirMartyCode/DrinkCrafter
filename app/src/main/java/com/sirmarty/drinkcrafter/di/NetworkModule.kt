@@ -3,15 +3,18 @@ package com.sirmarty.drinkcrafter.di
 import com.sirmarty.drinkcrafter.data.dao.DrinkDetailDao
 import com.sirmarty.drinkcrafter.data.repository.CategoriesDataRepository
 import com.sirmarty.drinkcrafter.data.repository.DrinkDataRepository
+import com.sirmarty.drinkcrafter.data.repository.IngredientDataRepository
 import com.sirmarty.drinkcrafter.data.repository.SearchDataRepository
 import com.sirmarty.drinkcrafter.data.service.GetCategoryListService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkDetailService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkListByIngredientService
 import com.sirmarty.drinkcrafter.data.service.GetDrinkListService
+import com.sirmarty.drinkcrafter.data.service.GetIngredientDetailService
 import com.sirmarty.drinkcrafter.data.service.GetRandomDrinkDetailService
 import com.sirmarty.drinkcrafter.data.service.SearchDrinkByNameService
 import com.sirmarty.drinkcrafter.domain.repository.CategoriesRepository
 import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
+import com.sirmarty.drinkcrafter.domain.repository.IngredientRepository
 import com.sirmarty.drinkcrafter.domain.repository.SearchRepository
 import dagger.Module
 import dagger.Provides
@@ -73,6 +76,12 @@ class NetworkModule {
         return retrofit.create(GetRandomDrinkDetailService::class.java)
     }
 
+    @Singleton
+    @Provides
+    fun provideGetIngredientDetailService(retrofit: Retrofit): GetIngredientDetailService {
+        return retrofit.create(GetIngredientDetailService::class.java)
+    }
+
     // endregion
     //==============================================================================================
     // region Repositories
@@ -102,6 +111,11 @@ class NetworkModule {
     @Provides
     fun provideSearchRepository(searchDrinkByNameService: SearchDrinkByNameService): SearchRepository {
         return SearchDataRepository(searchDrinkByNameService)
+    }
+
+    @Provides
+    fun provideIngredientRepository(getIngredientDetailService: GetIngredientDetailService): IngredientRepository {
+        return IngredientDataRepository(getIngredientDetailService)
     }
 
     // endregion
