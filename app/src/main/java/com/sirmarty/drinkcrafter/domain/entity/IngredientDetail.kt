@@ -5,6 +5,6 @@ data class IngredientDetail(
     val name: String,
     val description: String,
     val type: String,
-    val alcohol: String,
+    val alcohol: Boolean,
     val abv: String
 )

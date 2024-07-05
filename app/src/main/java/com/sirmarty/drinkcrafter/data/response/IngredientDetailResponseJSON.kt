@@ -25,7 +25,7 @@ private fun IngredientDetailJSON.toDomain(): IngredientDetail {
         name = name,
         description = description,
         type = type,
-        alcohol = alcohol,
+        alcohol = (alcohol == "Yes"),
         abv = abv
     )
 }
