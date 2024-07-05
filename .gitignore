@@ -10,9 +10,11 @@
 /.idea/navEditor.xml
 /.idea/assetWizardSettings.xml
 /.idea/inspectionProfiles
+/.idea/inspectionProfiles/Project_Default.xml
 /.idea/gradle.xml
 .idea/gradle.xml
 /.idea/deploymentTargetSelector.xml
+/.idea/deploymentTargetDropDown.xml
 
 .DS_Store
 /build
