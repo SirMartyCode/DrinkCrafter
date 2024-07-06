@@ -14,19 +14,33 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -50,41 +64,35 @@ fun IngredientScreen(
     viewModel: IngredientViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
-    val context = LocalContext.current
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
         viewModel.getData(ingredient)
     }
 
-    Scaffold { innerPadding ->
-        Box(
-            Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
-            when (uiState) {
-                is UiState.Error -> {
-                    Text(
-                        text = (uiState as UiState.Error).throwable.message
-                            ?: "UNKNOWN ERROR",
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-
-                UiState.Loading -> {
-                    CircularProgressIndicator(Modifier.align(Alignment.Center))
-                }
-
-                is UiState.Success -> {
-                    IngredientView(
-                        context,
-                        (uiState as UiState.Success).value,
-                        onDrinkClick,
-                        onBackClick
-                    )
-                }
+    when (uiState) {
+        is UiState.Error -> {
+            Box(Modifier.fillMaxSize()) {
+                Text(
+                    text = (uiState as UiState.Error).throwable.message
+                        ?: "UNKNOWN ERROR",
+                    modifier = Modifier.align(Alignment.Center)
+                )
             }
+        }
+
+        UiState.Loading -> {
+            Box(Modifier.fillMaxSize()) {
+                CircularProgressIndicator(Modifier.align(Alignment.Center))
+            }
+        }
+
+        is UiState.Success -> {
+            IngredientDetailLayout(
+                (uiState as UiState.Success).value,
+                onDrinkClick,
+                onBackClick
+            )
         }
     }
 }
@@ -93,36 +101,105 @@ fun IngredientScreen(
 //==================================================================================================
 //region Private composable
 
-// TODO: add top app bar and handle onBackClick
 @Composable
-private fun IngredientView(
-    context: Context,
+private fun IngredientDetailLayout(
     data: Pair<IngredientDetail, List<Drink>>,
     onDrinkClick: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {
+    val context = LocalContext.current
     val ingredientDetail = data.first
     val drinkList = data.second
 
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+    var appBarHeight by remember { mutableFloatStateOf(0f) }
+    val titleBottomOffset = remember { mutableStateOf<Float?>(null) }
 
-    ) {
-        item {
-            IngredientInfo(context, ingredientDetail)
+    val showTitle =
+        if (titleBottomOffset.value != null) titleBottomOffset.value!! <= appBarHeight else false
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                Modifier.onGloballyPositioned { coordinates ->
+                    appBarHeight = coordinates.positionInRoot().y + coordinates.size.height
+                },
+                context,
+                ingredientDetail.name,
+                showTitle,
+                onBackClick
+            )
         }
-        items(drinkList) { item ->
-            DrinkItem(context, item, onDrinkClick)
+    ) { innerPadding ->
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(innerPadding),
+            contentPadding = PaddingValues(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            item {
+                IngredientInfo(context, ingredientDetail, titleBottomOffset)
+            }
+            items(drinkList) { item ->
+                DrinkItem(context, item, onDrinkClick)
+            }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TopAppBar(
+    modifier: Modifier,
+    context: Context,
+    title: String,
+    showTitle: Boolean,
+    onBackClick: () -> Unit
+) {
+    CenterAlignedTopAppBar(
+        modifier = modifier,
+        title = {
+            if (showTitle) {
+                Text(
+                    text = title,
+                    Modifier.padding(end = 16.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+            }
+        },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color.White,
+            titleContentColor = Color.Black
+        ),
+        navigationIcon = {
+            IconButton(
+                onClick = onBackClick,
+                modifier = Modifier.clip(CircleShape),
+                colors = IconButtonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.Black,
+                    // It should never be disabled
+                    disabledContainerColor = Color.Unspecified,
+                    disabledContentColor = Color.Unspecified
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    contentDescription = context.getString(R.string.drink_detail_back_arrow)
+                )
+            }
+        }
+    )
 }
 
 @Composable
 private fun IngredientInfo(
     context: Context,
-    ingredientDetail: IngredientDetail
+    ingredientDetail: IngredientDetail,
+    titleBottomOffset: MutableState<Float?>
 ) {
     Column(
         Modifier
@@ -130,7 +207,12 @@ private fun IngredientInfo(
     ) {
         Text(
             text = ingredientDetail.name,
-            Modifier.fillMaxWidth(),
+            Modifier
+                .fillMaxWidth()
+                .onGloballyPositioned { coordinates ->
+                    titleBottomOffset.value =
+                        coordinates.positionInRoot().y + coordinates.size.height
+                },
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
@@ -190,7 +272,6 @@ private fun ExpandableIngredientDescription(
 @Composable
 fun IngredientScreenPreview() {
 
-    val context = LocalContext.current
     val ingredientDetail = IngredientDetail(
         0,
         "Ingredient",
@@ -215,13 +296,12 @@ fun IngredientScreenPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        IngredientView(
-            context,
+        IngredientDetailLayout(
             Pair(ingredientDetail, drinkList),
             onDrinkClick = {},
-            onBackClick = {})
+            onBackClick = {}
+        )
     }
-
 }
 
 //endregion
