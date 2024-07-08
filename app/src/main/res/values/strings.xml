@@ -30,7 +30,6 @@
     <string name="search_bar_clear">Clear icon</string>
     <string name="search_bar_empty_result">No coincidences found with your search</string>
 
-
     <!-- Drink list Component-->
     <string name="drink_list_image">Drink image</string>
     <string name="drink_list_show_details">Show details</string>
@@ -45,5 +44,10 @@
     <string name="quick_find_gin">Gin</string>
     <string name="quick_find_whiskey">Whiskey</string>
     <string name="quick_find_jager">Jäger</string>
+
+    <!-- Ingredient detail -->
+    <string name="ingredient_detail_alcoholic">(Alcoholic - %1$s abv)</string>
+    <string name="ingredient_detail_non_alcoholic">(Non alcoholic)</string>
+    <string name="ingredient_detail_read_more">Read more</string>
 
 </resources>

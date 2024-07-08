@@ -2,6 +2,7 @@ package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
 import android.app.Activity
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -143,6 +144,7 @@ private fun DrinkDetailLayout(
         Column(
             modifier = Modifier
                 .fillMaxSize()
+                .background(Color.White)
                 // Enable scrolling to the entire page
                 .verticalScroll(rememberScrollState())
                 .padding(
