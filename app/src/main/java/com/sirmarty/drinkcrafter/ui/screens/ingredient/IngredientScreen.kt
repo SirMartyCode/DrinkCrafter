@@ -133,6 +133,7 @@ private fun IngredientDetailLayout(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
+                .background(Color.White)
                 .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
