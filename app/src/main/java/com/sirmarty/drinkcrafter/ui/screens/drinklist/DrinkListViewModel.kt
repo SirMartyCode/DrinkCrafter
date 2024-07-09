@@ -17,7 +17,16 @@ class DrinkListViewModel @Inject constructor(private val getDrinkListUseCase: Ge
     private val _uiState = MutableLiveData<UiState<List<Drink>>>()
     val uiState: LiveData<UiState<List<Drink>>> = _uiState
 
+    private var lastCategoryName: String = ""
+
     fun getDrinkList(categoryName: String) {
+        if (lastCategoryName == categoryName ) {
+            // We don't want to execute the use case if the category provided is exactly
+            // the same we searched for the last time
+            return
+        }
+
+        lastCategoryName = categoryName
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {
