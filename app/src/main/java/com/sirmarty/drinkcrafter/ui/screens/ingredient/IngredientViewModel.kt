@@ -22,7 +22,17 @@ class IngredientViewModel @Inject constructor(
     private val _uiState = MutableLiveData<UiState<Pair<IngredientDetail, List<Drink>>>>()
     val uiState: LiveData<UiState<Pair<IngredientDetail, List<Drink>>>> = _uiState
 
+    private var lastIngredient: String = ""
+
     fun getData(ingredient: String) {
+        if (lastIngredient == ingredient) {
+            // We don't want to execute the use case if the ingredient provided is exactly
+            // the same we searched for the last time
+            return
+        }
+
+        lastIngredient = ingredient
+
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {

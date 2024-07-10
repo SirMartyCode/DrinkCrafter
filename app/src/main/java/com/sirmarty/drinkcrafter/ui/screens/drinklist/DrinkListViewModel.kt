@@ -27,6 +27,7 @@ class DrinkListViewModel @Inject constructor(private val getDrinkListUseCase: Ge
         }
 
         lastCategoryName = categoryName
+
         viewModelScope.launch {
             _uiState.value = UiState.Loading
             try {
