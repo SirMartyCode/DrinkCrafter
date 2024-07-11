@@ -35,7 +35,7 @@ class DrinkSearchViewModel @Inject constructor(
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
             try {
-                val response = searchDrinkByNameUseCase.searchDrinkByName(text)
+                val response = searchDrinkByNameUseCase.execute(text)
                 mutableUiState.value = UiState.Success(response)
             } catch (e: Exception) {
                 manageErrors(e)

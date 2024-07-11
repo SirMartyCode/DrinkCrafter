@@ -5,7 +5,7 @@ import com.sirmarty.drinkcrafter.domain.repository.SearchRepository
 import javax.inject.Inject
 
 class SearchDrinkByNameUseCase @Inject constructor(private val searchDrinkRepository: SearchRepository) {
-    suspend fun searchDrinkByName(text: String): List<Drink> {
+    suspend fun execute(text: String): List<Drink> {
         return if (text.isNotEmpty()) {
             searchDrinkRepository.searchDrinkByName(text)
         } else {
