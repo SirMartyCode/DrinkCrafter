@@ -82,7 +82,7 @@ fun IngredientScreen(
         is UiState.Success -> {
             IngredientDetailLayout(
                 data = (uiState as UiState.Success).value,
-                customTopAppBarState = topAppBarState,
+                topAppBarState = topAppBarState,
                 onAppBarHeightUpdated = viewModel::updateAppBarHeight,
                 onTitleBottomOffsetUpdated = viewModel::updateTitleBottomOffset,
                 onDrinkClick = onDrinkClick,
@@ -99,7 +99,7 @@ fun IngredientScreen(
 @Composable
 private fun IngredientDetailLayout(
     data: Pair<IngredientDetail, List<Drink>>,
-    customTopAppBarState: CustomTopAppBarState,
+    topAppBarState: CustomTopAppBarState,
     onAppBarHeightUpdated: (Float) -> Unit,
     onTitleBottomOffsetUpdated: (Float) -> Unit,
     onDrinkClick: (Int) -> Unit,
@@ -116,7 +116,7 @@ private fun IngredientDetailLayout(
                     onAppBarHeightUpdated(coordinates.positionInRoot().y + coordinates.size.height)
                 },
                 context,
-                customTopAppBarState,
+                topAppBarState,
                 ingredientDetail.name,
                 onBackClick
             )
