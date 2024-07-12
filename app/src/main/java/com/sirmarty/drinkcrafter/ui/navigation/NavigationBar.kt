@@ -2,13 +2,16 @@ package com.sirmarty.drinkcrafter.ui.navigation
 
 import android.content.Context
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -44,12 +47,14 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
                 selectedIcon = {
                     Icon(
                         painter = painterResource(item.selectedIcon),
+                        modifier = Modifier.size(24.dp),
                         contentDescription = context.getString(R.string.navigation_bar_item_selected_icon)
                     )
                 },
                 unselectedIcon = {
                     Icon(
                         painter = painterResource(item.unselectedIcon),
+                        modifier = Modifier.size(24.dp),
                         contentDescription = context.getString(R.string.navigation_bar_item_unselected_icon)
                     )
                 }
