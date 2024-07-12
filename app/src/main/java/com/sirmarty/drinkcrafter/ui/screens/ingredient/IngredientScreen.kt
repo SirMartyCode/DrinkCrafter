@@ -14,30 +14,19 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
@@ -54,6 +43,8 @@ import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.domain.entity.IngredientDetail
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkItem
+import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBar
+import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarState
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
@@ -64,6 +55,7 @@ fun IngredientScreen(
     viewModel: IngredientViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
+    val topAppBarState by viewModel.topAppBarState.collectAsState()
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
@@ -89,9 +81,12 @@ fun IngredientScreen(
 
         is UiState.Success -> {
             IngredientDetailLayout(
-                (uiState as UiState.Success).value,
-                onDrinkClick,
-                onBackClick
+                data = (uiState as UiState.Success).value,
+                customTopAppBarState = topAppBarState,
+                onAppBarHeightUpdated = viewModel::updateAppBarHeight,
+                onTitleBottomOffsetUpdated = viewModel::updateTitleBottomOffset,
+                onDrinkClick = onDrinkClick,
+                onBackClick = onBackClick
             )
         }
     }
@@ -104,6 +99,9 @@ fun IngredientScreen(
 @Composable
 private fun IngredientDetailLayout(
     data: Pair<IngredientDetail, List<Drink>>,
+    customTopAppBarState: CustomTopAppBarState,
+    onAppBarHeightUpdated: (Float) -> Unit,
+    onTitleBottomOffsetUpdated: (Float) -> Unit,
     onDrinkClick: (Int) -> Unit,
     onBackClick: () -> Unit
 ) {
@@ -111,21 +109,15 @@ private fun IngredientDetailLayout(
     val ingredientDetail = data.first
     val drinkList = data.second
 
-    var appBarHeight by remember { mutableFloatStateOf(0f) }
-    val titleBottomOffset = remember { mutableStateOf<Float?>(null) }
-
-    val showTitle =
-        if (titleBottomOffset.value != null) titleBottomOffset.value!! <= appBarHeight else false
-
     Scaffold(
         topBar = {
-            TopAppBar(
+            CustomTopAppBar(
                 Modifier.onGloballyPositioned { coordinates ->
-                    appBarHeight = coordinates.positionInRoot().y + coordinates.size.height
+                    onAppBarHeightUpdated(coordinates.positionInRoot().y + coordinates.size.height)
                 },
                 context,
+                customTopAppBarState,
                 ingredientDetail.name,
-                showTitle,
                 onBackClick
             )
         }
@@ -139,7 +131,7 @@ private fun IngredientDetailLayout(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
-                IngredientInfo(context, ingredientDetail, titleBottomOffset)
+                IngredientInfo(context, ingredientDetail, onTitleBottomOffsetUpdated)
             }
             items(drinkList) { item ->
                 DrinkItem(context, item, onDrinkClick)
@@ -148,59 +140,11 @@ private fun IngredientDetailLayout(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TopAppBar(
-    modifier: Modifier,
-    context: Context,
-    title: String,
-    showTitle: Boolean,
-    onBackClick: () -> Unit
-) {
-    CenterAlignedTopAppBar(
-        modifier = modifier,
-        title = {
-            if (showTitle) {
-                Text(
-                    text = title,
-                    Modifier.padding(end = 16.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.White,
-            titleContentColor = Color.Black
-        ),
-        navigationIcon = {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.clip(CircleShape),
-                colors = IconButtonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = Color.Black,
-                    // It should never be disabled
-                    disabledContainerColor = Color.Unspecified,
-                    disabledContentColor = Color.Unspecified
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = context.getString(R.string.drink_detail_back_arrow)
-                )
-            }
-        }
-    )
-}
-
 @Composable
 private fun IngredientInfo(
     context: Context,
     ingredientDetail: IngredientDetail,
-    titleBottomOffset: MutableState<Float?>
+    onTitleBottomOffsetUpdated: (Float) -> Unit
 ) {
     Column(
         Modifier
@@ -211,8 +155,7 @@ private fun IngredientInfo(
             Modifier
                 .fillMaxWidth()
                 .onGloballyPositioned { coordinates ->
-                    titleBottomOffset.value =
-                        coordinates.positionInRoot().y + coordinates.size.height
+                    onTitleBottomOffsetUpdated(coordinates.positionInRoot().y + coordinates.size.height)
                 },
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
@@ -299,8 +242,11 @@ fun IngredientScreenPreview() {
     ) {
         IngredientDetailLayout(
             Pair(ingredientDetail, drinkList),
+            CustomTopAppBarState.SOLID,
+            onAppBarHeightUpdated = {},
+            onTitleBottomOffsetUpdated = {},
             onDrinkClick = {},
-            onBackClick = {}
+            onBackClick = {},
         )
     }
 }
