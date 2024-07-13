@@ -50,4 +50,7 @@
     <string name="ingredient_detail_non_alcoholic">(Non alcoholic)</string>
     <string name="ingredient_detail_read_more">Read more</string>
 
+    <!-- Saved Screen -->
+    <string name="saved_no_saved_drinks">You still don\'t have any cocktails saved on your phone</string>
+
 </resources>
