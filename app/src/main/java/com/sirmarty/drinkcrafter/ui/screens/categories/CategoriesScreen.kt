@@ -1,7 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.screens.categories
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,12 +24,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
@@ -80,13 +80,16 @@ fun CategoryList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(categories) {
+        items(
+            items = categories,
+            key = { it.name }
+        ) {
             CategoryItem(context, it, onCategoryClick)
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
     ElevatedCard(
@@ -96,9 +99,12 @@ fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick:
             defaultElevation = 6.dp
         )
     ) {
-        Box(Modifier.fillMaxSize()) {
-            Image(
-                painterResource(category.image),
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color.LightGray)) {
+            GlideImage(
+                model = category.image,
                 contentDescription = context.getString(R.string.categories_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.aspectRatio(16f / 9f)
