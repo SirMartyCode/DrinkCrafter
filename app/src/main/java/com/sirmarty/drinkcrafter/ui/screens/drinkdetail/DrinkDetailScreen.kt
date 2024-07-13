@@ -259,7 +259,7 @@ private fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
     Column(Modifier.fillMaxWidth()) {
         drinkDetail.ingredients.forEach { ingredient ->
             Text(
-                text = "- ${ingredient.measure} ${ingredient.name}",
+                text = "- $ingredient",
                 fontSize = 14.sp
             )
         }
