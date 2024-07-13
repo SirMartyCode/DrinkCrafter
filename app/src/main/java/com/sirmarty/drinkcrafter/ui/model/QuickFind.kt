@@ -2,8 +2,10 @@ package com.sirmarty.drinkcrafter.ui.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Immutable
 import com.sirmarty.drinkcrafter.R
 
+@Immutable
 enum class QuickFind(val ingredient: String, @StringRes val text: Int, @DrawableRes val image: Int) {
     Rum("Rum", R.string.quick_find_rum, R.drawable.ic_rum),
     Vodka("Vodka", R.string.quick_find_vodka, R.drawable.ic_vodka),

@@ -39,30 +39,14 @@ fun SearchScreen(
     onSearchByNameClick: () -> Unit,
     onRandomCocktailClick: () -> Unit
 ) {
-    Box(
+    val context = LocalContext.current
+
+    Column(
         Modifier
             .fillMaxSize()
             .background(Color.White)
             .verticalScroll(rememberScrollState())
-    ) {
-        SearchLayout(
-            onQuickFindClick,
-            onSearchByNameClick,
-            onRandomCocktailClick
-        )
-    }
-}
-
-@Composable
-fun SearchLayout(
-    onQuickFindClick: (String) -> Unit,
-    onSearchByNameClick: () -> Unit,
-    onRandomCocktailClick: () -> Unit
-) {
-    val context = LocalContext.current
-
-    Column(
-        Modifier.padding(16.dp)
+            .padding(16.dp)
     ) {
         Text(
             text = context.getString(R.string.search_quick_finds),
@@ -71,7 +55,7 @@ fun SearchLayout(
             fontWeight = FontWeight.Bold
         )
         Spacer(Modifier.height(8.dp))
-        QuickFinds(Modifier, onQuickFindClick)
+        QuickFinds(Modifier.fillMaxWidth(), onQuickFindClick)
         Spacer(Modifier.height(16.dp))
         CustomElevatedCard(
             onSearchByNameClick,
@@ -87,6 +71,7 @@ fun SearchLayout(
             ""
         )
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -127,14 +112,9 @@ fun CustomElevatedCard(
 @Preview
 @Composable
 fun SearchPreview() {
-    Box(
-        Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-
-        SearchLayout(onQuickFindClick = {},
-            onSearchByNameClick = {},
-            onRandomCocktailClick = {})
-    }
+    SearchScreen(
+        onQuickFindClick = {},
+        onSearchByNameClick = {},
+        onRandomCocktailClick = {}
+    )
 }
