@@ -1,15 +1,11 @@
 package com.sirmarty.drinkcrafter.ui.screens.categories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sirmarty.drinkcrafter.domain.usecase.GetCategoryListUseCase
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorViewModel
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -17,43 +13,24 @@ import javax.inject.Inject
 class CategoriesViewModel @Inject constructor(
     private val getCategoryListUseCase: GetCategoryListUseCase,
     private val categoryImageMapper: CategoryImageMapper
-): ViewModel() {
-
-    private val _uiState = MutableLiveData<UiState<List<CategoryWithImage>>>()
-    val uiState: LiveData<UiState<List<CategoryWithImage>>> = _uiState
-
-    private val _showErrorDialog = MutableStateFlow(false)
-    val showErrorDialog = _showErrorDialog.asStateFlow()
+): ErrorViewModel<List<CategoryWithImage>>() {
 
     init {
-        getCategories()
+        getData()
     }
 
-    fun retryRequest() {
-        getCategories()
-    }
-
-    fun hideErrorDialog() {
-        _showErrorDialog.value = false
-    }
-
-    private fun getCategories() {
+    override fun getData() {
         viewModelScope.launch {
-            _uiState.value = UiState.Loading
+            mutableUiState.value = UiState.Loading
             try {
                 val response = getCategoryListUseCase.execute()
                 val categoriesWithImages = response.map { category ->
                     categoryImageMapper.getCategoryWithImageForCategoryName(category.name)
                 }
-                _uiState.value = UiState.Success(categoriesWithImages)
+                mutableUiState.value = UiState.Success(categoriesWithImages)
             } catch (e: Exception) {
                 manageErrors(e)
             }
         }
-    }
-
-    private fun manageErrors(e: Exception) {
-        _showErrorDialog.value = true
-        _uiState.value = UiState.Error(e)
     }
 }
