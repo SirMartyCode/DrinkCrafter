@@ -17,6 +17,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -32,6 +33,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -44,6 +46,8 @@ fun CategoriesScreen(
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
     val context = LocalContext.current
 
+    val showErrorDialog by viewModel.showErrorDialog.collectAsState()
+
     Box(
         Modifier
             .fillMaxSize()
@@ -51,10 +55,13 @@ fun CategoriesScreen(
     ) {
         when (uiState) {
             is UiState.Error -> {
-                Text(
-                    text = (uiState as UiState.Error).throwable.message
-                        ?: "UNKNOWN ERROR",
-                    modifier = Modifier.align(Alignment.Center)
+                val errorMessage = (uiState as UiState.Error).throwable.message
+                ErrorLayout(
+                    showErrorDialog = showErrorDialog,
+                    title = "Error",
+                    text = errorMessage,
+                    onDismissRequest = { viewModel.hideErrorDialog() },
+                    onConfirmation = { viewModel.retryRequest() }
                 )
             }
 
@@ -102,7 +109,8 @@ fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick:
         Box(
             Modifier
                 .fillMaxSize()
-                .background(Color.LightGray)) {
+                .background(Color.LightGray)
+        ) {
             GlideImage(
                 model = category.image,
                 contentDescription = context.getString(R.string.categories_image),
