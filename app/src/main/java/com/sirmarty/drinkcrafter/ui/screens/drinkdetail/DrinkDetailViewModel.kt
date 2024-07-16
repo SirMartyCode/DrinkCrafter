@@ -24,7 +24,7 @@ class DrinkDetailViewModel @Inject constructor(
     }
 
     // TopBar state management
-    private var _topAppBarState = MutableStateFlow(CustomTopAppBarState.SOLID)
+    private var _topAppBarState = MutableStateFlow(CustomTopAppBarState.TRANSPARENT)
     var topAppBarState = _topAppBarState.asStateFlow()
 
     private val _appBarHeight = MutableStateFlow<Float?>(null)
