@@ -14,6 +14,7 @@ class DrinkListViewModel @Inject constructor(
     private val getDrinkListUseCase: GetDrinkListUseCase
 ): ErrorViewModel<List<Drink>>() {
 
+    // Aux variable to remember last request
     private var lastCategoryName: String = ""
 
     fun getDrinkList(categoryName: String) {

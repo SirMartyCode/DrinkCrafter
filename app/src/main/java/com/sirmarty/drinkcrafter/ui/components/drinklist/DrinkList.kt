@@ -40,7 +40,7 @@ import com.sirmarty.drinkcrafter.domain.entity.Drink
 @Composable
 fun DrinkList(context: Context, drinks: List<Drink>, onDrinkClick: (Int) -> Unit) {
     LazyColumn(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {

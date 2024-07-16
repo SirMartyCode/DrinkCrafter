@@ -45,6 +45,7 @@ import com.sirmarty.drinkcrafter.domain.entity.IngredientDetail
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkItem
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBar
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarState
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
@@ -55,6 +56,7 @@ fun IngredientScreen(
     viewModel: IngredientViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
+    val showErrorDialog by viewModel.showErrorDialog.collectAsState()
     val topAppBarState by viewModel.topAppBarState.collectAsState()
 
     // Avoid making the request each time the screen is recomposed
@@ -64,13 +66,12 @@ fun IngredientScreen(
 
     when (uiState) {
         is UiState.Error -> {
-            Box(Modifier.fillMaxSize()) {
-                Text(
-                    text = (uiState as UiState.Error).throwable.message
-                        ?: "UNKNOWN ERROR",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            ErrorLayout(
+                throwable = (uiState as UiState.Error).throwable,
+                showErrorDialog = showErrorDialog,
+                onDismissRequest = { viewModel.hideErrorDialog() },
+                onConfirmation = { viewModel.retryRequest() }
+            )
         }
 
         UiState.Loading -> {
@@ -214,7 +215,7 @@ private fun ExpandableIngredientDescription(
 
 @Preview
 @Composable
-fun IngredientScreenPreview() {
+private fun IngredientScreenPreview() {
 
     val ingredientDetail = IngredientDetail(
         0,

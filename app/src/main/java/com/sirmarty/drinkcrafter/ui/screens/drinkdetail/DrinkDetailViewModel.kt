@@ -31,6 +31,7 @@ class DrinkDetailViewModel @Inject constructor(
     private val _imageBottomOffset = MutableStateFlow<Float?>(null)
     private val _titleBottomOffset = MutableStateFlow<Float?>(null)
 
+    // Aux variable to remember last request
     private var lastDrinkId: Int? = null
 
     fun getDrinkDetail(id: Int) {

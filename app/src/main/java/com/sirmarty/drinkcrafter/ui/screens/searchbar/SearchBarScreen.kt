@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -31,6 +32,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
@@ -40,6 +42,7 @@ fun SearchBarScreen(
 ) {
     val query: String by viewModel.query.observeAsState(initial = "")
     val uiState by viewModel.uiState.observeAsState()
+    val showErrorDialog by viewModel.showErrorDialog.collectAsState()
 
     Box(
         Modifier
@@ -47,14 +50,20 @@ fun SearchBarScreen(
             .background(Color.White)
     ) {
         SearchBarLayout(
-            uiState,
-            query,
+            uiState = uiState,
+            query = query,
+            showErrorDialog = showErrorDialog,
             onQueryChange = { viewModel.onQueryChanged(it) },
             onTrailingIconClick = { viewModel.clearSearch() },
-            onDrinkClick = onDrinkClick
+            onDrinkClick = onDrinkClick,
+            onHideErrorDialog = { viewModel.hideErrorDialog() },
+            onRetryRequest = { viewModel.retryRequest() }
         )
     }
 }
+
+//==================================================================================================
+//region Private composable
 
 /**
  * As a aesthetic decision, the SearchBar "active" parameter will always be set to false
@@ -65,9 +74,12 @@ fun SearchBarScreen(
 fun SearchBarLayout(
     uiState: UiState<List<Drink>>?,
     query: String,
+    showErrorDialog: Boolean,
     onQueryChange: (String) -> Unit,
     onTrailingIconClick: () -> Unit,
-    onDrinkClick: (Int) -> Unit
+    onDrinkClick: (Int) -> Unit,
+    onHideErrorDialog: () -> Unit,
+    onRetryRequest: () -> Unit
 ) {
 
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -100,37 +112,26 @@ fun SearchBarLayout(
 
         HorizontalDivider(Modifier.fillMaxWidth())
 
-        Box(Modifier.fillMaxSize()) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
             when (uiState) {
                 is UiState.Error -> {
-                    Text(
-                        text = uiState.throwable.message ?: "UNKNOWN ERROR",
-                        modifier = Modifier.align(Alignment.Center)
+                    ErrorLayout(
+                        throwable = uiState.throwable,
+                        showErrorDialog = showErrorDialog,
+                        onDismissRequest = onHideErrorDialog,
+                        onConfirmation = onRetryRequest
                     )
                 }
 
                 UiState.Loading -> {
-                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                    CircularProgressIndicator()
                 }
 
                 is UiState.Success -> {
-                    // empty query = no search
-                    if(query.isNotEmpty()) {
-                        if (uiState.value.isNotEmpty()) {
-                            // query + search result = drink list
-                            DrinkList(
-                                context,
-                                drinks = uiState.value,
-                                onDrinkClick
-                            )
-                        } else {
-                            // query + empty search result = no coincidences
-                            Text(
-                                text = context.getString(R.string.search_bar_empty_result),
-                                modifier = Modifier.align(Alignment.Center)
-                            )
-                        }
-                    }
+                    SearchResult(context, uiState.value, query, onDrinkClick)
                 }
 
                 else -> {
@@ -142,7 +143,32 @@ fun SearchBarLayout(
 }
 
 @Composable
-fun SearchBarLeadingIcon(context: Context) {
+private fun SearchResult(
+    context: Context,
+    drinkList: List<Drink>,
+    query: String,
+    onDrinkClick: (Int) -> Unit
+) {
+    // empty query = no search
+    if (query.isNotEmpty()) {
+        if (drinkList.isNotEmpty()) {
+            // query + search result = drink list
+            DrinkList(
+                context,
+                drinks = drinkList,
+                onDrinkClick
+            )
+        } else {
+            // query + empty search result = no coincidences
+            Text(
+                text = context.getString(R.string.search_bar_empty_result),
+            )
+        }
+    }
+}
+
+@Composable
+private fun SearchBarLeadingIcon(context: Context) {
     Icon(
         imageVector = Icons.Outlined.Search,
         contentDescription = context.getString(R.string.search_bar_search)
@@ -150,7 +176,7 @@ fun SearchBarLeadingIcon(context: Context) {
 }
 
 @Composable
-fun SearchBarTrailingIcon(
+private fun SearchBarTrailingIcon(
     context: Context, query: String, onClick: () -> Unit
 ) {
     if (query.isNotEmpty()) {
@@ -163,9 +189,13 @@ fun SearchBarTrailingIcon(
     }
 }
 
+//endregion
+//==================================================================================================
+//region Preview
+
 @Preview
 @Composable
-fun SearchBarScreenPreview() {
+private fun SearchBarScreenPreview() {
 
     val drinks = listOf(
         Drink(1, "Drink1", "Image1"),
@@ -181,10 +211,16 @@ fun SearchBarScreenPreview() {
             .background(Color.White)
     ) {
         SearchBarLayout(
-            uiState,
-            "",
+            uiState = uiState,
+            query = "",
+            showErrorDialog = false,
             onQueryChange = {},
-            onTrailingIconClick = {}
-        ) {}
+            onTrailingIconClick = {},
+            onDrinkClick = {},
+            onHideErrorDialog = {},
+            onRetryRequest = {}
+        )
     }
 }
+
+//endregion

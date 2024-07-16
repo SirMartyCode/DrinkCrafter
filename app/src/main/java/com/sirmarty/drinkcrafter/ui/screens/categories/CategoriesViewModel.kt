@@ -19,6 +19,9 @@ class CategoriesViewModel @Inject constructor(
         getCategories()
     }
 
+    //==============================================================================================
+    //region ErrorViewModel methods
+
     private fun getCategories() {
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
@@ -34,6 +37,7 @@ class CategoriesViewModel @Inject constructor(
         }
     }
 
+    //endregion
     //==============================================================================================
     //region ErrorViewModel methods
 

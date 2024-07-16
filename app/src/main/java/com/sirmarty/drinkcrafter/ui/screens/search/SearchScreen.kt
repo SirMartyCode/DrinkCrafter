@@ -61,22 +61,25 @@ fun SearchScreen(
             onSearchByNameClick,
             R.drawable.image_search_cocktail,
             context.getString(R.string.search_search_by_name),
-            ""
+            context.getString(R.string.search_search_by_name)
         )
         Spacer(Modifier.height(16.dp))
         CustomElevatedCard(
             onRandomCocktailClick,
             R.drawable.image_random_cocktail,
             context.getString(R.string.search_get_random_cocktail),
-            ""
+            context.getString(R.string.search_get_random_cocktail)
         )
     }
 
 }
 
+//==================================================================================================
+//region Preview
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun CustomElevatedCard(
+private fun CustomElevatedCard(
     onCardClick: () -> Unit,
     @DrawableRes resource: Int,
     cardText: String,
@@ -109,12 +112,18 @@ fun CustomElevatedCard(
     }
 }
 
+//endregion
+//==================================================================================================
+//region Preview
+
 @Preview
 @Composable
-fun SearchPreview() {
+private fun SearchPreview() {
     SearchScreen(
         onQuickFindClick = {},
         onSearchByNameClick = {},
         onRandomCocktailClick = {}
     )
 }
+
+//endregion
