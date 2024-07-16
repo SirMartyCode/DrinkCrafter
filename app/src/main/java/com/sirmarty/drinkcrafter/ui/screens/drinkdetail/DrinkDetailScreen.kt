@@ -44,6 +44,7 @@ import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBar
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarState
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -55,6 +56,7 @@ fun DrinkDetailScreen(
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
     val topAppBarState by viewModel.topAppBarState.collectAsState()
+    val showErrorDialog by viewModel.showErrorDialog.collectAsState()
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
@@ -63,13 +65,12 @@ fun DrinkDetailScreen(
 
     when (uiState) {
         is UiState.Error -> {
-            Box(Modifier.fillMaxSize()) {
-                Text(
-                    text = (uiState as UiState.Error).throwable.message
-                        ?: "UNKNOWN ERROR",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            ErrorLayout(
+                throwable = (uiState as UiState.Error).throwable,
+                showErrorDialog = showErrorDialog,
+                onDismissRequest = { viewModel.hideErrorDialog() },
+                onConfirmation = { viewModel.retryRequest() }
+            )
         }
 
         UiState.Loading -> {

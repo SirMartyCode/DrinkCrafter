@@ -15,11 +15,7 @@ abstract class ErrorViewModel<T>: ViewModel() {
     private val _showErrorDialog = MutableStateFlow(false)
     val showErrorDialog = _showErrorDialog.asStateFlow()
 
-    abstract fun getData()
-
-    fun retryRequest() {
-        getData()
-    }
+    abstract fun retryRequest()
 
     fun hideErrorDialog() {
         _showErrorDialog.value = false

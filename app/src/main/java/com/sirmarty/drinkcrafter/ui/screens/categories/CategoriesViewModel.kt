@@ -16,10 +16,10 @@ class CategoriesViewModel @Inject constructor(
 ): ErrorViewModel<List<CategoryWithImage>>() {
 
     init {
-        getData()
+        getCategories()
     }
 
-    override fun getData() {
+    private fun getCategories() {
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
             try {
@@ -33,4 +33,13 @@ class CategoriesViewModel @Inject constructor(
             }
         }
     }
+
+    //==============================================================================================
+    //region ErrorViewModel methods
+
+    override fun retryRequest() {
+        getCategories()
+    }
+
+    //endregion
 }

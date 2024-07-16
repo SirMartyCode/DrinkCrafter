@@ -30,17 +30,18 @@ import com.sirmarty.drinkcrafter.R
 
 @Composable
 fun ErrorLayout(
+    throwable: Throwable,
     showErrorDialog: Boolean,
-    title: String,
-    text: String?,
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
 ) {
+    val errorMessage = throwable.message
+
     Box(modifier = Modifier.fillMaxSize()) {
         if (showErrorDialog) {
             ErrorDialog(
-                title = title,
-                text = text,
+                title = "Error",
+                text = errorMessage,
                 onDismiss = onDismissRequest,
                 onConfirmation = onConfirmation
             )
@@ -49,10 +50,11 @@ fun ErrorLayout(
             modifier = Modifier.align(Alignment.Center),
             onClick = onConfirmation
         )
-
     }
 }
 
+//==============================================================================================
+//region Private composable
 
 @Composable
 private fun ErrorDialog(
@@ -123,10 +125,13 @@ private fun RetryButton(
     }
 }
 
+//endregion
+//==============================================================================================
+//region Preview
 
 @Preview
 @Composable
-fun ErrorDialogPreview() {
+private fun ErrorDialogPreview() {
     ErrorDialog(
         title = "Error title",
         text = null,
@@ -137,7 +142,7 @@ fun ErrorDialogPreview() {
 
 @Preview
 @Composable
-fun RetryButtonPreview() {
+private fun RetryButtonPreview() {
     Box(
         Modifier
             .fillMaxSize()
@@ -149,3 +154,5 @@ fun RetryButtonPreview() {
         )
     }
 }
+
+//endregion

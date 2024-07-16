@@ -44,9 +44,9 @@ fun CategoriesScreen(
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
-    val context = LocalContext.current
-
     val showErrorDialog by viewModel.showErrorDialog.collectAsState()
+
+    val context = LocalContext.current
 
     Box(
         Modifier
@@ -55,11 +55,9 @@ fun CategoriesScreen(
     ) {
         when (uiState) {
             is UiState.Error -> {
-                val errorMessage = (uiState as UiState.Error).throwable.message
                 ErrorLayout(
+                    throwable = (uiState as UiState.Error).throwable,
                     showErrorDialog = showErrorDialog,
-                    title = "Error",
-                    text = errorMessage,
                     onDismissRequest = { viewModel.hideErrorDialog() },
                     onConfirmation = { viewModel.retryRequest() }
                 )
@@ -76,8 +74,11 @@ fun CategoriesScreen(
     }
 }
 
+//==================================================================================================
+//region Private composable
+
 @Composable
-fun CategoryList(
+private fun CategoryList(
     context: Context,
     categories: List<CategoryWithImage>,
     onCategoryClick: (String) -> Unit
@@ -98,7 +99,7 @@ fun CategoryList(
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
+private fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
     ElevatedCard(
         onClick = { onCategoryClick(category.name) },
         modifier = Modifier.fillMaxWidth(),
@@ -130,9 +131,13 @@ fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick:
     }
 }
 
+//endregion
+//==================================================================================================
+//region Preview
+
 @Preview
 @Composable
-fun CategoryListPreview() {
+private fun CategoryListPreview() {
     val context = LocalContext.current
     val categories = listOf(
         CategoryWithImage("Category 1", R.drawable.image_default_category),
@@ -150,3 +155,5 @@ fun CategoryListPreview() {
         CategoryList(context, categories, onCategoryClick = {})
     }
 }
+
+//endregion
