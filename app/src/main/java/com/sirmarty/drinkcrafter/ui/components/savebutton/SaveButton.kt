@@ -1,5 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.components.savebutton
 
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
@@ -9,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 
@@ -55,6 +57,7 @@ private fun RealSaveButton(
         val iconResource = if (isSaved.value) R.drawable.ic_saved_filled else R.drawable.ic_saved
         Icon(
             painterResource(iconResource),
+            modifier = Modifier.size(24.dp),
             contentDescription = context.getString(R.string.save_button_icon)
         )
     }
@@ -77,6 +80,7 @@ private fun MockSaveButton(
     ) {
         Icon(
             painterResource(R.drawable.ic_saved_filled),
+            modifier = Modifier.size(24.dp),
             contentDescription = "Mock"
         )
     }

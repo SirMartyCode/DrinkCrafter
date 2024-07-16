@@ -13,9 +13,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 import com.sirmarty.drinkcrafter.ui.screens.UiState
@@ -56,7 +58,16 @@ fun SavedScreen(
             }
 
             is UiState.Success -> {
-                DrinkList(context, drinks = (uiState as UiState.Success).value, onDrinkClick)
+                val drinks = (uiState as UiState.Success).value
+                if (drinks.isEmpty()) {
+                    Text(
+                        text = context.getString(R.string.saved_no_saved_drinks),
+                        modifier = Modifier.align(Alignment.Center),
+                        textAlign = TextAlign.Center
+                    )
+                } else{
+                    DrinkList(context, drinks = (uiState as UiState.Success).value, onDrinkClick)
+                }
             }
         }
     }

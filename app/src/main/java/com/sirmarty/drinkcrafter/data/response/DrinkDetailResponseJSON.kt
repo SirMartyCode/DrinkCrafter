@@ -52,7 +52,7 @@ data class DrinkDetailJSON(
 ) {
     fun addIngredientIfNotNull(ingredient: String?, measure: String?, list: MutableList<Ingredient>) {
         if (ingredient != null) {
-            list.add(Ingredient(ingredient, measure))
+            list.add(Ingredient(ingredient.trim(), measure?.trim()))
         }
     }
 }

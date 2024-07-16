@@ -1,9 +1,7 @@
 package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
-import android.app.Activity
 import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,60 +13,40 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
+import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBar
+import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarState
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
 import com.sirmarty.drinkcrafter.ui.screens.UiState
-
-private enum class TopBarState {
-    TRANSPARENT,
-    WHITE_NO_TITLE,
-    WHITE_TITLE
-}
 
 @Composable
 fun DrinkDetailScreen(
@@ -77,6 +55,8 @@ fun DrinkDetailScreen(
     viewModel: DrinkDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
+    val topAppBarState by viewModel.topAppBarState.collectAsState()
+    val showErrorDialog by viewModel.showErrorDialog.collectAsState()
 
     // Avoid making the request each time the screen is recomposed
     LaunchedEffect(key1 = Unit) {
@@ -85,13 +65,12 @@ fun DrinkDetailScreen(
 
     when (uiState) {
         is UiState.Error -> {
-            Box(Modifier.fillMaxSize()) {
-                Text(
-                    text = (uiState as UiState.Error).throwable.message
-                        ?: "UNKNOWN ERROR",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
+            ErrorLayout(
+                throwable = (uiState as UiState.Error).throwable,
+                showErrorDialog = showErrorDialog,
+                onDismissRequest = { viewModel.hideErrorDialog() },
+                onConfirmation = { viewModel.retryRequest() }
+            )
         }
 
         UiState.Loading -> {
@@ -102,9 +81,13 @@ fun DrinkDetailScreen(
 
         is UiState.Success -> {
             DrinkDetailLayout(
-                (uiState as UiState.Success).value,
-                false,
-                onBackClick
+                drinkDetail = (uiState as UiState.Success).value,
+                previewMode = false,
+                topAppBarState = topAppBarState,
+                onAppBarHeightUpdated = viewModel::updateAppBarHeight,
+                onImageBottomOffsetUpdated = viewModel::updateImageBottomOffset,
+                onTitleBottomOffsetUpdated = viewModel::updateTitleBottomOffset,
+                onBackClick = onBackClick
             )
         }
     }
@@ -117,27 +100,24 @@ fun DrinkDetailScreen(
 private fun DrinkDetailLayout(
     drinkDetail: DrinkDetail,
     previewMode: Boolean,
+    topAppBarState: CustomTopAppBarState,
+    onAppBarHeightUpdated: (Float) -> Unit,
+    onImageBottomOffsetUpdated: (Float) -> Unit,
+    onTitleBottomOffsetUpdated: (Float) -> Unit,
     onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
 
-    var appBarHeight by remember { mutableStateOf(0f) }
-    val imageBottomOffset = remember { mutableStateOf<Float?>(null) }
-    val titleBottomOffset = remember { mutableStateOf<Float?>(null) }
-
-    val topBarState = calculateTopAppBarState(appBarHeight, imageBottomOffset, titleBottomOffset)
-
     Scaffold(
         topBar = {
-            TransparentTopAppBar(
-                Modifier
-                    .onGloballyPositioned { coordinates ->
-                        appBarHeight = coordinates.positionInRoot().y + coordinates.size.height
-                    },
+            CustomTopAppBar(
+                Modifier.onGloballyPositioned { coordinates ->
+                    onAppBarHeightUpdated(coordinates.positionInRoot().y + coordinates.size.height)
+                },
                 context,
-                drinkDetail,
+                topAppBarState,
+                drinkDetail.name,
                 onBackClick,
-                topBarState
             )
         }
     ) { innerPadding ->
@@ -159,102 +139,15 @@ private fun DrinkDetailLayout(
                 modifier = Modifier.fillMaxWidth(),
                 context,
                 drinkDetail,
-                imageBottomOffset
+                onImageBottomOffsetUpdated
             )
             Content(
                 modifier = Modifier.fillMaxWidth(),
                 context,
                 drinkDetail,
                 previewMode,
-                titleBottomOffset
+                onTitleBottomOffsetUpdated
             )
-        }
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-private fun TransparentTopAppBar(
-    modifier: Modifier,
-    context: Context,
-    drinkDetail: DrinkDetail,
-    onBackClick: () -> Unit,
-    topBarState: TopBarState
-) {
-    val view = LocalView.current
-    val window = (context as? Activity)?.window
-    val darkTheme = isSystemInDarkTheme()
-    var isAppearanceLightStatusBars by remember { mutableStateOf(false) }
-
-    val backgroundColor: Color
-    val contentColor: Color
-    val title: String
-
-    when (topBarState) {
-        TopBarState.TRANSPARENT -> {
-            backgroundColor = Color.Transparent
-            contentColor = Color.White
-            title = ""
-            isAppearanceLightStatusBars = false
-        }
-        TopBarState.WHITE_NO_TITLE -> {
-            backgroundColor = Color.White
-            contentColor = Color.Black
-            title = ""
-            isAppearanceLightStatusBars = !darkTheme
-        }
-        TopBarState.WHITE_TITLE -> {
-            backgroundColor = Color.White
-            contentColor = Color.Black
-            title = drinkDetail.name
-            isAppearanceLightStatusBars = !darkTheme
-        }
-    }
-
-    // Change status bar content color to match top bar content color
-    val windowInsetsController = window?.let { WindowInsetsControllerCompat(it, view) }
-    windowInsetsController?.isAppearanceLightStatusBars = isAppearanceLightStatusBars
-
-    CenterAlignedTopAppBar(
-        modifier = modifier,
-        title = {
-            Text(
-                text = title,
-                Modifier.padding(end = 16.dp),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = backgroundColor,
-            titleContentColor = contentColor
-        ),
-        navigationIcon = {
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.clip(CircleShape),
-                colors = IconButtonColors(
-                    containerColor = Color.Transparent,
-                    contentColor = contentColor,
-                    // It should never be disabled
-                    disabledContainerColor = Color.Unspecified,
-                    disabledContentColor = Color.Unspecified
-                )
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                    contentDescription = context.getString(R.string.drink_detail_back_arrow)
-                )
-            }
-        }
-    )
-
-    // Put the content color back to their default value when screen is not showing anymore
-    DisposableEffect(Unit) {
-        onDispose {
-            windowInsetsController?.isAppearanceLightStatusBars = !darkTheme
         }
     }
 }
@@ -265,7 +158,7 @@ private fun Image(
     modifier: Modifier,
     context: Context,
     drinkDetail: DrinkDetail,
-    imageBottomOffset: MutableState<Float?>
+    onImageBottomOffsetUpdated: (Float) -> Unit,
 ) {
     Box(modifier) {
         GlideImage(
@@ -277,8 +170,7 @@ private fun Image(
                 .aspectRatio(1f / 1f)
                 .align(Alignment.Center)
                 .onGloballyPositioned { coordinates ->
-                    imageBottomOffset.value =
-                        coordinates.positionInRoot().y + coordinates.size.height
+                    onImageBottomOffsetUpdated(coordinates.positionInRoot().y + coordinates.size.height)
                 }
         )
 
@@ -299,7 +191,7 @@ private fun Content(
     context: Context,
     drinkDetail: DrinkDetail,
     previewMode: Boolean,
-    titleBottomOffset: MutableState<Float?>
+    onTitleBottomOffsetUpdated: (Float) -> Unit
 ) {
     Box(modifier.fillMaxSize()) {
         Column(
@@ -312,7 +204,7 @@ private fun Content(
                     .fillMaxWidth()
                     .padding(horizontal = 40.dp),
                 drinkDetail,
-                titleBottomOffset
+                onTitleBottomOffsetUpdated
             )
             Spacer(modifier = Modifier.height(24.dp))
             Ingredients(context, drinkDetail)
@@ -334,15 +226,13 @@ private fun Content(
 private fun Header(
     modifier: Modifier,
     drinkDetail: DrinkDetail,
-    titleBottomOffset: MutableState<Float?>
+    onTitleBottomOffsetUpdated: (Float) -> Unit
 ) {
     Text(
         text = drinkDetail.name,
-        modifier = modifier
-            .onGloballyPositioned { coordinates ->
-                titleBottomOffset.value =
-                    coordinates.positionInRoot().y + coordinates.size.height
-            },
+        modifier = modifier.onGloballyPositioned { coordinates ->
+            onTitleBottomOffsetUpdated(coordinates.positionInRoot().y + coordinates.size.height)
+        },
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center
@@ -370,7 +260,7 @@ private fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
     Column(Modifier.fillMaxWidth()) {
         drinkDetail.ingredients.forEach { ingredient ->
             Text(
-                text = "- ${ingredient.measure} ${ingredient.name}",
+                text = "- $ingredient",
                 fontSize = 14.sp
             )
         }
@@ -394,33 +284,6 @@ private fun Instructions(context: Context, drinkDetail: DrinkDetail) {
         text = drinkDetail.instructions,
         fontSize = 14.sp, textAlign = TextAlign.Justify
     )
-}
-
-//endregion
-//==================================================================================================
-//region Private methods
-
-private fun calculateTopAppBarState(
-    appBarHeight: Float,
-    imageBottomOffset: MutableState<Float?>,
-    titleBottomOffset: MutableState<Float?>
-): TopBarState {
-    return when {
-        imageBottomOffset.value != null && titleBottomOffset.value != null -> {
-            if (imageBottomOffset.value!! <= appBarHeight) {
-                if (titleBottomOffset.value!! <= appBarHeight) {
-                    TopBarState.WHITE_TITLE
-                } else {
-                    TopBarState.WHITE_NO_TITLE
-                }
-            } else {
-                TopBarState.TRANSPARENT
-            }
-        }
-        else -> {
-            TopBarState.TRANSPARENT
-        }
-    }
 }
 
 //endregion
@@ -451,7 +314,15 @@ private fun DrinkDetailPreview() {
         ingredientList
     )
 
-    DrinkDetailLayout(drinkDetail, true) {}
+    DrinkDetailLayout(
+        drinkDetail,
+        true,
+        CustomTopAppBarState.TRANSPARENT,
+        onAppBarHeightUpdated = {},
+        onImageBottomOffsetUpdated = {},
+        onTitleBottomOffsetUpdated = {},
+        onBackClick = {}
+    )
 }
 
 //endregion

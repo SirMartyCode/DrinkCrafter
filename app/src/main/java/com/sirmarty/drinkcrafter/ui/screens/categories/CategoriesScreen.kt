@@ -1,11 +1,9 @@
 package com.sirmarty.drinkcrafter.ui.screens.categories
 
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +17,7 @@ import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
@@ -26,13 +25,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
+import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -43,6 +44,8 @@ fun CategoriesScreen(
     viewModel: CategoriesViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
+    val showErrorDialog by viewModel.showErrorDialog.collectAsState()
+
     val context = LocalContext.current
 
     Box(
@@ -52,10 +55,11 @@ fun CategoriesScreen(
     ) {
         when (uiState) {
             is UiState.Error -> {
-                Text(
-                    text = (uiState as UiState.Error).throwable.message
-                        ?: "UNKNOWN ERROR",
-                    modifier = Modifier.align(Alignment.Center)
+                ErrorLayout(
+                    throwable = (uiState as UiState.Error).throwable,
+                    showErrorDialog = showErrorDialog,
+                    onDismissRequest = { viewModel.hideErrorDialog() },
+                    onConfirmation = { viewModel.retryRequest() }
                 )
             }
 
@@ -64,16 +68,17 @@ fun CategoriesScreen(
             }
 
             is UiState.Success -> {
-                Column {
-                    CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
-                }
+                CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
             }
         }
     }
 }
 
+//==================================================================================================
+//region Private composable
+
 @Composable
-fun CategoryList(
+private fun CategoryList(
     context: Context,
     categories: List<CategoryWithImage>,
     onCategoryClick: (String) -> Unit
@@ -83,15 +88,18 @@ fun CategoryList(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(categories) {
+        items(
+            items = categories,
+            key = { it.name }
+        ) {
             CategoryItem(context, it, onCategoryClick)
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
-fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
+private fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
     ElevatedCard(
         onClick = { onCategoryClick(category.name) },
         modifier = Modifier.fillMaxWidth(),
@@ -99,9 +107,13 @@ fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick:
             defaultElevation = 6.dp
         )
     ) {
-        Box(Modifier.fillMaxSize()) {
-            Image(
-                painterResource(category.image),
+        Box(
+            Modifier
+                .fillMaxSize()
+                .background(Color.LightGray)
+        ) {
+            GlideImage(
+                model = category.image,
                 contentDescription = context.getString(R.string.categories_image),
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.aspectRatio(16f / 9f)
@@ -119,9 +131,13 @@ fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick:
     }
 }
 
+//endregion
+//==================================================================================================
+//region Preview
+
 @Preview
 @Composable
-fun CategoryListPreview() {
+private fun CategoryListPreview() {
     val context = LocalContext.current
     val categories = listOf(
         CategoryWithImage("Category 1", R.drawable.image_default_category),
@@ -139,3 +155,5 @@ fun CategoryListPreview() {
         CategoryList(context, categories, onCategoryClick = {})
     }
 }
+
+//endregion

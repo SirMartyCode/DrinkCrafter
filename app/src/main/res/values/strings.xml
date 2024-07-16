@@ -50,4 +50,12 @@
     <string name="ingredient_detail_non_alcoholic">(Non alcoholic)</string>
     <string name="ingredient_detail_read_more">Read more</string>
 
+    <!-- Saved Screen -->
+    <string name="saved_no_saved_drinks">You still don\'t have any cocktails saved on your phone</string>
+    
+    <!-- Error Dialog -->
+    <string name="error_dialog_cancel">Cancel</string>
+    <string name="error_dialog_try_again">Try again</string>
+    <string name="error_dialog_default_message">An unexpected error occurred.\nPlease try again later.</string>
+
 </resources>
