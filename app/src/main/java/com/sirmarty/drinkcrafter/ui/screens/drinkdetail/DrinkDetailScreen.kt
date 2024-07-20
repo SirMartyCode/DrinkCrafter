@@ -2,6 +2,7 @@ package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
 import android.content.Context
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -51,6 +52,7 @@ import com.sirmarty.drinkcrafter.ui.screens.UiState
 @Composable
 fun DrinkDetailScreen(
     drinkId: Int,
+    onIngredientClick: (String) -> Unit,
     onBackClick: () -> Unit,
     viewModel: DrinkDetailViewModel = hiltViewModel()
 ) {
@@ -87,6 +89,7 @@ fun DrinkDetailScreen(
                 onAppBarHeightUpdated = viewModel::updateAppBarHeight,
                 onImageBottomOffsetUpdated = viewModel::updateImageBottomOffset,
                 onTitleBottomOffsetUpdated = viewModel::updateTitleBottomOffset,
+                onIngredientClick = onIngredientClick,
                 onBackClick = onBackClick
             )
         }
@@ -104,6 +107,7 @@ private fun DrinkDetailLayout(
     onAppBarHeightUpdated: (Float) -> Unit,
     onImageBottomOffsetUpdated: (Float) -> Unit,
     onTitleBottomOffsetUpdated: (Float) -> Unit,
+    onIngredientClick: (String) -> Unit,
     onBackClick: () -> Unit
 ) {
     val context = LocalContext.current
@@ -146,7 +150,8 @@ private fun DrinkDetailLayout(
                 context,
                 drinkDetail,
                 previewMode,
-                onTitleBottomOffsetUpdated
+                onTitleBottomOffsetUpdated,
+                onIngredientClick
             )
         }
     }
@@ -191,7 +196,8 @@ private fun Content(
     context: Context,
     drinkDetail: DrinkDetail,
     previewMode: Boolean,
-    onTitleBottomOffsetUpdated: (Float) -> Unit
+    onTitleBottomOffsetUpdated: (Float) -> Unit,
+    onIngredientClick: (String) -> Unit
 ) {
     Box(modifier.fillMaxSize()) {
         Column(
@@ -207,7 +213,7 @@ private fun Content(
                 onTitleBottomOffsetUpdated
             )
             Spacer(modifier = Modifier.height(24.dp))
-            Ingredients(context, drinkDetail)
+            Ingredients(context, drinkDetail, onIngredientClick)
             Spacer(modifier = Modifier.height(24.dp))
             Instructions(context, drinkDetail)
         }
@@ -248,7 +254,11 @@ private fun Header(
 }
 
 @Composable
-private fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
+private fun Ingredients(
+    context: Context,
+    drinkDetail: DrinkDetail,
+    onIngredientClick: (String) -> Unit
+) {
     Text(
         text = context.getString(R.string.drink_detail_ingredients),
         fontSize = 20.sp,
@@ -260,6 +270,7 @@ private fun Ingredients(context: Context, drinkDetail: DrinkDetail) {
     Column(Modifier.fillMaxWidth()) {
         drinkDetail.ingredients.forEach { ingredient ->
             Text(
+                modifier = Modifier.clickable { onIngredientClick(ingredient.name) },
                 text = "- $ingredient",
                 fontSize = 14.sp
             )
@@ -321,6 +332,7 @@ private fun DrinkDetailPreview() {
         onAppBarHeightUpdated = {},
         onImageBottomOffsetUpdated = {},
         onTitleBottomOffsetUpdated = {},
+        onIngredientClick = {},
         onBackClick = {}
     )
 }

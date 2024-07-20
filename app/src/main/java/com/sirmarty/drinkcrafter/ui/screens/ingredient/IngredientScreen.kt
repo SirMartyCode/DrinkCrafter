@@ -165,7 +165,11 @@ private fun IngredientInfo(
         )
         Text(
             text = if (ingredientDetail.alcohol) {
-                context.getString(R.string.ingredient_detail_alcoholic, ingredientDetail.abv)
+                if (ingredientDetail.abv != null) {
+                    context.getString(R.string.ingredient_detail_alcoholic_abv, ingredientDetail.abv)
+                } else {
+                    context.getString(R.string.ingredient_detail_alcoholic)
+                }
             } else {
                 context.getString(R.string.ingredient_detail_non_alcoholic)
             },
@@ -176,7 +180,11 @@ private fun IngredientInfo(
             color = Color.Gray
         )
         Spacer(Modifier.height(8.dp))
-        ExpandableIngredientDescription(context, ingredientDetail.description)
+
+        ingredientDetail.description?.let {description ->
+            ExpandableIngredientDescription(context, description)
+        }
+
     }
 
 }

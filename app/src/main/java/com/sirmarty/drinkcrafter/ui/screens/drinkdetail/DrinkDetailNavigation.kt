@@ -11,7 +11,10 @@ fun NavController.navigateToDrinkDetail(drinkId: Int) {
     this.navigate(Routes.DrinkDetail.createRoute(drinkId))
 }
 
-fun NavGraphBuilder.drinkDetailScreen(onBackClick: () -> Unit) {
+fun NavGraphBuilder.drinkDetailScreen(
+    onIngredientClick: (String) -> Unit,
+    onBackClick: () -> Unit
+) {
     composable(
         route = Routes.DrinkDetail.route,
         arguments = listOf(navArgument(Routes.DrinkDetail.drinkIdArg) {
@@ -21,7 +24,7 @@ fun NavGraphBuilder.drinkDetailScreen(onBackClick: () -> Unit) {
         val drinkId =
             backStackEntry.arguments?.getInt(Routes.DrinkDetail.drinkIdArg)
         if (drinkId != null) {
-            DrinkDetailScreen(drinkId, onBackClick)
+            DrinkDetailScreen(drinkId, onIngredientClick, onBackClick)
         }
     }
 }
