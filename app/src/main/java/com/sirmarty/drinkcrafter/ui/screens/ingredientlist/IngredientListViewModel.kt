@@ -1,39 +1,36 @@
-package com.sirmarty.drinkcrafter.ui.screens.categories
+package com.sirmarty.drinkcrafter.ui.screens.ingredientlist
 
 import androidx.lifecycle.viewModelScope
-import com.sirmarty.drinkcrafter.domain.usecase.GetCategoryListUseCase
+import com.sirmarty.drinkcrafter.domain.entity.IngredientName
+import com.sirmarty.drinkcrafter.domain.usecase.GetIngredientListUseCase
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorViewModel
-import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoriesViewModel @Inject constructor(
-    private val getCategoryListUseCase: GetCategoryListUseCase,
-    private val categoryImageMapper: CategoryImageMapper
-): ErrorViewModel<List<CategoryWithImage>>() {
+class IngredientListViewModel @Inject constructor(
+    private val getIngredientListUseCase: GetIngredientListUseCase
+): ErrorViewModel<List<IngredientName>>() {
 
     init {
-        getCategories()
+        getData()
     }
 
     //==============================================================================================
     //region Private methods
 
-    private fun getCategories() {
+    private fun getData() {
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
             try {
-                val response = getCategoryListUseCase.execute()
-                val categoriesWithImages = response.map { category ->
-                    categoryImageMapper.getCategoryWithImageForCategoryName(category.name)
-                }
-                mutableUiState.value = UiState.Success(categoriesWithImages)
+                val response = getIngredientListUseCase.execute()
+                mutableUiState.value = UiState.Success(response)
             } catch (e: Exception) {
                 manageErrors(e)
             }
+
         }
     }
 
@@ -42,7 +39,7 @@ class CategoriesViewModel @Inject constructor(
     //region ErrorViewModel methods
 
     override fun retryRequest() {
-        getCategories()
+        getData()
     }
 
     //endregion

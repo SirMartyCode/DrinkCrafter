@@ -22,6 +22,7 @@
     <!-- Search Screen-->
     <string name="search_quick_finds">Quick finds</string>
     <string name="search_search_by_name">Search by name</string>
+    <string name="search_search_by_ingredient">Search by ingredient</string>
     <string name="search_get_random_cocktail">Get random cocktail</string>
 
     <!-- Search Bar Screen-->
