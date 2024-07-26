@@ -4,8 +4,8 @@ import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.domain.repository.DrinkRepository
 import javax.inject.Inject
 
-class GetDrinkListUseCase @Inject constructor(private val repository: DrinkRepository) {
+class GetDrinkListByCategoryUseCase @Inject constructor(private val repository: DrinkRepository) {
     suspend fun execute(categoryName: String): List<Drink> {
-        return repository.getDrinkList(categoryName)
+        return repository.getDrinkListByCategory(categoryName)
     }
 }

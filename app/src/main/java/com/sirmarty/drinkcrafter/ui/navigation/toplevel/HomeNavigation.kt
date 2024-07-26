@@ -9,9 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sirmarty.drinkcrafter.ui.navigation.DrinkCrafterNavigationBar
 import com.sirmarty.drinkcrafter.ui.navigation.Routes
-import com.sirmarty.drinkcrafter.ui.screens.categories.categoriesScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.drinkListScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.navigateToDrinkList
+import com.sirmarty.drinkcrafter.ui.screens.categorylist.categoryListScreen
+import com.sirmarty.drinkcrafter.ui.screens.categorydetail.categoryDetailScreen
+import com.sirmarty.drinkcrafter.ui.screens.categorydetail.navigateToCategoryDetail
 import com.sirmarty.drinkcrafter.ui.screens.ingredientsearch.ingredientSearchScreen
 import com.sirmarty.drinkcrafter.ui.screens.ingredientsearch.navigateToIngredientSearch
 import com.sirmarty.drinkcrafter.ui.screens.saved.savedScreen
@@ -38,8 +38,8 @@ fun NavGraphBuilder.homeGraph(
             ) {
                 exploreGraph(
                     nestedGraphs = {
-                        categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
-                        drinkListScreen(onDrinkClick = onDrinkClick)
+                        categoryListScreen(onCategoryClick = navController::navigateToCategoryDetail)
+                        categoryDetailScreen(onDrinkClick = onDrinkClick)
                     })
                 findGraph(nestedGraphs = {
                     searchScreen(

@@ -15,7 +15,7 @@ fun NavGraphBuilder.exploreGraph(
 ) {
     navigation(
         route = Routes.Explore.route,
-        startDestination = Routes.Categories.route
+        startDestination = Routes.CategoryList.route
     ) {
         nestedGraphs()
     }

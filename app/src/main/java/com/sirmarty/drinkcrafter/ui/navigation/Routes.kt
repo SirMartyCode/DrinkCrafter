@@ -7,16 +7,16 @@ sealed class Routes(val route: String) {
     object Saved: Routes("saved")
     object Search: Routes("search")
     object SearchBar: Routes("searchBar")
-    object Categories: Routes("categories")
+    object CategoryList: Routes("categoryList")
     object IngredientSearch: Routes("ingredientSearch")
-    object DrinkList: Routes("drinkList/{categoryName}") {
+    object CategoryDetail: Routes("categoryDetail/{categoryName}") {
         const val categoryNameArg = "categoryName"
         /**
          * Since categoryNameArg can contain a slash ("/") we have to replace that character with
          * a hyphen to prevent the NavController from interpreting it as a navigation feature
          */
         fun createRoute(categoryName: String): String {
-            return "drinkList/${categoryName.replace("/", "-")}"
+            return "categoryDetail/${categoryName.replace("/", "-")}"
         }
         /**
          * Then we must replace it back to get the original category name. Otherwise, the WS
