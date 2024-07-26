@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.ingredient
+package com.sirmarty.drinkcrafter.ui.screens.ingredientdetail
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -49,11 +49,11 @@ import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
-fun IngredientScreen(
+fun IngredientDetailScreen(
     ingredient: String,
     onBackClick: () -> Unit,
     onDrinkClick: (Int) -> Unit,
-    viewModel: IngredientViewModel = hiltViewModel()
+    viewModel: IngredientDetailViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
     val showErrorDialog by viewModel.showErrorDialog.collectAsState()
@@ -165,7 +165,11 @@ private fun IngredientInfo(
         )
         Text(
             text = if (ingredientDetail.alcohol) {
-                context.getString(R.string.ingredient_detail_alcoholic, ingredientDetail.abv)
+                if (ingredientDetail.abv != null) {
+                    context.getString(R.string.ingredient_detail_alcoholic_abv, ingredientDetail.abv)
+                } else {
+                    context.getString(R.string.ingredient_detail_alcoholic)
+                }
             } else {
                 context.getString(R.string.ingredient_detail_non_alcoholic)
             },
@@ -176,7 +180,11 @@ private fun IngredientInfo(
             color = Color.Gray
         )
         Spacer(Modifier.height(8.dp))
-        ExpandableIngredientDescription(context, ingredientDetail.description)
+
+        ingredientDetail.description?.let {description ->
+            ExpandableIngredientDescription(context, description)
+        }
+
     }
 
 }

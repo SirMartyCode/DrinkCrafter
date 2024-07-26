@@ -9,13 +9,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.sirmarty.drinkcrafter.ui.navigation.DrinkCrafterNavigationBar
 import com.sirmarty.drinkcrafter.ui.navigation.Routes
-import com.sirmarty.drinkcrafter.ui.screens.categories.categoriesScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.drinkListScreen
-import com.sirmarty.drinkcrafter.ui.screens.drinklist.navigateToDrinkList
+import com.sirmarty.drinkcrafter.ui.screens.categorylist.categoryListScreen
+import com.sirmarty.drinkcrafter.ui.screens.categorydetail.categoryDetailScreen
+import com.sirmarty.drinkcrafter.ui.screens.categorydetail.navigateToCategoryDetail
+import com.sirmarty.drinkcrafter.ui.screens.ingredientsearch.ingredientSearchScreen
+import com.sirmarty.drinkcrafter.ui.screens.ingredientsearch.navigateToIngredientSearch
 import com.sirmarty.drinkcrafter.ui.screens.saved.savedScreen
 import com.sirmarty.drinkcrafter.ui.screens.search.searchScreen
-import com.sirmarty.drinkcrafter.ui.screens.searchbar.navigateToSearchBar
-import com.sirmarty.drinkcrafter.ui.screens.searchbar.searchBarScreen
+import com.sirmarty.drinkcrafter.ui.screens.drinksearch.navigateToDrinkSearch
+import com.sirmarty.drinkcrafter.ui.screens.drinksearch.drinkSearchScreen
 
 fun NavGraphBuilder.homeGraph(
     onDrinkClick: (Int) -> Unit,
@@ -36,16 +38,18 @@ fun NavGraphBuilder.homeGraph(
             ) {
                 exploreGraph(
                     nestedGraphs = {
-                        categoriesScreen(onCategoryClick = navController::navigateToDrinkList)
-                        drinkListScreen(onDrinkClick = onDrinkClick)
+                        categoryListScreen(onCategoryClick = navController::navigateToCategoryDetail)
+                        categoryDetailScreen(onDrinkClick = onDrinkClick)
                     })
                 findGraph(nestedGraphs = {
                     searchScreen(
                         onQuickFindClick = onIngredientClick,
-                        onSearchByNameClick = navController::navigateToSearchBar,
+                        onSearchByNameClick = navController::navigateToDrinkSearch,
+                        onSearchByIngredientClick = navController::navigateToIngredientSearch,
                         onRandomCocktailClick = onRandomCocktailClick
                     )
-                    searchBarScreen(onDrinkClick = onDrinkClick)
+                    drinkSearchScreen(onDrinkClick = onDrinkClick)
+                    ingredientSearchScreen(onIngredientClick = onIngredientClick)
                 })
                 savedScreen(onDrinkClick = onDrinkClick)
             }

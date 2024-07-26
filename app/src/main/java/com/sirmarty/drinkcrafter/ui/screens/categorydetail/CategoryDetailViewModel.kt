@@ -1,8 +1,8 @@
-package com.sirmarty.drinkcrafter.ui.screens.drinklist
+package com.sirmarty.drinkcrafter.ui.screens.categorydetail
 
 import androidx.lifecycle.viewModelScope
 import com.sirmarty.drinkcrafter.domain.entity.Drink
-import com.sirmarty.drinkcrafter.domain.usecase.GetDrinkListUseCase
+import com.sirmarty.drinkcrafter.domain.usecase.GetDrinkListByCategoryUseCase
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorViewModel
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,8 +10,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class DrinkListViewModel @Inject constructor(
-    private val getDrinkListUseCase: GetDrinkListUseCase
+class CategoryDetailViewModel @Inject constructor(
+    private val getDrinkListByCategoryUseCase: GetDrinkListByCategoryUseCase
 ): ErrorViewModel<List<Drink>>() {
 
     // Aux variable to remember last request
@@ -29,7 +29,7 @@ class DrinkListViewModel @Inject constructor(
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
             try {
-                val response = getDrinkListUseCase.execute(categoryName)
+                val response = getDrinkListByCategoryUseCase.execute(categoryName)
                 mutableUiState.value = UiState.Success(response)
             } catch (e: Exception) {
                 manageErrors(e)

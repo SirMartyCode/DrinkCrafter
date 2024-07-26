@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.ingredient
+package com.sirmarty.drinkcrafter.ui.screens.ingredientdetail
 
 import androidx.lifecycle.viewModelScope
 import com.sirmarty.drinkcrafter.domain.entity.Drink
@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class IngredientViewModel @Inject constructor(
+class IngredientDetailViewModel @Inject constructor(
     private val getIngredientDetailUseCase: GetIngredientDetailUseCase,
     private val getDrinkListByIngredientUseCase: GetDrinkListByIngredientUseCase
 ): ErrorViewModel<Pair<IngredientDetail, List<Drink>>>() {

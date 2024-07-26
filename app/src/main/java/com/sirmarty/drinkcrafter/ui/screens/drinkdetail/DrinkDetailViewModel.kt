@@ -35,6 +35,20 @@ class DrinkDetailViewModel @Inject constructor(
     private var lastDrinkId: Int? = null
 
     fun getDrinkDetail(id: Int) {
+        if (lastDrinkId == id) {
+            // We don't want to execute the use case if the ingredient provided is exactly
+            // the same we searched for the last time
+            return
+        }
+
+        if (lastDrinkId != null && id == ID_RANDOM_DRINK) {
+            // If lastDrinkId is not null and current id is equal to random drink id it means
+            // we're coming back to drink detail from another screen, so we'll skip the request
+            return
+        }
+
+        lastDrinkId = id
+
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
             try {
@@ -91,7 +105,10 @@ class DrinkDetailViewModel @Inject constructor(
     //region ErrorViewModel methods
 
     override fun retryRequest() {
-        lastDrinkId?.let { getDrinkDetail(it) }
+        // Reset lastDrinkId to force making the request again
+        val drinkId = lastDrinkId
+        lastDrinkId = null
+        drinkId?.let { getDrinkDetail(it) }
     }
 
     //endregion

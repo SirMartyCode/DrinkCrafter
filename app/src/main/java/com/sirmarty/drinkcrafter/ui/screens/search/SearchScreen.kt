@@ -37,6 +37,7 @@ import com.sirmarty.drinkcrafter.ui.components.quickfinds.QuickFinds
 fun SearchScreen(
     onQuickFindClick: (String) -> Unit,
     onSearchByNameClick: () -> Unit,
+    onSearchByIngredientClick: () -> Unit,
     onRandomCocktailClick: () -> Unit
 ) {
     val context = LocalContext.current
@@ -65,6 +66,13 @@ fun SearchScreen(
         )
         Spacer(Modifier.height(16.dp))
         CustomElevatedCard(
+            onSearchByIngredientClick,
+            R.drawable.image_search_ingredient,
+            context.getString(R.string.search_search_by_ingredient),
+            context.getString(R.string.search_search_by_ingredient)
+        )
+        Spacer(Modifier.height(16.dp))
+        CustomElevatedCard(
             onRandomCocktailClick,
             R.drawable.image_random_cocktail,
             context.getString(R.string.search_get_random_cocktail),
@@ -75,7 +83,7 @@ fun SearchScreen(
 }
 
 //==================================================================================================
-//region Preview
+//region Private composable
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
@@ -122,6 +130,7 @@ private fun SearchPreview() {
     SearchScreen(
         onQuickFindClick = {},
         onSearchByNameClick = {},
+        onSearchByIngredientClick = {},
         onRandomCocktailClick = {}
     )
 }

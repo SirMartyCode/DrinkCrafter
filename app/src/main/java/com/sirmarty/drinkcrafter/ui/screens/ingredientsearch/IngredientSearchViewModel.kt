@@ -1,10 +1,10 @@
-package com.sirmarty.drinkcrafter.ui.screens.searchbar
+package com.sirmarty.drinkcrafter.ui.screens.ingredientsearch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.sirmarty.drinkcrafter.domain.entity.Drink
-import com.sirmarty.drinkcrafter.domain.usecase.SearchDrinkByNameUseCase
+import com.sirmarty.drinkcrafter.domain.entity.IngredientName
+import com.sirmarty.drinkcrafter.domain.usecase.GetIngredientListUseCase
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorViewModel
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -12,16 +12,28 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchBarViewModel @Inject constructor(
-    private val searchDrinkByNameUseCase: SearchDrinkByNameUseCase
-): ErrorViewModel<List<Drink>>() {
+class IngredientSearchViewModel @Inject constructor(
+    private val getIngredientListUseCase: GetIngredientListUseCase
+) : ErrorViewModel<List<IngredientName>>() {
 
     private val _query = MutableLiveData<String>()
     val query: LiveData<String> = _query
 
+    private var unfilteredData: List<IngredientName>? = null
+
+    init {
+        getData()
+    }
+
     fun onQueryChanged(text: String) {
-        _query.value = text
-        search(text)
+        unfilteredData?.let { unfilteredData ->
+            mutableUiState.value = UiState.Loading
+            _query.value = text
+            val filteredData = unfilteredData.filter {
+                it.name.contains(text, ignoreCase = true)
+            }
+            mutableUiState.value = UiState.Success(filteredData)
+        }
     }
 
     fun clearSearch() {
@@ -31,15 +43,17 @@ class SearchBarViewModel @Inject constructor(
     //==============================================================================================
     //region Private methods
 
-    private fun search(text: String) {
+    private fun getData() {
         viewModelScope.launch {
             mutableUiState.value = UiState.Loading
             try {
-                val response = searchDrinkByNameUseCase.searchDrinkByName(text)
+                val response = getIngredientListUseCase.execute()
+                unfilteredData = response
                 mutableUiState.value = UiState.Success(response)
             } catch (e: Exception) {
                 manageErrors(e)
             }
+
         }
     }
 
@@ -48,7 +62,7 @@ class SearchBarViewModel @Inject constructor(
     //region ErrorViewModel methods
 
     override fun retryRequest() {
-        _query.value?.let { search(it) }
+        getData()
     }
 
     //endregion

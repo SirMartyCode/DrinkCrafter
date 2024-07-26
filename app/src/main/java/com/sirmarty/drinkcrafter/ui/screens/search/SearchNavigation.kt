@@ -7,11 +7,12 @@ import com.sirmarty.drinkcrafter.ui.navigation.Routes
 fun NavGraphBuilder.searchScreen(
     onQuickFindClick: (String) -> Unit,
     onSearchByNameClick: () -> Unit,
+    onSearchByIngredientClick: () -> Unit,
     onRandomCocktailClick: () -> Unit
 ) {
     composable(
         route = Routes.Search.route
     ) {
-        SearchScreen(onQuickFindClick, onSearchByNameClick, onRandomCocktailClick)
+        SearchScreen(onQuickFindClick, onSearchByNameClick, onSearchByIngredientClick, onRandomCocktailClick)
     }
 }

@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.categories
+package com.sirmarty.drinkcrafter.ui.screens.categorylist
 
 import androidx.lifecycle.viewModelScope
 import com.sirmarty.drinkcrafter.domain.usecase.GetCategoryListUseCase
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class CategoriesViewModel @Inject constructor(
+class CategoryListViewModel @Inject constructor(
     private val getCategoryListUseCase: GetCategoryListUseCase,
     private val categoryImageMapper: CategoryImageMapper
 ): ErrorViewModel<List<CategoryWithImage>>() {
@@ -20,7 +20,7 @@ class CategoriesViewModel @Inject constructor(
     }
 
     //==============================================================================================
-    //region ErrorViewModel methods
+    //region Private methods
 
     private fun getCategories() {
         viewModelScope.launch {

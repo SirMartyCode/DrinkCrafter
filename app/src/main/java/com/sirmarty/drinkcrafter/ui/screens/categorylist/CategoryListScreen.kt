@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.categories
+package com.sirmarty.drinkcrafter.ui.screens.categorylist
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -39,9 +39,9 @@ import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 
 @Composable
-fun CategoriesScreen(
+fun CategoryListScreen(
     onCategoryClick: (String) -> Unit,
-    viewModel: CategoriesViewModel = hiltViewModel()
+    viewModel: CategoryListViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
     val showErrorDialog by viewModel.showErrorDialog.collectAsState()

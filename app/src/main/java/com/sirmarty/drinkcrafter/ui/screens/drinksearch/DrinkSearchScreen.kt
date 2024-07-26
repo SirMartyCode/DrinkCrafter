@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.searchbar
+package com.sirmarty.drinkcrafter.ui.screens.drinksearch
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -6,16 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Clear
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DockedSearchBar
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,20 +17,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
+import com.sirmarty.drinkcrafter.ui.components.searchbar.CustomSearchBar
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
-fun SearchBarScreen(
+fun DrinkSearchScreen(
     onDrinkClick: (Int) -> Unit,
-    viewModel: SearchBarViewModel = hiltViewModel()
+    viewModel: DrinkSearchViewModel = hiltViewModel()
 ) {
     val query: String by viewModel.query.observeAsState(initial = "")
     val uiState by viewModel.uiState.observeAsState()
@@ -49,7 +40,7 @@ fun SearchBarScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchBarLayout(
+        DrinkSearchLayout(
             uiState = uiState,
             query = query,
             showErrorDialog = showErrorDialog,
@@ -65,13 +56,8 @@ fun SearchBarScreen(
 //==================================================================================================
 //region Private composable
 
-/**
- * As a aesthetic decision, the SearchBar "active" parameter will always be set to false
- * Therefore there will be no need to handle the onActiveChanged callback
- */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchBarLayout(
+fun DrinkSearchLayout(
     uiState: UiState<List<Drink>>?,
     query: String,
     showErrorDialog: Boolean,
@@ -82,33 +68,18 @@ fun SearchBarLayout(
     onRetryRequest: () -> Unit
 ) {
 
-    val keyboardController = LocalSoftwareKeyboardController.current
     val context = LocalContext.current
 
     Column(
         Modifier.fillMaxSize()
     ) {
-        DockedSearchBar(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
+        CustomSearchBar(
+            context = context,
             query = query,
-            onQueryChange = { onQueryChange(it) },
-            onSearch = { keyboardController?.hide() },
-            active = false,
-            onActiveChange = {
-                // Nothing to do
-            },
-            placeholder = { Text(text = context.getString(R.string.search_bar_hint)) },
-            leadingIcon = {
-                SearchBarLeadingIcon(context)
-            },
-            trailingIcon = {
-                SearchBarTrailingIcon(context, query) {
-                    onTrailingIconClick()
-                }
-            }
-        ) { }
+            placeholder = context.getString(R.string.search_bar_hint),
+            onQueryChange = onQueryChange,
+            onTrailingIconClick = onTrailingIconClick
+        )
 
         HorizontalDivider(Modifier.fillMaxWidth())
 
@@ -131,7 +102,7 @@ fun SearchBarLayout(
                 }
 
                 is UiState.Success -> {
-                    SearchResult(context, uiState.value, query, onDrinkClick)
+                    DrinkSearchResult(context, uiState.value, query, onDrinkClick)
                 }
 
                 else -> {
@@ -143,7 +114,7 @@ fun SearchBarLayout(
 }
 
 @Composable
-private fun SearchResult(
+private fun DrinkSearchResult(
     context: Context,
     drinkList: List<Drink>,
     query: String,
@@ -162,28 +133,6 @@ private fun SearchResult(
             // query + empty search result = no coincidences
             Text(
                 text = context.getString(R.string.search_bar_empty_result),
-            )
-        }
-    }
-}
-
-@Composable
-private fun SearchBarLeadingIcon(context: Context) {
-    Icon(
-        imageVector = Icons.Outlined.Search,
-        contentDescription = context.getString(R.string.search_bar_search)
-    )
-}
-
-@Composable
-private fun SearchBarTrailingIcon(
-    context: Context, query: String, onClick: () -> Unit
-) {
-    if (query.isNotEmpty()) {
-        IconButton(onClick = onClick) {
-            Icon(
-                imageVector = Icons.Outlined.Clear,
-                contentDescription = context.getString(R.string.search_bar_clear)
             )
         }
     }
@@ -210,7 +159,7 @@ private fun SearchBarScreenPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchBarLayout(
+        DrinkSearchLayout(
             uiState = uiState,
             query = "",
             showErrorDialog = false,

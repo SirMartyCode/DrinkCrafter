@@ -22,6 +22,7 @@
     <!-- Search Screen-->
     <string name="search_quick_finds">Quick finds</string>
     <string name="search_search_by_name">Search by name</string>
+    <string name="search_search_by_ingredient">Search by ingredient</string>
     <string name="search_get_random_cocktail">Get random cocktail</string>
 
     <!-- Search Bar Screen-->
@@ -46,7 +47,8 @@
     <string name="quick_find_jager">Jäger</string>
 
     <!-- Ingredient detail -->
-    <string name="ingredient_detail_alcoholic">(Alcoholic - %1$s abv)</string>
+    <string name="ingredient_detail_alcoholic">(Alcoholic)</string>
+    <string name="ingredient_detail_alcoholic_abv">(Alcoholic - %1$s abv)</string>
     <string name="ingredient_detail_non_alcoholic">(Non alcoholic)</string>
     <string name="ingredient_detail_read_more">Read more</string>
 

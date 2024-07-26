@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.categories
+package com.sirmarty.drinkcrafter.ui.screens.categorylist
 
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage

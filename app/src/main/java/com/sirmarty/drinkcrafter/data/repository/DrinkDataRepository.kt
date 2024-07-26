@@ -58,7 +58,7 @@ class DrinkDataRepository @Inject constructor(
         }
     }
 
-    override suspend fun getDrinkList(categoryName: String): List<Drink> {
+    override suspend fun getDrinkListByCategory(categoryName: String): List<Drink> {
         return withContext(Dispatchers.IO) {
             val response = getDrinkListService.getDrinkList(categoryName)
             if (response.isSuccessful) {
