@@ -83,7 +83,7 @@ fun SearchScreen(
 }
 
 //==================================================================================================
-//region Preview
+//region Private composable
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
 @Composable
