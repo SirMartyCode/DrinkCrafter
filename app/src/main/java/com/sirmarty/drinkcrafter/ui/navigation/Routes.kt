@@ -8,7 +8,7 @@ sealed class Routes(val route: String) {
     object Search: Routes("search")
     object SearchBar: Routes("searchBar")
     object Categories: Routes("categories")
-    object IngredientList: Routes("ingredientList")
+    object IngredientSearch: Routes("ingredientSearch")
     object DrinkList: Routes("drinkList/{categoryName}") {
         const val categoryNameArg = "categoryName"
         /**
@@ -29,7 +29,7 @@ sealed class Routes(val route: String) {
         const val drinkIdArg = "drinkId"
         fun createRoute(drinkId: Int) = "drinkDetail/$drinkId"
     }
-    object Ingredient: Routes("ingredient/{ingredientName}") {
+    object IngredientDetail: Routes("ingredient/{ingredientName}") {
         const val ingredientNameArg = "ingredientName"
         fun createRoute(ingredient: String) = "ingredient/$ingredient"
     }

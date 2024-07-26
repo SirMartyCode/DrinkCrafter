@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.ingredientlist
+package com.sirmarty.drinkcrafter.ui.screens.ingredientsearch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class IngredientListViewModel @Inject constructor(
+class IngredientSearchViewModel @Inject constructor(
     private val getIngredientListUseCase: GetIngredientListUseCase
 ) : ErrorViewModel<List<IngredientName>>() {
 

@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.ingredientlist
+package com.sirmarty.drinkcrafter.ui.screens.ingredientsearch
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -37,9 +37,9 @@ import com.sirmarty.drinkcrafter.ui.components.searchbar.CustomSearchBar
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
-fun IngredientListScreen(
+fun IngredientSearchScreen(
     onIngredientClick: (String) -> Unit,
-    viewModel: IngredientListViewModel = hiltViewModel()
+    viewModel: IngredientSearchViewModel = hiltViewModel()
 ) {
     val query by viewModel.query.observeAsState(initial = "")
     val uiState by viewModel.uiState.observeAsState(initial = UiState.Loading)
@@ -50,7 +50,7 @@ fun IngredientListScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        IngredientListLayout(
+        IngredientSearchLayout(
             uiState = uiState,
             query = query,
             showErrorDialog = showErrorDialog,
@@ -68,7 +68,7 @@ fun IngredientListScreen(
 //region Private composable
 
 @Composable
-private fun IngredientListLayout(
+private fun IngredientSearchLayout(
     uiState: UiState<List<IngredientName>>,
     query: String,
     showErrorDialog: Boolean,
