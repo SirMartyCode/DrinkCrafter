@@ -16,8 +16,8 @@ import com.sirmarty.drinkcrafter.ui.screens.ingredientsearch.ingredientSearchScr
 import com.sirmarty.drinkcrafter.ui.screens.ingredientsearch.navigateToIngredientSearch
 import com.sirmarty.drinkcrafter.ui.screens.saved.savedScreen
 import com.sirmarty.drinkcrafter.ui.screens.search.searchScreen
-import com.sirmarty.drinkcrafter.ui.screens.searchbar.navigateToSearchBar
-import com.sirmarty.drinkcrafter.ui.screens.searchbar.searchBarScreen
+import com.sirmarty.drinkcrafter.ui.screens.drinksearch.navigateToDrinkSearch
+import com.sirmarty.drinkcrafter.ui.screens.drinksearch.drinkSearchScreen
 
 fun NavGraphBuilder.homeGraph(
     onDrinkClick: (Int) -> Unit,
@@ -44,11 +44,11 @@ fun NavGraphBuilder.homeGraph(
                 findGraph(nestedGraphs = {
                     searchScreen(
                         onQuickFindClick = onIngredientClick,
-                        onSearchByNameClick = navController::navigateToSearchBar,
+                        onSearchByNameClick = navController::navigateToDrinkSearch,
                         onSearchByIngredientClick = navController::navigateToIngredientSearch,
                         onRandomCocktailClick = onRandomCocktailClick
                     )
-                    searchBarScreen(onDrinkClick = onDrinkClick)
+                    drinkSearchScreen(onDrinkClick = onDrinkClick)
                     ingredientSearchScreen(onIngredientClick = onIngredientClick)
                 })
                 savedScreen(onDrinkClick = onDrinkClick)

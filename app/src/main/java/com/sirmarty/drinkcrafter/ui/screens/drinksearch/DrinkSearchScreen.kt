@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.searchbar
+package com.sirmarty.drinkcrafter.ui.screens.drinksearch
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -27,9 +27,9 @@ import com.sirmarty.drinkcrafter.ui.components.searchbar.CustomSearchBar
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
 @Composable
-fun SearchBarScreen(
+fun DrinkSearchScreen(
     onDrinkClick: (Int) -> Unit,
-    viewModel: SearchBarViewModel = hiltViewModel()
+    viewModel: DrinkSearchViewModel = hiltViewModel()
 ) {
     val query: String by viewModel.query.observeAsState(initial = "")
     val uiState by viewModel.uiState.observeAsState()
@@ -40,7 +40,7 @@ fun SearchBarScreen(
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchBarLayout(
+        DrinkSearchLayout(
             uiState = uiState,
             query = query,
             showErrorDialog = showErrorDialog,
@@ -57,7 +57,7 @@ fun SearchBarScreen(
 //region Private composable
 
 @Composable
-fun SearchBarLayout(
+fun DrinkSearchLayout(
     uiState: UiState<List<Drink>>?,
     query: String,
     showErrorDialog: Boolean,
@@ -102,7 +102,7 @@ fun SearchBarLayout(
                 }
 
                 is UiState.Success -> {
-                    SearchResult(context, uiState.value, query, onDrinkClick)
+                    DrinkSearchResult(context, uiState.value, query, onDrinkClick)
                 }
 
                 else -> {
@@ -114,7 +114,7 @@ fun SearchBarLayout(
 }
 
 @Composable
-private fun SearchResult(
+private fun DrinkSearchResult(
     context: Context,
     drinkList: List<Drink>,
     query: String,
@@ -159,7 +159,7 @@ private fun SearchBarScreenPreview() {
             .fillMaxSize()
             .background(Color.White)
     ) {
-        SearchBarLayout(
+        DrinkSearchLayout(
             uiState = uiState,
             query = "",
             showErrorDialog = false,

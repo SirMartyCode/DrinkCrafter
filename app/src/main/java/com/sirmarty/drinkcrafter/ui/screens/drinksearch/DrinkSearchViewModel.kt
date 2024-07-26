@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.searchbar
+package com.sirmarty.drinkcrafter.ui.screens.drinksearch
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SearchBarViewModel @Inject constructor(
+class DrinkSearchViewModel @Inject constructor(
     private val searchDrinkByNameUseCase: SearchDrinkByNameUseCase
 ): ErrorViewModel<List<Drink>>() {
 
