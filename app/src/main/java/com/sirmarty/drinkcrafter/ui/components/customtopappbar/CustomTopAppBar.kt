@@ -15,7 +15,6 @@ import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -112,11 +111,4 @@ fun CustomTopAppBar(
             }
         }
     )
-
-    // Put the content color back to their default value when top bar is not showing anymore
-    DisposableEffect(Unit) {
-        onDispose {
-            windowInsetsController?.isAppearanceLightStatusBars = !darkTheme
-        }
-    }
 }
