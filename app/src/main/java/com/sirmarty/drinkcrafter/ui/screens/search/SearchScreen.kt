@@ -57,7 +57,7 @@ fun SearchScreen(
         )
         Spacer(Modifier.height(8.dp))
         QuickFinds(Modifier.fillMaxWidth(), onQuickFindClick)
-        Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(8.dp))
         CustomElevatedCard(
             onSearchByNameClick,
             R.drawable.image_search_cocktail,
