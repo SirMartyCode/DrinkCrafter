@@ -30,7 +30,7 @@ fun QuickFinds(modifier: Modifier = Modifier, onQuickFindClick: (String) -> Unit
     val quickFinds = QuickFind.values()
     LazyRow(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
             items = quickFinds,
@@ -46,6 +46,7 @@ fun QuickFinds(modifier: Modifier = Modifier, onQuickFindClick: (String) -> Unit
 fun QuickFindItem(quickFind: QuickFind, onQuickFindClick: (String) -> Unit) {
     val context = LocalContext.current
     ElevatedCard(
+        modifier = Modifier.padding(8.dp),
         onClick = { onQuickFindClick(quickFind.ingredient) },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
