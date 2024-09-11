@@ -99,4 +99,7 @@ dependencies {
 
     // Material
     implementation("androidx.compose.material3:material3:1.2.0-alpha08")
+
+    // Splashscreen
+    implementation("androidx.core:core-splashscreen:1.0.0")
 }
