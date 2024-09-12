@@ -158,8 +158,8 @@ private fun IngredientInfo(
                 .onGloballyPositioned { coordinates ->
                     onTitleBottomOffsetUpdated(coordinates.positionInRoot().y + coordinates.size.height)
                 },
-            fontSize = 20.sp,
-            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp,
+            fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
             textDecoration = TextDecoration.Underline
         )

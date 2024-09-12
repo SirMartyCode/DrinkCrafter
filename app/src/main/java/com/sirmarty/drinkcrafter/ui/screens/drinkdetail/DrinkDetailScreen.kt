@@ -246,7 +246,7 @@ private fun Header(
     Text(
         text = "${drinkDetail.category} - ${drinkDetail.alcoholic}",
         modifier = modifier,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold,
         textAlign = TextAlign.Center,
         color = Color.Gray
