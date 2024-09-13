@@ -4,11 +4,14 @@ import android.content.Context
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -28,7 +31,10 @@ import com.sirmarty.drinkcrafter.ui.screens.saved.navigateToSaved
 fun DrinkCrafterNavigationBar(navController: NavHostController) {
     val context = LocalContext.current
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary,
+        contentColor = MaterialTheme.colorScheme.secondary
+    ) {
         val items = listOf(
             TopLevelDestination.Explore,
             TopLevelDestination.Find,
@@ -48,14 +54,14 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
                     Icon(
                         painter = painterResource(item.selectedIcon),
                         modifier = Modifier.size(24.dp),
-                        contentDescription = context.getString(R.string.navigation_bar_item_selected_icon)
+                        contentDescription = context.getString(R.string.navigation_bar_item_selected_icon),
                     )
                 },
                 unselectedIcon = {
                     Icon(
                         painter = painterResource(item.unselectedIcon),
                         modifier = Modifier.size(24.dp),
-                        contentDescription = context.getString(R.string.navigation_bar_item_unselected_icon)
+                        contentDescription = context.getString(R.string.navigation_bar_item_unselected_icon),
                     )
                 }
             )
@@ -76,7 +82,17 @@ fun RowScope.DrinkCrafterNavigationItem(
         icon = if (selected) selectedIcon else unselectedIcon,
         onClick = onClick,
         label = { Text(context.getString(item.stringRes)) },
-        selected = selected
+        selected = selected,
+        colors = NavigationBarItemColors(
+            selectedIconColor = MaterialTheme.colorScheme.onPrimary,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimary,
+            selectedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+            unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
+            unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
+            // It should never be disabled
+            disabledIconColor = Color.Unspecified,
+            disabledTextColor = Color.Unspecified
+        )
     )
 }
 
