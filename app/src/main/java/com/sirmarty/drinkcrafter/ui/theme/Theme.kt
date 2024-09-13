@@ -23,6 +23,7 @@ private val LightColorScheme = lightColorScheme(
     primary = SuperLightBlue,
     onPrimary = DarkTeal,
     primaryContainer = LightBlue,
+    secondary = Teal,
     tertiary = Redwood,
     surface = White,
     onSurface = RaisinBlack,

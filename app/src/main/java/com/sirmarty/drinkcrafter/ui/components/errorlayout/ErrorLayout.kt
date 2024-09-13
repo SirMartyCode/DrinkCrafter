@@ -85,7 +85,8 @@ private fun ErrorDialog(
         onDismissRequest = { onDismiss() },
         confirmButton = {
             TextButton(onClick = { onConfirmation() }) {
-                Text(text = context.getString(R.string.error_dialog_try_again))
+                Text(text = context.getString(R.string.error_dialog_try_again),
+                    color = MaterialTheme.colorScheme.secondary)
             }
         },
         dismissButton = {
@@ -111,7 +112,7 @@ private fun RetryButton(
         onClick = onClick,
         colors = IconButtonColors(
             containerColor = Color.Transparent,
-            contentColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.secondary,
             // It should never be disabled
             disabledContainerColor = Color.Unspecified,
             disabledContentColor = Color.Unspecified
@@ -146,7 +147,7 @@ private fun RetryButtonPreview() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         RetryButton(
             modifier = Modifier.align(Alignment.Center),
