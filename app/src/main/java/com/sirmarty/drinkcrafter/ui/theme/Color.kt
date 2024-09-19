@@ -3,6 +3,8 @@ package com.sirmarty.drinkcrafter.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val White = Color(0xFFFFFFFF)
+val FakeWhite = Color(0xFFFFFFFE)
+val SuperPastelBlue = Color(0xFFF6FAFA)
 val PastelBlue = Color(0xFFEDF4F4)
 val SuperLightBlue = Color(0xFFDBEAE9)
 val LightBlue = Color(0xFFB7D5D4)

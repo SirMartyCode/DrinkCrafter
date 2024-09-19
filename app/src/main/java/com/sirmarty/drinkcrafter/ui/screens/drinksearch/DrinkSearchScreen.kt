@@ -81,7 +81,10 @@ fun DrinkSearchLayout(
             onTrailingIconClick = onTrailingIconClick
         )
 
-        HorizontalDivider(Modifier.fillMaxWidth())
+        HorizontalDivider(
+            Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.primaryContainer
+        )
 
         Box(
             modifier = Modifier.fillMaxSize(),

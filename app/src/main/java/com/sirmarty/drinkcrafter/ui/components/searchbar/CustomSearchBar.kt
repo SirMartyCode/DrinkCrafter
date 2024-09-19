@@ -10,12 +10,16 @@ import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.sirmarty.drinkcrafter.R
+import com.sirmarty.drinkcrafter.ui.theme.FakeWhite
 
 /**
  * As a aesthetic decision, the SearchBar "active" parameter will always be set to false
@@ -51,7 +55,23 @@ fun CustomSearchBar(
             SearchBarTrailingIcon(context, query) {
                 onTrailingIconClick()
             }
-        }
+        },
+        colors = SearchBarDefaults.colors(
+            containerColor = FakeWhite,
+            dividerColor = MaterialTheme.colorScheme.secondary,
+            inputFieldColors = TextFieldDefaults.colors(
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
+                focusedPlaceholderColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedPlaceholderColor = MaterialTheme.colorScheme.onSurface,
+                focusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedTrailingIconColor = MaterialTheme.colorScheme.onSurface,
+                focusedLeadingIconColor = MaterialTheme.colorScheme.onSurface,
+                unfocusedLeadingIconColor = MaterialTheme.colorScheme.onSurface,
+                cursorColor = MaterialTheme.colorScheme.onSurface
+            )
+        ),
+        shadowElevation = 6.dp
     ) { }
 }
 
