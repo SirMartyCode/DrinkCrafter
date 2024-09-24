@@ -140,9 +140,9 @@ class DrinkDetailViewModelTest {
             // Given
 
             // When
-            drinkDetailViewModel.updateAppBarHeight(10f)
-            drinkDetailViewModel.updateImageBottomOffset(30f)
-            drinkDetailViewModel.updateTitleBottomOffset(50f)
+            drinkDetailViewModel.updateAppBarHeight(50f)
+            drinkDetailViewModel.updateImageBottomOffset(70f)
+            drinkDetailViewModel.updateTitleBottomOffset(90f)
 
             // Then
             assertEquals(drinkDetailViewModel.topAppBarState.value, CustomTopAppBarState.TRANSPARENT)
