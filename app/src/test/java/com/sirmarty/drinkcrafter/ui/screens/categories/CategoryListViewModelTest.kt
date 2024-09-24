@@ -6,6 +6,8 @@ import com.sirmarty.drinkcrafter.domain.entity.Category
 import com.sirmarty.drinkcrafter.domain.usecase.GetCategoryListUseCase
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
+import com.sirmarty.drinkcrafter.ui.screens.categorylist.CategoryImageMapper
+import com.sirmarty.drinkcrafter.ui.screens.categorylist.CategoryListViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -27,7 +29,7 @@ import org.junit.Test
 import org.junit.rules.TestRule
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class CategoriesViewModelTest {
+class CategoryListViewModelTest {
 
     /**
      * Since getCategoryListUseCase is called every time the view model is created, in each test
@@ -43,7 +45,7 @@ class CategoriesViewModelTest {
 
     @RelaxedMockK
     private lateinit var categoryImageMapper: CategoryImageMapper
-    private lateinit var categoriesViewModel: CategoriesViewModel
+    private lateinit var categoryListViewModel: CategoryListViewModel
 
     private val categoryList = listOf(
         Category("category1"),
@@ -58,7 +60,7 @@ class CategoriesViewModelTest {
     fun onBefore() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        categoriesViewModel = CategoriesViewModel(getCategoryListUseCase, categoryImageMapper)
+        categoryListViewModel = CategoryListViewModel(getCategoryListUseCase, categoryImageMapper)
     }
 
     @After
@@ -77,14 +79,14 @@ class CategoriesViewModelTest {
         }
 
         // When
-        categoriesViewModel = CategoriesViewModel(getCategoryListUseCase, categoryImageMapper)
+        categoryListViewModel = CategoryListViewModel(getCategoryListUseCase, categoryImageMapper)
         advanceUntilIdle()
 
         // Then
         coVerify(exactly = 2) { getCategoryListUseCase.execute() }
         coVerify(exactly = 2) { categoryImageMapper.getCategoryWithImageForCategoryName(any()) }
-        assertEquals(categoriesViewModel.uiState.value, UiState.Success(categoriesWithImages))
-        assertEquals(categoriesViewModel.showErrorDialog.value, false)
+        assertEquals(categoryListViewModel.uiState.value, UiState.Success(categoriesWithImages))
+        assertEquals(categoryListViewModel.showErrorDialog.value, false)
     }
 
     @Test
@@ -98,14 +100,14 @@ class CategoriesViewModelTest {
         }
 
         // When
-        categoriesViewModel.retryRequest()
+        categoryListViewModel.retryRequest()
         advanceUntilIdle()
 
         // Then
         coVerify(exactly = 2) { getCategoryListUseCase.execute() }
         coVerify(exactly = 2) { categoryImageMapper.getCategoryWithImageForCategoryName(any()) }
-        assertEquals(categoriesViewModel.uiState.value, UiState.Success(categoriesWithImages))
-        assertEquals(categoriesViewModel.showErrorDialog.value, false)
+        assertEquals(categoryListViewModel.uiState.value, UiState.Success(categoriesWithImages))
+        assertEquals(categoryListViewModel.showErrorDialog.value, false)
     }
 
     @Test
@@ -115,14 +117,14 @@ class CategoriesViewModelTest {
         coEvery { getCategoryListUseCase.execute() } throws exception
 
         // When
-        categoriesViewModel.retryRequest()
+        categoryListViewModel.retryRequest()
         advanceUntilIdle()
 
         // Then
         coVerify(exactly = 2) { getCategoryListUseCase.execute() }
         coVerify(exactly = 0) { categoryImageMapper.getCategoryWithImageForCategoryName(any()) }
-        assertEquals(categoriesViewModel.uiState.value, UiState.Error(exception))
-        assertEquals(categoriesViewModel.showErrorDialog.value, true)
+        assertEquals(categoryListViewModel.uiState.value, UiState.Error(exception))
+        assertEquals(categoryListViewModel.showErrorDialog.value, true)
     }
 
 }
