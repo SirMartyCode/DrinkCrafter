@@ -126,11 +126,54 @@ class DrinkDetailViewModelTest {
         // Given
 
         // When
-        drinkDetailViewModel = DrinkDetailViewModel(getDrinkDetailUseCase, getRandomDrinkDetailUseCase)
+        drinkDetailViewModel =
+            DrinkDetailViewModel(getDrinkDetailUseCase, getRandomDrinkDetailUseCase)
         advanceUntilIdle()
 
         // Then
         assertEquals(drinkDetailViewModel.topAppBarState.value, CustomTopAppBarState.TRANSPARENT)
     }
+
+    @Test
+    fun `when app bar height value is lower than image bottom and title bottom top bar state is transparent`() =
+        runTest {
+            // Given
+
+            // When
+            drinkDetailViewModel.updateAppBarHeight(10f)
+            drinkDetailViewModel.updateImageBottomOffset(30f)
+            drinkDetailViewModel.updateTitleBottomOffset(50f)
+
+            // Then
+            assertEquals(drinkDetailViewModel.topAppBarState.value, CustomTopAppBarState.TRANSPARENT)
+        }
+
+    @Test
+    fun `when app bar height value is between image bottom and title bottom top bar state is solid`() =
+        runTest {
+            // Given
+
+            // When
+            drinkDetailViewModel.updateAppBarHeight(50f)
+            drinkDetailViewModel.updateImageBottomOffset(30f)
+            drinkDetailViewModel.updateTitleBottomOffset(70f)
+
+            // Then
+            assertEquals(drinkDetailViewModel.topAppBarState.value, CustomTopAppBarState.SOLID)
+        }
+
+    @Test
+    fun `when app bar height value is higher than image bottom and title bottom top bar state is solid with title`() =
+        runTest {
+            // Given
+
+            // When
+            drinkDetailViewModel.updateAppBarHeight(50f)
+            drinkDetailViewModel.updateImageBottomOffset(10f)
+            drinkDetailViewModel.updateTitleBottomOffset(30f)
+
+            // Then
+            assertEquals(drinkDetailViewModel.topAppBarState.value, CustomTopAppBarState.SOLID_WITH_TITLE)
+        }
 
 }
