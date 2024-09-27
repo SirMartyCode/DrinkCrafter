@@ -10,13 +10,11 @@ import com.sirmarty.drinkcrafter.R
 
 // Define the custom font family
 val drinkCrafterFontFamily = FontFamily(
-    Font(R.font.dosis_extra_light, FontWeight.ExtraLight),
-    Font(R.font.dosis_light, FontWeight.Light),
-    Font(R.font.dosis_regular, FontWeight.Normal),
-    Font(R.font.dosis_medium, FontWeight.Medium),
-    Font(R.font.dosis_semi_bold, FontWeight.SemiBold),
-    Font(R.font.dosis_bold, FontWeight.Bold),
-    Font(R.font.dosis_extra_bold, FontWeight.ExtraBold)
+    Font(R.font.playfair_display_regular, FontWeight.Normal),
+    Font(R.font.playfair_display_medium, FontWeight.Medium),
+    Font(R.font.playfair_display_semi_bold, FontWeight.SemiBold),
+    Font(R.font.playfair_display_bold, FontWeight.Bold),
+    Font(R.font.playfair_display_extra_bold, FontWeight.ExtraBold)
 )
 
 
