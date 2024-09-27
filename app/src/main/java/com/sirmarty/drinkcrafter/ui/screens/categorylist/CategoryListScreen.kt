@@ -122,8 +122,8 @@ private fun CategoryItem(context: Context, category: CategoryWithImage, onCatego
             )
             Text(
                 text = category.name,
-                fontSize = 34.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Black,
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
