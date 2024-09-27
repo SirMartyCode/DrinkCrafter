@@ -25,6 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.sirmarty.drinkcrafter.R
 
 
@@ -69,11 +70,15 @@ private fun ErrorDialog(
         icon = {
             Icon(
                 painterResource(R.drawable.ic_alert),
-                contentDescription = "Example Icon"
+                contentDescription = "Example Icon",
+                tint = MaterialTheme.colorScheme.onPrimary
             )
         },
         title = {
-            Text(text = title)
+            Text(
+                text = title,
+                color = MaterialTheme.colorScheme.onPrimary
+            )
         },
         text = {
             Text(
@@ -85,15 +90,19 @@ private fun ErrorDialog(
         onDismissRequest = { onDismiss() },
         confirmButton = {
             TextButton(onClick = { onConfirmation() }) {
-                Text(text = context.getString(R.string.error_dialog_try_again),
-                    color = MaterialTheme.colorScheme.secondary)
+                Text(
+                    text = context.getString(R.string.error_dialog_try_again),
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.secondary
+                )
             }
         },
         dismissButton = {
             TextButton(onClick = { onDismiss() }) {
                 Text(
                     text = context.getString(R.string.error_dialog_cancel),
-                    color = Color.DarkGray
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
