@@ -83,7 +83,7 @@ fun DrinkSearchLayout(
 
         HorizontalDivider(
             Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.primaryContainer
+            color = MaterialTheme.colorScheme.primary
         )
 
         Box(

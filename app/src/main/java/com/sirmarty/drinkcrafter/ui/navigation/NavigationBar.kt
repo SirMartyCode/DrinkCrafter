@@ -32,8 +32,8 @@ fun DrinkCrafterNavigationBar(navController: NavHostController) {
     val context = LocalContext.current
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary,
-        contentColor = MaterialTheme.colorScheme.secondary
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.primary
     ) {
         val items = listOf(
             TopLevelDestination.Explore,
@@ -86,7 +86,7 @@ fun RowScope.DrinkCrafterNavigationItem(
         colors = NavigationBarItemColors(
             selectedIconColor = MaterialTheme.colorScheme.onPrimary,
             selectedTextColor = MaterialTheme.colorScheme.onPrimary,
-            selectedIndicatorColor = MaterialTheme.colorScheme.primaryContainer,
+            selectedIndicatorColor = MaterialTheme.colorScheme.primary,
             unselectedIconColor = MaterialTheme.colorScheme.onPrimary,
             unselectedTextColor = MaterialTheme.colorScheme.onPrimary,
             // It should never be disabled

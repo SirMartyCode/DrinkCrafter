@@ -61,7 +61,7 @@ fun CustomTopAppBar(
             isAppearanceLightStatusBars = !darkTheme
         }
         CustomTopAppBarState.SOLID_WITH_TITLE -> {
-            containerColor = MaterialTheme.colorScheme.primary
+            containerColor = MaterialTheme.colorScheme.primaryContainer
             contentColor = MaterialTheme.colorScheme.onPrimary
             showTitle = true
             isAppearanceLightStatusBars = !darkTheme
