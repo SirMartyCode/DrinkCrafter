@@ -1,4 +1,4 @@
-package com.sirmarty.drinkcrafter.ui.screens.categories
+package com.sirmarty.drinkcrafter.ui.screens.categorylist
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.sirmarty.drinkcrafter.R
@@ -6,8 +6,6 @@ import com.sirmarty.drinkcrafter.domain.entity.Category
 import com.sirmarty.drinkcrafter.domain.usecase.GetCategoryListUseCase
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
-import com.sirmarty.drinkcrafter.ui.screens.categorylist.CategoryImageMapper
-import com.sirmarty.drinkcrafter.ui.screens.categorylist.CategoryListViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
