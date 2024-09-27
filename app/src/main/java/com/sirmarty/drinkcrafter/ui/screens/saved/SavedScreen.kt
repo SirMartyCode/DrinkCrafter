@@ -3,7 +3,6 @@ package com.sirmarty.drinkcrafter.ui.screens.saved
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,6 +18,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
+import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -54,7 +54,7 @@ fun SavedScreen(
             }
 
             UiState.Loading -> {
-                CircularProgressIndicator(Modifier.align(Alignment.Center))
+                CustomLoading(Modifier.align(Alignment.Center))
             }
 
             is UiState.Success -> {

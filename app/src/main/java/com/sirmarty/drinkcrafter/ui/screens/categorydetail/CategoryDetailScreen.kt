@@ -3,7 +3,6 @@ package com.sirmarty.drinkcrafter.ui.screens.categorydetail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -14,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkList
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.screens.UiState
@@ -50,7 +50,7 @@ fun CategoryDetailScreen(
             }
 
             UiState.Loading -> {
-                CircularProgressIndicator(Modifier.align(Alignment.Center))
+                CustomLoading(Modifier.align(Alignment.Center))
             }
 
             is UiState.Success -> {
