@@ -162,7 +162,8 @@ private fun IngredientInfo(
             fontSize = 22.sp,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
-            textDecoration = TextDecoration.Underline
+            textDecoration = TextDecoration.Underline,
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Text(
             text = if (ingredientDetail.alcohol) {

@@ -55,7 +55,8 @@ fun SearchScreen(
             text = context.getString(R.string.search_quick_finds),
             fontSize = 24.sp,
             textDecoration = TextDecoration.Underline,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Spacer(Modifier.height(8.dp))
         QuickFinds(Modifier.fillMaxWidth(), onQuickFindClick)

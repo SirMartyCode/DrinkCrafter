@@ -242,7 +242,8 @@ private fun Header(
         },
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.onPrimary
     )
     Text(
         text = "${drinkDetail.category} - ${drinkDetail.alcoholic}",
