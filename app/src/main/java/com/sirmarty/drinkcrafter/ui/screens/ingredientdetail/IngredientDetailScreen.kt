@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,9 +42,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.domain.entity.IngredientDetail
-import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkItem
+import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBar
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarState
+import com.sirmarty.drinkcrafter.ui.components.drinklist.DrinkItem
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 
@@ -76,7 +77,7 @@ fun IngredientDetailScreen(
 
         UiState.Loading -> {
             Box(Modifier.fillMaxSize()) {
-                CircularProgressIndicator(Modifier.align(Alignment.Center))
+                CustomLoading(Modifier.align(Alignment.Center))
             }
         }
 
@@ -126,7 +127,7 @@ private fun IngredientDetailLayout(
         LazyColumn(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -161,7 +162,8 @@ private fun IngredientInfo(
             fontSize = 22.sp,
             fontWeight = FontWeight.SemiBold,
             textAlign = TextAlign.Center,
-            textDecoration = TextDecoration.Underline
+            textDecoration = TextDecoration.Underline,
+            color = MaterialTheme.colorScheme.onPrimary
         )
         Text(
             text = if (ingredientDetail.alcohol) {
@@ -247,7 +249,7 @@ private fun IngredientScreenPreview() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         IngredientDetailLayout(
             Pair(ingredientDetail, drinkList),

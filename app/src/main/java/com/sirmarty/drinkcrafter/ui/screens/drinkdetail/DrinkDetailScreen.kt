@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -43,6 +43,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.DrinkDetail
 import com.sirmarty.drinkcrafter.domain.entity.Ingredient
+import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBar
 import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarState
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
@@ -77,7 +78,7 @@ fun DrinkDetailScreen(
 
         UiState.Loading -> {
             Box(Modifier.fillMaxSize()) {
-                CircularProgressIndicator(Modifier.align(Alignment.Center))
+                CustomLoading(Modifier.align(Alignment.Center))
             }
         }
 
@@ -128,7 +129,7 @@ private fun DrinkDetailLayout(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
+                .background(MaterialTheme.colorScheme.background)
                 // Enable scrolling to the entire page
                 .verticalScroll(rememberScrollState())
                 .padding(
@@ -241,7 +242,8 @@ private fun Header(
         },
         fontSize = 24.sp,
         fontWeight = FontWeight.Bold,
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        color = MaterialTheme.colorScheme.onPrimary
     )
     Text(
         text = "${drinkDetail.category} - ${drinkDetail.alcoholic}",

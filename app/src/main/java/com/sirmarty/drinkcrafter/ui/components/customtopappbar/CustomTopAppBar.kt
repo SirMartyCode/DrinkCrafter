@@ -11,6 +11,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -54,14 +55,14 @@ fun CustomTopAppBar(
             isAppearanceLightStatusBars = false
         }
         CustomTopAppBarState.SOLID -> {
-            containerColor = Color.White
-            contentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.background
+            contentColor = MaterialTheme.colorScheme.onPrimary
             showTitle = false
             isAppearanceLightStatusBars = !darkTheme
         }
         CustomTopAppBarState.SOLID_WITH_TITLE -> {
-            containerColor = Color.White
-            contentColor = Color.Black
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+            contentColor = MaterialTheme.colorScheme.onPrimary
             showTitle = true
             isAppearanceLightStatusBars = !darkTheme
         }

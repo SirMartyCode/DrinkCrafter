@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonColors
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -47,8 +48,8 @@ private fun RealSaveButton(
         modifier = modifier,
         onClick = { viewModel.onButtonClick() },
         colors = IconButtonColors(
-            containerColor = Color.White,
-            contentColor = Color.Black,
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             // It should never be disabled
             disabledContainerColor = Color.Unspecified,
             disabledContentColor = Color.Unspecified
@@ -71,8 +72,8 @@ private fun MockSaveButton(
         modifier = modifier,
         onClick = { },
         colors = IconButtonColors(
-            containerColor = Color.White,
-            contentColor = Color.Black,
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             // It should never be disabled
             disabledContainerColor = Color.Unspecified,
             disabledContentColor = Color.Unspecified

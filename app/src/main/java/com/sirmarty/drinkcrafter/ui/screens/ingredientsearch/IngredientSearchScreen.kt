@@ -11,11 +11,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,7 +20,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +28,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.IngredientName
+import com.sirmarty.drinkcrafter.ui.components.cardwithouttonalelevation.CardWithoutTonalElevation
+import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.components.searchbar.CustomSearchBar
 import com.sirmarty.drinkcrafter.ui.screens.UiState
@@ -48,7 +46,7 @@ fun IngredientSearchScreen(
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         IngredientSearchLayout(
             uiState = uiState,
@@ -93,7 +91,10 @@ private fun IngredientSearchLayout(
             onTrailingIconClick = onTrailingIconClick
         )
 
-        HorizontalDivider(Modifier.fillMaxWidth())
+        HorizontalDivider(
+            Modifier.fillMaxWidth(),
+            color = MaterialTheme.colorScheme.primary
+        )
 
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -110,7 +111,7 @@ private fun IngredientSearchLayout(
                 }
 
                 UiState.Loading -> {
-                    CircularProgressIndicator()
+                    CustomLoading()
                 }
 
                 is UiState.Success -> {
@@ -163,18 +164,14 @@ private fun IngredientList(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun IngredientItem(
     ingredient: IngredientName,
     onIngredientClick: (String) -> Unit
 ) {
-    ElevatedCard(
+    CardWithoutTonalElevation(
         onClick = { onIngredientClick(ingredient.name) },
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        )
     ) {
         Text(
             text = ingredient.name,
@@ -207,7 +204,7 @@ fun IngredientListScreenPreview() {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         IngredientList(ingredients = ingredients, onIngredientClick = {})
     }

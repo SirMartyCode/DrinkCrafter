@@ -12,9 +12,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
+import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
@@ -52,7 +53,7 @@ fun CategoryListScreen(
     Box(
         Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         when (uiState) {
             is UiState.Error -> {
@@ -65,7 +66,7 @@ fun CategoryListScreen(
             }
 
             UiState.Loading -> {
-                CircularProgressIndicator(Modifier.align(Alignment.Center))
+                CustomLoading(Modifier.align(Alignment.Center))
             }
 
             is UiState.Success -> {
@@ -152,7 +153,7 @@ private fun CategoryListPreview() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
     ) {
         CategoryList(context, categories, onCategoryClick = {})
     }
