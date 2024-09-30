@@ -22,6 +22,7 @@ private val LightColorScheme = lightColorScheme(
     onPrimary = DarkTeal,
     primaryContainer = LightTeal,
     secondary = Teal,
+    tertiary = FakeWhite,
     surface = PastelTeal,
     surfaceContainer = White,
     onSurface = RaisinBlack,
@@ -30,11 +31,16 @@ private val LightColorScheme = lightColorScheme(
 )
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    surface = CharcoalGray,
+    primary = DarkGrey,
+    onPrimary = Verdigris,
+    primaryContainer = CharcoalGray,
+    secondary = Teal,
+    tertiary = CharcoalGray,
+    surface = RaisinBlack,
+    surfaceContainer = CharcoalGray,
     onSurface = White,
     background = RaisinBlack,
+    onBackground = White
 )
 
 @Composable

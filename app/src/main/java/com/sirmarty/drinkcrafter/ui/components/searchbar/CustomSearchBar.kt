@@ -19,7 +19,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.unit.dp
 import com.sirmarty.drinkcrafter.R
-import com.sirmarty.drinkcrafter.ui.theme.FakeWhite
 
 /**
  * As a aesthetic decision, the SearchBar "active" parameter will always be set to false
@@ -57,7 +56,7 @@ fun CustomSearchBar(
             }
         },
         colors = SearchBarDefaults.colors(
-            containerColor = FakeWhite,
+            containerColor = MaterialTheme.colorScheme.tertiary,
             dividerColor = MaterialTheme.colorScheme.secondary,
             inputFieldColors = TextFieldDefaults.colors(
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,

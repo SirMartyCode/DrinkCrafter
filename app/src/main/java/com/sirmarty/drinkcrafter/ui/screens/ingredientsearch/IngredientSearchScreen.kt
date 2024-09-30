@@ -93,7 +93,7 @@ private fun IngredientSearchLayout(
 
         HorizontalDivider(
             Modifier.fillMaxWidth(),
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.secondary
         )
 
         Box(
