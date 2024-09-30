@@ -58,7 +58,7 @@ fun DrinkItem(context: Context, drink: Drink, onDrinkClick: (Int) -> Unit) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.surface)
+                .background(MaterialTheme.colorScheme.surfaceContainer)
                 .height(IntrinsicSize.Min)
         ) {
             GlideImage(
