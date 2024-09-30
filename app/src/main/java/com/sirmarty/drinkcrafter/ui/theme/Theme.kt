@@ -8,26 +8,23 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
-import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 
 
 private val LightColorScheme = lightColorScheme(
-    primary = LightVerdigris,
+    primary = Verdigris,
     onPrimary = DarkTeal,
-    primaryContainer = LightBlue,
+    primaryContainer = LightTeal,
     secondary = Teal,
-    tertiary = LightRedwood,
     surface = White,
     onSurface = RaisinBlack,
-    background = PastelBlue,
+    background = PastelTeal,
     onBackground = RaisinBlack
 )
 
@@ -60,7 +57,7 @@ fun DrinkCrafterTheme(
         SideEffect {
             val window = (view.context as Activity).window
             window.statusBarColor = Color.Transparent.toArgb()
-            window.navigationBarColor = colorScheme.surfaceColorAtElevation(4.dp).toArgb()
+            window.navigationBarColor = colorScheme.primaryContainer.toArgb()
 
             // We set the appearance of the status bar to have the opposite colors of the
             // system theme so that its contents can be seen
