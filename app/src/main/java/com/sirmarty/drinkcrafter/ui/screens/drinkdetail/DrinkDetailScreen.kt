@@ -240,7 +240,7 @@ private fun Header(
         modifier = modifier.onGloballyPositioned { coordinates ->
             onTitleBottomOffsetUpdated(coordinates.positionInRoot().y + coordinates.size.height)
         },
-        fontSize = 24.sp,
+        fontSize = 22.sp,
         fontWeight = FontWeight.Bold,
         textAlign = TextAlign.Center,
         color = MaterialTheme.colorScheme.onPrimary
@@ -248,7 +248,7 @@ private fun Header(
     Text(
         text = "${drinkDetail.category} - ${drinkDetail.alcoholic}",
         modifier = modifier,
-        fontSize = 18.sp,
+        fontSize = 16.sp,
         fontWeight = FontWeight.SemiBold,
         textAlign = TextAlign.Center,
         color = Color.Gray
@@ -263,7 +263,7 @@ private fun Ingredients(
 ) {
     Text(
         text = context.getString(R.string.drink_detail_ingredients),
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold
     )
     Spacer(modifier = Modifier.height(8.dp))
@@ -284,7 +284,7 @@ private fun Ingredients(
 private fun Instructions(context: Context, drinkDetail: DrinkDetail) {
     Text(
         text = context.getString(R.string.drink_detail_instructions),
-        fontSize = 20.sp,
+        fontSize = 18.sp,
         fontWeight = FontWeight.SemiBold
     )
     Text(

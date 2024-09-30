@@ -53,7 +53,7 @@ fun SearchScreen(
     ) {
         Text(
             text = context.getString(R.string.search_quick_finds),
-            fontSize = 24.sp,
+            fontSize = 22.sp,
             textDecoration = TextDecoration.Underline,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onPrimary
@@ -112,8 +112,8 @@ private fun CustomElevatedCard(
             )
             Text(
                 text = cardText,
-                fontSize = 34.sp,
-                fontWeight = FontWeight.Bold,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Black,
                 color = Color.White,
                 textAlign = TextAlign.Center,
                 modifier = Modifier

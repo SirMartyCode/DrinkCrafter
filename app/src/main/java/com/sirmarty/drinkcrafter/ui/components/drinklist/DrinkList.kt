@@ -84,7 +84,7 @@ fun DrinkItem(context: Context, drink: Drink, onDrinkClick: (Int) -> Unit) {
                 )
                 Text(
                     text = context.getString(R.string.drink_list_show_details),
-                    fontSize = 12.sp,
+                    fontSize = 10.sp,
                     fontWeight = FontWeight.Light
                 )
             }

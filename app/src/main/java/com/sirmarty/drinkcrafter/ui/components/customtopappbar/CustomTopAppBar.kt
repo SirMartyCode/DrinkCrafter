@@ -79,7 +79,7 @@ fun CustomTopAppBar(
             if (showTitle) {
                 Text(
                     text = title,
-                    fontSize = 22.sp,
+                    fontSize = 20.sp,
                     fontWeight = FontWeight.SemiBold,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
