@@ -86,7 +86,8 @@ private fun ErrorDialog(
                 text = text ?: context.getString(R.string.error_dialog_default_message),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                fontSize = 14.sp
+                fontSize = 14.sp,
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         onDismissRequest = { onDismiss() },

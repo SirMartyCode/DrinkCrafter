@@ -25,7 +25,7 @@ fun CardWithoutTonalElevation(
     Surface(
         shape = shape,
         modifier = modifier,
-        color = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colorScheme.surfaceContainer,
         contentColor = MaterialTheme.colorScheme.onSurface,
         tonalElevation = 0.dp,
         shadowElevation = elevation,
