@@ -15,8 +15,8 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CardWithoutTonalElevation(
-    onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onClick: (() -> Unit)? = null,
     shape: Shape = CardDefaults.shape,
     border: BorderStroke? = null,
     elevation: Dp = 6.dp,
@@ -31,6 +31,10 @@ fun CardWithoutTonalElevation(
         shadowElevation = elevation,
         border = border
     ) {
-        Column(content = content, modifier = Modifier.clickable { onClick() })
+        if (onClick != null) {
+            Column(content = content, modifier = Modifier.clickable { onClick() })
+        } else {
+            Column(content = content)
+        }
     }
 }

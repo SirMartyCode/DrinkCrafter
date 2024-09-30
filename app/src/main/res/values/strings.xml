@@ -44,7 +44,7 @@
     <string name="quick_find_tequila">Tequila</string>
     <string name="quick_find_gin">Gin</string>
     <string name="quick_find_whiskey">Whiskey</string>
-    <string name="quick_find_jager">Jäger</string>
+    <string name="quick_find_brandy">Brandy</string>
 
     <!-- Ingredient detail -->
     <string name="ingredient_detail_alcoholic">(Alcoholic)</string>
