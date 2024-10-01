@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,6 +37,7 @@ import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
+import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 
 @Composable
@@ -99,12 +99,17 @@ private fun CategoryList(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun CategoryItem(context: Context, category: CategoryWithImage, onCategoryClick: (String) -> Unit) {
+private fun CategoryItem(
+    context: Context,
+    category: CategoryWithImage,
+    onCategoryClick: (String) -> Unit
+) {
     ElevatedCard(
-        onClick = { onCategoryClick(category.name) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickableSingle { onCategoryClick(category.name) },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         )

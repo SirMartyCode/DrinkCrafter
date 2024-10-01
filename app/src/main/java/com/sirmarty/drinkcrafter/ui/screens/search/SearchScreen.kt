@@ -33,6 +33,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.components.quickfinds.QuickFinds
+import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 
 @Composable
@@ -97,8 +98,9 @@ private fun CustomElevatedCard(
     contentDescription: String?,
 ) {
     ElevatedCard(
-        onClick = { onCardClick() },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickableSingle { onCardClick() },
         elevation = CardDefaults.cardElevation(
             defaultElevation = 6.dp
         )

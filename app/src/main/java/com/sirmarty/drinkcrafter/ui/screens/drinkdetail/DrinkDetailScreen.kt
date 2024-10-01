@@ -2,7 +2,6 @@ package com.sirmarty.drinkcrafter.ui.screens.drinkdetail
 
 import android.content.Context
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -49,6 +48,7 @@ import com.sirmarty.drinkcrafter.ui.components.customtopappbar.CustomTopAppBarSt
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.components.savebutton.SaveButton
 import com.sirmarty.drinkcrafter.ui.screens.UiState
+import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 @Composable
 fun DrinkDetailScreen(
@@ -272,7 +272,7 @@ private fun Ingredients(
     Column(Modifier.fillMaxWidth()) {
         drinkDetail.ingredients.forEach { ingredient ->
             Text(
-                modifier = Modifier.clickable { onIngredientClick(ingredient.name) },
+                modifier = Modifier.clickableSingle { onIngredientClick(ingredient.name) },
                 text = "- $ingredient",
                 fontSize = 14.sp
             )

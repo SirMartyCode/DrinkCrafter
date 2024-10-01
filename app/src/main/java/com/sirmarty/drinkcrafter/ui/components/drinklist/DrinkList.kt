@@ -32,6 +32,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.domain.entity.Drink
 import com.sirmarty.drinkcrafter.ui.components.cardwithouttonalelevation.CardWithoutTonalElevation
+import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 
 @Composable
@@ -52,8 +53,9 @@ fun DrinkList(context: Context, drinks: List<Drink>, onDrinkClick: (Int) -> Unit
 fun DrinkItem(context: Context, drink: Drink, onDrinkClick: (Int) -> Unit) {
 
     CardWithoutTonalElevation(
-        onClick = { onDrinkClick(drink.id) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickableSingle { onDrinkClick(drink.id) },
     ) {
         Row(
             modifier = Modifier
