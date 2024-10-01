@@ -86,7 +86,7 @@ private fun IngredientSearchLayout(
         CustomSearchBar(
             context = context,
             query = query,
-            placeholder = context.getString(R.string.search_bar_hint),
+            placeholder = context.getString(R.string.ingredient_search_placeholder),
             onQueryChange = onQueryChange,
             onTrailingIconClick = onTrailingIconClick
         )

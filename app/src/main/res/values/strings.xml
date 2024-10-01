@@ -25,8 +25,13 @@
     <string name="search_search_by_ingredient">Search by ingredient</string>
     <string name="search_get_random_cocktail">Get random cocktail</string>
 
-    <!-- Search Bar Screen-->
-    <string name="search_bar_hint">Search cocktail by name</string>
+    <!-- Ingredient Search Screen-->
+    <string name="ingredient_search_placeholder">Search ingredient by name</string>
+
+    <!-- Drink Search Screen-->
+    <string name="drink_search_placeholder">Search cocktail by name</string>
+
+    <!-- Search Bar Component-->
     <string name="search_bar_search">Search icon</string>
     <string name="search_bar_clear">Clear icon</string>
     <string name="search_bar_empty_result">No coincidences found with your search</string>
