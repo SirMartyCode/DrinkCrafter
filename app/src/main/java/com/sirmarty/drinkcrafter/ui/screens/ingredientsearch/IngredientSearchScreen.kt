@@ -33,6 +33,7 @@ import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
 import com.sirmarty.drinkcrafter.ui.components.searchbar.CustomSearchBar
 import com.sirmarty.drinkcrafter.ui.screens.UiState
+import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 @Composable
 fun IngredientSearchScreen(
@@ -86,7 +87,7 @@ private fun IngredientSearchLayout(
         CustomSearchBar(
             context = context,
             query = query,
-            placeholder = context.getString(R.string.search_bar_hint),
+            placeholder = context.getString(R.string.ingredient_search_placeholder),
             onQueryChange = onQueryChange,
             onTrailingIconClick = onTrailingIconClick
         )
@@ -170,8 +171,9 @@ private fun IngredientItem(
     onIngredientClick: (String) -> Unit
 ) {
     CardWithoutTonalElevation(
-        onClick = { onIngredientClick(ingredient.name) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickableSingle { onIngredientClick(ingredient.name) },
     ) {
         Text(
             text = ingredient.name,

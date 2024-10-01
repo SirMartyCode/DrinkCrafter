@@ -1,7 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.components.cardwithouttonalelevation
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.CardDefaults
@@ -16,11 +15,10 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun CardWithoutTonalElevation(
     modifier: Modifier = Modifier,
-    onClick: (() -> Unit)? = null,
     shape: Shape = CardDefaults.shape,
     border: BorderStroke? = null,
     elevation: Dp = 6.dp,
-    content: @Composable ColumnScope.() -> Unit = {}
+    content: @Composable (ColumnScope.() -> Unit) = {}
 )  {
     Surface(
         shape = shape,
@@ -31,10 +29,6 @@ fun CardWithoutTonalElevation(
         shadowElevation = elevation,
         border = border
     ) {
-        if (onClick != null) {
-            Column(content = content, modifier = Modifier.clickable { onClick() })
-        } else {
-            Column(content = content)
-        }
+        Column(content = content)
     }
 }

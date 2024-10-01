@@ -7,6 +7,7 @@ import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -26,7 +27,7 @@ fun SaveButton(
     drinkId: Int,
     previewMode: Boolean
 ) {
-    if(previewMode) {
+    if (previewMode) {
         MockSaveButton(modifier)
     } else {
         RealSaveButton(modifier, drinkId)
@@ -41,12 +42,14 @@ private fun RealSaveButton(
 ) {
     viewModel.setId(drinkId)
 
-    val isSaved = viewModel.isSaved.collectAsState()
+    val isSaved by viewModel.isSaved.collectAsState()
+    val isEnabled by viewModel.isEnabled.collectAsState()
     val context = LocalContext.current
 
     IconButton(
         modifier = modifier,
         onClick = { viewModel.onButtonClick() },
+        enabled = isEnabled,
         colors = IconButtonColors(
             containerColor = Color.Transparent,
             contentColor = MaterialTheme.colorScheme.onPrimary,
@@ -55,7 +58,8 @@ private fun RealSaveButton(
             disabledContentColor = Color.Unspecified
         )
     ) {
-        val iconResource = if (isSaved.value) R.drawable.ic_saved_filled else R.drawable.ic_saved
+        val iconResource =
+            if (isSaved) R.drawable.ic_saved_filled else R.drawable.ic_saved
         Icon(
             painterResource(iconResource),
             modifier = Modifier.size(24.dp),

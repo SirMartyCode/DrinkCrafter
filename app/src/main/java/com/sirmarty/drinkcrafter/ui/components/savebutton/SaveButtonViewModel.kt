@@ -25,6 +25,9 @@ class SaveButtonViewModel @Inject constructor(
     private val _isSaved = MutableStateFlow(false)
     val isSaved = _isSaved.asStateFlow()
 
+    private val _isEnabled = MutableStateFlow(true)
+    val isEnabled = _isEnabled.asStateFlow()
+
 
     fun setId(id: Int) {
         drinkId = id
@@ -38,6 +41,7 @@ class SaveButtonViewModel @Inject constructor(
     }
 
     fun onButtonClick() {
+        _isEnabled.value = false
         viewModelScope.launch {
             drinkId?.also {
                 if (_isSaved.value) {
@@ -45,6 +49,7 @@ class SaveButtonViewModel @Inject constructor(
                 } else {
                     saveDrinkDetailUseCase.execute(it)
                 }
+                _isEnabled.value = true
             }
         }
     }

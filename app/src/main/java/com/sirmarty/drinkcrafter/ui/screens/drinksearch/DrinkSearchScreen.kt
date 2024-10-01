@@ -76,7 +76,7 @@ fun DrinkSearchLayout(
         CustomSearchBar(
             context = context,
             query = query,
-            placeholder = context.getString(R.string.search_bar_hint),
+            placeholder = context.getString(R.string.drink_search_placeholder),
             onQueryChange = onQueryChange,
             onTrailingIconClick = onTrailingIconClick
         )

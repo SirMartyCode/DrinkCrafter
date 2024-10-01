@@ -1,7 +1,6 @@
 package com.sirmarty.drinkcrafter.ui.components.quickfinds
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +26,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.ui.components.cardwithouttonalelevation.CardWithoutTonalElevation
 import com.sirmarty.drinkcrafter.ui.model.QuickFind
+import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 @Composable
 fun QuickFinds(modifier: Modifier = Modifier, onQuickFindClick: (String) -> Unit) {
@@ -53,7 +53,7 @@ fun QuickFindItem(quickFind: QuickFind, onQuickFindClick: (String) -> Unit) {
         modifier = Modifier
             .padding(8.dp)
             .clip(CardDefaults.shape)
-            .clickable { onQuickFindClick(quickFind.ingredient) }
+            .clickableSingle { onQuickFindClick(quickFind.ingredient) }
 
     ) {
         CardWithoutTonalElevation {
