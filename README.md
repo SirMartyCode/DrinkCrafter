@@ -20,6 +20,12 @@ Search the most known cocktails by its name or find the cocktails you can make w
 
 Don't feel creative? You can get a random cocktail recommendation to try out with your family and friends
 
+## Save
+
+Save your favourite cocktails to find them quickly. You can also check the details when your phone is in offline mode.
+
+<img src="/app/src/main/res/drawable/readme/preview_saved.png" alt="Saved screen" width="200"/>
+
 ## Detail
 
 Get the detailed instructions you must follow to craft any cocktail as a professional bartender. Find out new ingredients, check its properties and get the list of cocktails you can make with them.
@@ -27,10 +33,12 @@ Get the detailed instructions you must follow to craft any cocktail as a profess
 <img src="/app/src/main/res/drawable/readme/preview_cocktail_detail.png" alt="Cocktail detail screen" width="200"/> <img src="/app/src/main/res/drawable/readme/preview_ingredient_detail.png" alt="Ingredient detail screen" width="200"/>
 
 
-## Save
+# Contributing
 
-Save your favourite cocktails to find them quickly. You can also check the details when your phone is in offline mode.
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request
 
-<img src="/app/src/main/res/drawable/readme/preview_saved.png" alt="Saved screen" width="200"/>
-
-
+Crafted with <3 by [Martí Tarrés Riera](https://www.linkedin.com/in/mart%C3%AD-tarr%C3%A9s-riera-901524260/) ([@SirMartyCode](https://github.com/SirMartyCode)).
