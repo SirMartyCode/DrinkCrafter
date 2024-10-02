@@ -14,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +31,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.components.quickfinds.QuickFinds
+import com.sirmarty.drinkcrafter.ui.components.screentitle.ScreenTitle
 import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
 
 
@@ -52,16 +51,12 @@ fun SearchScreen(
             .verticalScroll(rememberScrollState())
             .padding(16.dp)
     ) {
-        Text(
-            text = context.getString(R.string.search_quick_finds),
-            fontSize = 22.sp,
-            textDecoration = TextDecoration.Underline,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onPrimary
-        )
+
+        ScreenTitle(R.string.search_quick_finds)
         Spacer(Modifier.height(8.dp))
         QuickFinds(Modifier.fillMaxWidth(), onQuickFindClick)
-        Spacer(Modifier.height(8.dp))
+        ScreenTitle(R.string.search_searches)
+        Spacer(Modifier.height(16.dp))
         CustomElevatedCard(
             onSearchByNameClick,
             R.drawable.image_search_cocktail,
@@ -89,7 +84,7 @@ fun SearchScreen(
 //==================================================================================================
 //region Private composable
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 private fun CustomElevatedCard(
     onCardClick: () -> Unit,

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -35,6 +36,7 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.sirmarty.drinkcrafter.R
 import com.sirmarty.drinkcrafter.ui.components.customloading.CustomLoading
 import com.sirmarty.drinkcrafter.ui.components.errorlayout.ErrorLayout
+import com.sirmarty.drinkcrafter.ui.components.screentitle.ScreenTitle
 import com.sirmarty.drinkcrafter.ui.model.CategoryWithImage
 import com.sirmarty.drinkcrafter.ui.screens.UiState
 import com.sirmarty.drinkcrafter.ui.shared.clickableSingle
@@ -70,7 +72,11 @@ fun CategoryListScreen(
             }
 
             is UiState.Success -> {
-                CategoryList(context, (uiState as UiState.Success).value, onCategoryClick)
+                CategoryListLayout(
+                    context = context,
+                    categories = (uiState as UiState.Success).value,
+                    onCategoryClick = onCategoryClick
+                )
             }
         }
     }
@@ -78,6 +84,21 @@ fun CategoryListScreen(
 
 //==================================================================================================
 //region Private composable
+
+@Composable
+private fun CategoryListLayout(
+    context: Context,
+    categories: List<CategoryWithImage>,
+    onCategoryClick: (String) -> Unit
+) {
+    Column(Modifier.fillMaxSize()) {
+        ScreenTitle(
+            stringRes = R.string.categories_title,
+            modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 8.dp)
+        )
+        CategoryList(context, categories, onCategoryClick)
+    }
+}
 
 @Composable
 private fun CategoryList(
