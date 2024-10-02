@@ -11,6 +11,7 @@
     <string name="navigation_bar_item_unselected_icon">Unselected icon</string>
 
     <!-- Categories Screen -->
+    <string name="categories_title">Categories</string>
     <string name="categories_image">Category image</string>
 
     <!-- Drink detail Screen-->
@@ -21,6 +22,7 @@
 
     <!-- Search Screen-->
     <string name="search_quick_finds">Quick finds</string>
+    <string name="search_searches">Searches</string>
     <string name="search_search_by_name">Search by name</string>
     <string name="search_search_by_ingredient">Search by ingredient</string>
     <string name="search_get_random_cocktail">Get random cocktail</string>
@@ -58,6 +60,7 @@
     <string name="ingredient_detail_read_more">Read more</string>
 
     <!-- Saved Screen -->
+    <string name="saved_title">Saved cocktails</string>
     <string name="saved_no_saved_drinks">You still don\'t have any cocktails saved on your phone</string>
     
     <!-- Error Dialog -->
