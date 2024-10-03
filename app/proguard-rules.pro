@@ -19,3 +19,26 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+
+# Prevent retrofit files to be ofuscated
+-keep class com.sirmarty.drinkcrafter.data.response.** { *; }
+
+# Prevent room files to be ofuscated
+-keep class com.sirmarty.drinkcrafter.data.dao.** { *; }
+-keep class com.sirmarty.drinkcrafter.data.db.** { *; }
+-keep class com.sirmarty.drinkcrafter.data.DrinkCrafterDatabase
+
+
+# ---------------------- The rules below are needed for IngredientConverter ----------------------
+
+# This is also needed for R8 in compat mode since multiple
+# optimizations will remove the generic signature such as class
+# merging and argument removal. See:
+# https://r8.googlesource.com/r8/+/refs/heads/main/compatibility-faq.md#troubleshooting-gson-gson
+-keep class com.google.gson.reflect.TypeToken { *; }
+-keep class * extends com.google.gson.reflect.TypeToken
+
+# Gson uses generic type information stored in a class file when working with
+# fields. Proguard removes such information by default, keep it.
+-keepattributes Signature
