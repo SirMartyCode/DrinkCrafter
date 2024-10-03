@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "896457871347",
+    "project_id": "drinkcrafter",
+    "storage_bucket": "drinkcrafter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:896457871347:android:9d5d407892991a514d0c86",
+        "android_client_info": {
+          "package_name": "com.sirmarty.drinkcrafter"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCFJLOBV60foLyDpRh3rHzFBR3OQTMkLA0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
