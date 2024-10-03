@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DrinkCrafter</string>
+    <string name="app_name">Drink Crafter</string>
 
     <!-- Navigation bar -->
     <string name="navigation_bar_explore">Explore</string>
