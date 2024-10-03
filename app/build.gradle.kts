@@ -24,7 +24,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -90,7 +91,6 @@ dependencies {
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.5.3")
-    //implementation("androidx.compose.material:material:1.3.1")
 
     // Glide
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.5")
